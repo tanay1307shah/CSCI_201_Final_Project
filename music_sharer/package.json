@@ -1,0 +1,14 @@
+{
+  "name": "music_sharer",
+  "version": "1.0.0",
+  "description": "201 final project",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Shi Zeng",
+  "license": "ISC",
+  "dependencies": {
+    "jquery": "^3.3.1"
+  }
+}
