@@ -5,8 +5,12 @@ var song_index=0;
 var playing = 0;
 var num_chats = 2;
 var current_chat = 0;
+var isProfileShowing = 0;
 
 $(function() {
+	// get all user info
+	// console.log(Session.get("userID"));
+	getAllUserInfo();
 	// music control
 	$("#play_button").click(function(){
 		if (playing==0) {
@@ -56,6 +60,9 @@ $(function() {
 	$("#hide_content_btn").click(function(){
 		hideSeachContent();
 	});
+	$("#hide_profile_btn").click(function(){
+		hideProfile();
+	});
 	$("#side_bar .image").click(function(){
 		showProfile();
 	});
@@ -66,6 +73,9 @@ function isEmpty(str) {
 }
 function showSeachContent(){
 	$("#search_content").css("display","block");
+	$("#profile").animate({
+		opacity: "0"
+	},400);
 	$("#lobby_control").animate({
 		opacity: "0"
 	},400);
@@ -80,8 +90,18 @@ function hideSeachContent(){
 	$("#lobby_control").animate({
 		opacity: "1"
 	},600);
+	$("#profile").animate({
+		opacity: "1"
+	},600);
 }
 function showProfile(){
+	if (isProfileShowing==1) {
+		return;
+	}
+	isProfileShowing = 1;
+	$("#search_content").animate({
+		top: '-100%'
+	},500);
 	$("#lobby_control").animate({
 		left: "-100%",
 		opacity: "0"
@@ -89,6 +109,17 @@ function showProfile(){
 	$("#profile").animate({
 		left: '0',
 		opacity: "1"
+	},600);
+}
+function hideProfile(){
+	isProfileShowing = 0;
+	$("#lobby_control").animate({
+		left: "0",
+		opacity: "1"
+	},600);
+	$("#profile").animate({
+		left: '-100%',
+		opacity: "0"
 	},600);
 }
 function searching(){
@@ -113,4 +144,16 @@ function scrollToBottom(str){
 	$(str).animate({
 		scrollTop: $(str)[0].scrollHeight
 	}, 500);
+}
+function getAllUserInfo(){
+	// $.get('http://192.168.137.125:8080/backend_getUserInfo',function(data){
+	// 	console.log(data);
+	// 	userInfo = '{"username":"AlexVal","password":"test1323","userEmail":"alex@gmail.com","friendsList":[],"songLocation":null,"favoriteLobbies":[],"hostedLobbies":[],"platinumUser":false,"chatFilesLocation":null,"avatar":null,"currentLobby":null}';
+	// 	console.log(userInfo);
+	// });
+	userInfo = JSON.parse('{"username":"AlexVal","password":"test1323","userEmail":"alex@gmail.com","friendsList":[],"songLocation":null,"favoriteLobbies":[],"hostedLobbies":[],"platinumUser":false,"chatFilesLocation":null,"avatar":null,"currentLobby":null}');
+	console.log(userInfo);
+}
+function modifyInfo(){
+
 }
