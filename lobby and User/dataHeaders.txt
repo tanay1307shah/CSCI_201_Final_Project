@@ -1,0 +1,34 @@
+ * To create a lobby, first call Database.isLobby(lobbyName) to make sure it
+ * automatically update the database using calls to Database.
+     * Database.isLobby(name)
+        this.lobbyID = Database.createLobby(host.getID(), password, isPublic, true);
+     * Constructs a new lobby from the data in the Database
+     * Does not change the database
+        ResultSet rs = Database.getLobby(lobbyID);
+        peopleInLobby = Database.getUsersFromLobby(lobbyID);
+        songList = Database.getintsFromLobby(LobbyID);
+        Database.addUserToLobby(lobbyID, usr.getID());
+        Database.addintToLobby(lobbyID, song.getID());
+        Database.removeintFromLobby(lobbyID, songID);
+        Database.moveintFromLobby(lobbyID, songID, location);
+        Database.setLobbyHostForLobby(lobbyID, host.getID());
+        Database.setPublicBoolForLobby(LobbyID, isPublic);
+        Database.setNameForLobby(LobbyID, name);
+        Database.setPasswordForLobby(lobbyID, password);
+ * Also manages connections to the database
+        userID = Database.createUser(username, password);
+     * Constructs a new user from the data in the Database
+     * Does not change the database at all
+        ResultSet rs = Database.getUser(userID);
+        friendsList = Database.getFriendsFromUser(userID);
+        favoriteLobbies = Database.getFavoriteLobbiesFromUser(userID);
+        hostedLobbies = Database.getHostedLobbiesFromUser(userID);
+        Database.setUsernameForUser(UserID, username);
+        Database.setPasswordForUser(UserID, username);
+        Database.setFriendsListForUser(UserID, friendsList);
+        Database.setSongLocationForUser(UserID, songLocation);
+        Database.setFavoriteLobbiesForUser(UserID, favoriteLobbies);
+        Database.setHostedLobbiesForUser(UserID, hostedLobbies);
+        Database.setPlatinumForUser(UserID, platinumUser);
+        Database.setChatFilesLocationForUser(UserID, chatFilesLocation);
+        Database.setImgLocationForUser(UserID, imgLocation);

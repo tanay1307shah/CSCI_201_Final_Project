@@ -1,20 +1,60 @@
 import java.util.List;
 
+/**
+ * Contains all the data, setters, and getters for User
+ * Also manages connections to the database
+ */
 public class User {
     private String username;
     private String password;
-    private List<User> friendsList;
-//    private String googleID;
+    private List<Integer> friendsList;
     private String songLocation;
-    private List<Lobby> favoriteLobbies;
-    private List<Lobby> hostedLobbies;
+    private String imgLocation;
+    private List<Integer> favoriteLobbies;
+    private List<Integer> hostedLobbies;
     private boolean platinumUser = false;
     private String chatFilesLocation;
-    private String avatar;
+    private long userID;
 
+    /**
+     * Constructs a new User. Be sure to check that the username is unique
+     * before creation 
+     */
     User(String username, String password){
         setUsername(username);
         setPassword(password);
+        userID = Database.createUser(username, password);
+    }
+
+    /**
+     * Constructs a new user from the data in the Database
+     * Does not change the database at all
+     * Assume the user fields are fully populated after this constructor
+     */
+    User(int userID) {
+        this.userID = userID;
+        ResultSet rs = Database.getUser(userID);
+        username = rs.getString("Username");
+        password = rs.getString("pwd");
+        songLocation = rs.getString("slocation");
+        imgLocation = rs.getString("imgLocation");
+        chatFilesLocation = rs.getString("chatLoc");
+        friendsList = Database.getFriendsFromUser(userID);
+        favoriteLobbies = Database.getFavoriteLobbiesFromUser(userID);
+        hostedLobbies = Database.getHostedLobbiesFromUser(userID);
+        platinumUser = rs.getBoolean("platinumUser");
+    }
+
+    /**
+     * Returns a Json string using Jackson
+     */
+    public String toJson() {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(this);
+    }
+
+    public long getID() {
+        return userID;
     }
 
     public String getUsername() {
@@ -23,6 +63,7 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+        Database.setUsernameForUser(UserID, username);
     }
 
     public String getPassword() {
@@ -31,14 +72,16 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+        Database.setPasswordForUser(UserID, username);
     }
 
     public List<User> getFriendsList() {
         return friendsList;
     }
 
-    public void setFriendsList(List<User> friendsList) {
+    public void setFriendsList(List<Integer> friendsList) {
         this.friendsList = friendsList;
+        Database.setFriendsListForUser(UserID, friendsList);
     }
 
     public String getSongLocation() {
@@ -47,14 +90,16 @@ public class User {
 
     public void setSongLocation(String songLocation) {
         this.songLocation = songLocation;
+        Database.setSongLocationForUser(UserID, songLocation);
     }
 
     public List<Lobby> getFavoriteLobbies() {
         return favoriteLobbies;
     }
 
-    public void setFavoriteLobbies(List<Lobby> favoriteLobbies) {
+    public void setFavoriteLobbies(List<Integer> favoriteLobbies) {
         this.favoriteLobbies = favoriteLobbies;
+        Database.setFavoriteLobbiesForUser(UserID, favoriteLobbies);
     }
 
     public List<Lobby> getHostedLobbies() {
@@ -63,6 +108,7 @@ public class User {
 
     public void setHostedLobbies(List<Lobby> hostedLobbies) {
         this.hostedLobbies = hostedLobbies;
+        Database.setHostedLobbiesForUser(UserID, hostedLobbies);
     }
 
     public boolean isPlatinumUser() {
@@ -71,6 +117,7 @@ public class User {
 
     public void setPlatinumUser(boolean platinumUser) {
         this.platinumUser = platinumUser;
+        Database.setPlatinumForUser(UserID, platinumUser);
     }
 
     public String getChatFilesLocation() {
@@ -79,14 +126,16 @@ public class User {
 
     public void setChatFilesLocation(String chatFilesLocation) {
         this.chatFilesLocation = chatFilesLocation;
+        Database.setChatFilesLocationForUser(UserID, chatFilesLocation);
     }
 
-    public String getAvatar() {
-        return avatar;
+    public String getImgLocation() {
+        return imgLocation;
     }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
+    public void setImgLocation(String imgLocation) {
+        this.imgLocation = imgLocation;
+        Database.setImgLocationForUser(UserID, imgLocation);
     }
 
     public void loginUser(String username, String password){
