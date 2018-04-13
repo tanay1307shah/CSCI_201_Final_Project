@@ -4,11 +4,16 @@
   "description": "201 final project",
   "main": "main.js",
   "scripts": {
+    "build": "electron-packager ./ --platform=windows --arch=x64",
     "start": "electron ."
   },
   "author": "Shi Zeng",
   "license": "ISC",
   "dependencies": {
-    "jquery": "^3.3.1"
+    "jquery": "^3.3.1",
+    "electron": "^1.6.11"
+  },
+  "devDependencies": {
+    "electron-packager": "^7.7.0"
   }
 }
