@@ -32,10 +32,11 @@ public class User {
         this.hostedLobbies = new ArrayList<>();
     }
 
-    User(String userEmail, String username, String password){
+    User(String userEmail, String username, String password, String avatar){
         setUsername(username);
         setPassword(password);
         setUserEmail(userEmail);
+        setAvatar(avatar);
         this.friendsList = new ArrayList<>();
         this.favoriteLobbies = new ArrayList<>();
         this.hostedLobbies = new ArrayList<>();
