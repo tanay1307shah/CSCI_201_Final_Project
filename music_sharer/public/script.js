@@ -56,16 +56,19 @@ $(function(){
 		}
 		$.ajax({
 			method: 'GET',
-			url: 'http://localhost:8080/final_proj_backend/Validation?username=' + username + '&userEmail='+userEmail+'&password=' + password
-		}).done(res => {
-			console.log(res);
-			if(res === 'OK') {
-				window.location.href = "/lobby";
+			url: 'http://192.168.137.125:8080/backend_newUser?userName=' + username + '&userEmail='+userEmail+'&password=' + password
+		}).done(data => {
+			console.log(data);
+			if(res === 'WRONG') {
+				
+				$(".error").removeClass("hidden/index.html");
 			}
 			else {
-				$(".error").removeClass("hidden");
+				Session.setAttribute("userID", data['userID']);
+				window.location.href = "lobby/";
 			}
 		});
+		window.location.href = "lobby/index.html";
 	});
 	$("#container3 .login").click(function(){
 		// login validation
@@ -76,17 +79,16 @@ $(function(){
 			$("#container3 .error").removeClass("hidden");
 			return;
 		}
-		// $.ajax({
-		// 	method: 'GET',
-		// 	url: 'http://localhost:8080/final_proj_backend/Validation?username=' + username + '&userEmail='+userEmail+'&password=' + password
-		// }).done(res => {
-		// 	console.log(res);
-			// if(res === 'OK') {
+		$.get('http://192.168.137.125:8080/backend_logIn?'+'userEmail='+userEmail+'&password=' + password,function(data){
+			console.log(data);
+			if(data === 'WRONG') {
+				$(".error").removeClass("hidden");
+			}
+			else {
+				Session.setAttribute("userID", data['userID']);
 				window.location.replace("lobby/index.html");
-			// }
-			// else {
-			// 	$(".error").removeClass("hidden");
-			// }
-		// });
+			}
+		});
+		window.location.href = "lobby/index.html";
 	});
 });
