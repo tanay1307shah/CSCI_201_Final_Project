@@ -1,3 +1,4 @@
+import java.sql.ResultSet;
 import java.util.List;
 
 /**
@@ -14,7 +15,7 @@ public class User {
     private List<Integer> hostedLobbies;
     private boolean platinumUser = false;
     private String chatFilesLocation;
-    private long userID;
+    private int userID;
 
     /**
      * Constructs a new User. Be sure to check that the username is unique

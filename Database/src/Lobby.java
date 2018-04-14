@@ -1,3 +1,5 @@
+import java.sql.ResultSet;
+
 /**
  * A class that represents a single Lobby
  * To create a lobby, first call Database.isLobby(lobbyName) to make sure it
@@ -21,9 +23,9 @@ public class Lobby {
      */
     Lobby(String name, String password, User host, boolean isPublic) {
         this.name = name;
-        this.host = host;
+        this.host = host.getID();
         this.isPublic = isPublic;
-        songQueue = new List<int>();
+        songList = new List<int>();
         if (isPublic == false) {
             this.password = password;
         }
