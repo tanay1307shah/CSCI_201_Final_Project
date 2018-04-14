@@ -13,7 +13,7 @@ public class Database {
 	public Database() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			this.conn = DriverManager.getConnection("jdbc:mysql://localhost/MUSICRT?user=root&password=tShah0713!&useSSL=false");
+			this.conn = DriverManager.getConnection("jdbc:mysql://localhost/MUSICRT?user=root&password=root&useSSL=false");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -32,6 +32,7 @@ public class Database {
 			ps.setString(1,username);
 			ps.setString(2, password);
 			ResultSet rs = ps.executeQuery();
+			rs.next();
 			if(rs == null) {
 				return -1;
 			}

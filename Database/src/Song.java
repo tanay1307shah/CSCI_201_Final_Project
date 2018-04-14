@@ -1,5 +1,3 @@
-package sample;
-
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
@@ -15,17 +13,21 @@ import java.io.IOException;
 import java.util.List;
 import java.io.File;
 
+/**
+ * Represents a song. Contains all pertinent metadata, as well as the file location and
+ * song ID on the database
+ */
 public class Song {
     private String title;
     private List<String> artist;
     private String composer;
-    private long length; //milliseconds
+    private int length; //milliseconds
     private String genre;
     private String album;
     private Image img;
-    private File file;
+    private String fLocation;
     private String year;
-    private long id; //for database purposes, should be unique
+    private int songID; //for database purposes, should be unique
 
     public String getTitle() {
         return title;
@@ -55,24 +57,24 @@ public class Song {
         return img;
     }
 
-    public File getFile() {
-        return file;
+    public String getFileLocation() {
+        return fLocation;
     }
 
     public String getYear() {
         return year;
     }
 
-    public long getId() {
-        return id;
+    public int getID() {
+        return songID;
     }
 
-    public Song(File audioFile, long id)
+    public Song(File audioFile)
     {
-        file =audioFile;
+        fLocation =audioFile.getPath();
         AudioFile f = null;
         try {
-            f = AudioFileIO.read(file);
+            f = AudioFileIO.read(audioFile);
             Tag tag = f.getTag();
             length = f.getAudioHeader().getTrackLength();
             album = tag.getFirst(FieldKey.ALBUM);
@@ -83,7 +85,7 @@ public class Song {
             List<String> list = tag.getAll(FieldKey.ARTIST);
             Artwork artwork = tag.getFirstArtwork();
             img = (Image)artwork.getImage();
-            this.id = id;
+            this.songID = Database.createSong(fLocation);
         } catch (CannotReadException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -111,9 +113,9 @@ public class Song {
         ", genre='" + genre + '\'' +
         ", album='" + album + '\'' +
         ", img=" + img +
-        ", file=" + file +
+        ", fLocation=" + fLocation +
         ", year='" + year + '\'' +
-        ", id=" + id +
+        ", id=" + songID +
         '}';
         return out;
     }

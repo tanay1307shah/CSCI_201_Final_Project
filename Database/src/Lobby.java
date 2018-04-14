@@ -1,4 +1,7 @@
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A class that represents a single Lobby
@@ -11,9 +14,9 @@ public class Lobby {
     private String name;
     private String password;
     private int host;
-    private ArrayList<int> peopleInLobby;
+    private ArrayList<Integer> peopleInLobby;
     private boolean isPublic;
-    private ArrayList<int> songList; //the first item in songlist is currently playing
+    private ArrayList<Integer> songList; //the first item in songlist is currently playing
     private int lobbyID;
     private int songTime;
 
@@ -25,7 +28,7 @@ public class Lobby {
         this.name = name;
         this.host = host.getID();
         this.isPublic = isPublic;
-        songList = new List<int>();
+        songList = new ArrayList<Integer>();
         if (isPublic == false) {
             this.password = password;
         }
@@ -40,13 +43,18 @@ public class Lobby {
     Lobby(int lobbyID) {
         this.lobbyID = lobbyID;
         ResultSet rs = Database.getLobby(lobbyID);
-        name = rs.getString("name");
-        password = rs.getString("pwd");
-        host = rs.getString("hostId");
-        peopleInLobby = Database.getUsersFromLobby(lobbyID);
-        isPublic = rs.getString("isPublic");
-        songList = Database.getintsFromLobby(LobbyID);
-        songTime = rs.getInt("currentTime");
+        try {
+            name = rs.getString("name");
+            password = rs.getString("pwd");
+            host = rs.getInt("hostId");
+            peopleInLobby = Database.getUsersFromLobby(lobbyID);
+            isPublic = rs.getBoolean("isPublic");
+            songList = Database.getSongsFromLobby(lobbyID);
+            songTime = rs.getInt("currentTime");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
 
@@ -57,51 +65,52 @@ public class Lobby {
         Database.addUserToLobby(lobbyID, usr.getID());
     }
 
-    public void addint(int song) {
-        songList.add(song);
-        Database.addintToLobby(lobbyID, song.getID());
+    public void addSong(int songID) {
+        songList.add(songID);
+        Database.addSongToLobby(lobbyID, songID);
     }
 
-    public Queue<int> getints() {
+    public List<Integer> getints() {
         return songList;
     }
 
-    public void removeint(long songID) {
+    public void removeSong(int songID) {
         for(int sng : songList)
         {
             if (sng.getID() == id)
                 songList.remove(sng);
         }
-        Database.removeintFromLobby(lobbyID, songID);
+        Database.removeSongFromLobby(lobbyID, songID);
     }
 
-    public void moveint(long id, int location) {
+    public void moveint(int songID, int index) {
         for(int i = 0; i < songList.size(); i++)
         {
-            if(songList.get(i).getID() == id) {
+            if(songList.get(i) == songID) {
                 int tmp = songList.get(i);
                 songList.remove(i);
-                songList.add(location, tmp);
+                songList.add(index, tmp);
             }
         }
-        Database.moveintFromLobby(lobbyID, songID, location);
+        Database.moveSongFromLobby(lobbyID, songID, index);
     }
 
-    public User getHost() {
+    public int getHost() {
         return host;
     }
 
-    public void setHost(User host) {
+    public void setHost(int host) {
         this.host = host;
-        Database.setLobbyHostForLobby(lobbyID, host.getID());
+        Database.setLobbyHostForLobby(lobbyID, host);
     }
 
-    public UserList getPeopleInLobby() {
+    public List<Integer> getPeopleInLobby() {
         return peopleInLobby;
     }
 
-    public void addPeopleInLobby(User usr) {
-        this.peopleInLobby.a;
+    public void addPeopleToLobby(int usr) {
+        this.peopleInLobby.add(usr);
+        Database.addUserToLobby(lobbyID, usr);
     }
 
     public boolean isPublicBool() {
@@ -110,7 +119,7 @@ public class Lobby {
 
     public void setPublicBool(boolean isPublic) {
         this.isPublic = isPublic;
-        Database.setPublicBoolForLobby(LobbyID, isPublic);
+        Database.setIsPublicForLobby(lobbyID, isPublic);
     }
 
     public String getName() {
@@ -119,7 +128,7 @@ public class Lobby {
 
     public void setName(String name) {
         this.name = name;
-        Database.setNameForLobby(LobbyID, name);
+        Database.setNameForLobby(lobbyID, name);
     }
 
     public String getPassword() {
