@@ -13,7 +13,7 @@ public class Database {
 	public Database() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			this.conn = DriverManager.getConnection("jdbc:mysql://localhost/MUSICRT?user=root&password=root&useSSL=false");
+			this.conn = DriverManager.getConnection("jdbc:mysql://192.168.43.198:3306/MUSICRT?user=root&password=tShah0713!&useSSL=false");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -24,14 +24,39 @@ public class Database {
 		 
 	}
 	
+	
+	public static int createUser(String username,String password,String imgLocation,String email) {
+		try {
+			PreparedStatement ps =null;
+			ps = conn.prepareStatement("INSER INTO USERS(username,pwd,imgLocation,email) VALUES (?,?,?,?)");
+			ps.setString(1,username);
+			ps.setString(2, password);
+			ps.setString(3, imgLocation);
+			ps.setString(4, email);
+			int x = ps.executeUpdate();
+			return x;
+		}catch(SQLException e){
+			System.out.println("SQLE in create User: " + e.getMessage());
+			return 0;
+		}
+		
+	}
+	
+	
+	
+	
 	//Return -1 if login is wrong
 	public static int login(String username, String password){
 		try {
 			PreparedStatement ps = null;
-			ps = conn.prepareStatement("SELECT * FROM USERS WHERE username=? AND pwd=?");
+			ResultSet rs =null;
+			String q = "SELECT * FROM USERS WHERE username=? AND pwd=?";
+			ps = conn.prepareStatement(q);
+			System.out.println(q);
+			System.out.println(username +" " + password);
 			ps.setString(1,username);
 			ps.setString(2, password);
-			ResultSet rs = ps.executeQuery();
+			rs = ps.executeQuery();
 			rs.next();
 			if(rs == null) {
 				return -1;
@@ -58,7 +83,7 @@ public class Database {
 		}
 	}
 	
-	public static List<Integer> getFriendsIds(int id){
+	public static List<Integer> getFriendsFromUser(int id){
 		List<Integer> temp = new ArrayList<>();
 		try {
 			PreparedStatement ps1 = null;
@@ -78,7 +103,7 @@ public class Database {
 	}
 	
 	public static List<String> getfriendsName(int id){
-		List<Integer> tempId = getFriendsIds(id); 
+		List<Integer> tempId = getFriendsFromUser(id); 
 		List<String> tempName = new ArrayList<>();
 		
 		for(int i=0; i < tempId.size();i++) {
@@ -213,21 +238,7 @@ public class Database {
 	public static void moveSongFromLobby(int lobbyId, int songId, String Location) {
 		
 	}
-	
-	public static void changeLobbyPublicStatuc(int lobbyId,boolean isPublic) {
-		try {
-			PreparedStatement ps = null;
-			ps = conn.prepareStatement("UPDATE Lobbies "
-					+ "SET isPublic = ? "
-					+ "WHERE lobbyId = ?");
-			ps.setBoolean(1, isPublic);
-			ps.setInt(2, lobbyId);
-			int x = ps.executeUpdate();
-		}catch(SQLException e) {
-			System.out.println("SQLE in changing lobby public status: " + e.getMessage());
-		}
-	}
-	
+		
 	public static void setNameForLobby(int lobbyId, String name) {
 		try {
 			PreparedStatement ps = null;
@@ -254,7 +265,7 @@ public class Database {
 	}
 	
 	
-	public static List<Integer> getFavLobbies(int userId){
+	public static List<Integer> getFavoriteLobbiesFromUser(int userId){
 		List<Integer> temp = new ArrayList<>();
 		try {
 			PreparedStatement ps = null;
@@ -273,7 +284,7 @@ public class Database {
 		return temp;
 	}
 	
-	public static List<Integer> getHostedLobbies(int userId){
+	public static List<Integer> getHostedLobbiesFromUser(int userId){
 		List<Integer> temp = new ArrayList<>();
 		try {
 			PreparedStatement ps = null;
@@ -291,7 +302,7 @@ public class Database {
 	}
 	
 	
-	public static void setUserName(int userId,String userName) {
+	public static void setUsernameForUser(int userId,String userName) {
 		try {
 			PreparedStatement ps = null;
 			ps = conn.prepareStatement("UPDATE Users SET username = ? WHERE userId =?");
@@ -304,7 +315,7 @@ public class Database {
 	}
 	
 	
-	public static void setUserPassword(int userId, String password) {
+	public static void setPasswordForUser(int userId, String password) {
 		try {
 			PreparedStatement ps = null;
 			ps = conn.prepareStatement("UPDATE Users SET pwd = ? WHERE userId =?");
@@ -335,7 +346,7 @@ public class Database {
 		
 	}
 	
-	public static void setUserPlattinumStatus(int userId, boolean plattinumStatus) {
+	public static void setPlatinumForUser(int userId, boolean plattinumStatus) {
 		try {
 			PreparedStatement ps =null;
 			ps = conn.prepareStatement("UPDATE Users SET plattinumUser = ? WHERE userId =?");
@@ -356,7 +367,7 @@ public class Database {
 		}
 	}
 	
-	public static void setImgLocation(int userId, String location) {
+	public static void setImgLocationForUser(int userId, String location) {
 		try {
 			PreparedStatement ps = null;
 			ps = conn.prepareStatement("UPDATE User SET imgLocation =? WHERE userId =?");
@@ -367,5 +378,33 @@ public class Database {
 			System.out.println("SQLE in setting user Image location: " + e.getMessage());
 		}
 	}
+	
+	
+	public static void setIsPublicForLobby(int lobbyID,boolean isPublic) {
+		try {
+			PreparedStatement ps = null;
+			ps = conn.prepareStatement("UPDATE Lobbies SET isPublic =? WHERE lobbyId =?");
+			ps.setBoolean(1, isPublic);
+			ps.setInt(2, lobbyID);
+			int x = ps.executeUpdate();
+		}catch(SQLException e) {
+			System.out.println("SQLE in set public status of lobby: " + e.getMessage());
+		}
+	}
+	
+	
+	public static void addLobbyToFavoritesForUser(int userId,int lobbyId) {
+		try {
+			PreparedStatement ps = null;
+			ps = conn.prepareStatement("INSERT INTO favLobbies(lobbyId,userId) VALUES (?,?)");
+			ps.setInt(1, lobbyId);
+			ps.setInt(2, userId);
+			int x = ps.executeUpdate();
+		}catch(SQLException e) {
+			System.out.println("SQLE in adding lobby to favs for user: " + e.getMessage());
+		}
+	}
+	
+	
 	
 }

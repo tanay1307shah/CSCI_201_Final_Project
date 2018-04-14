@@ -16,12 +16,12 @@ List<Integer> hostedLobbies = Database.getHostedLobbiesFromUser(userID);
 Below are *void*
 Database.setUsernameForUser(userID, username);
 Database.setPasswordForUser(userID, password);
-Database.setFriendsListForUser(userID, friendsList);
-Database.setFavoriteLobbiesForUser(userID, favoriteLobbies);
-Database.setHostedLobbiesForUser(userID, hostedLobbies);
+//Database.setFriendsListForUser(userID, friendsList);
+//Database.setFavoriteLobbiesForUser(userID, favoriteLobbies);
+//Database.setHostedLobbiesForUser(userID, hostedLobbies);
 Database.setPlatinumForUser(userID, platinumUser);
 Database.setChatFilesLocationForUser(userID, chatFilesLocation);
 Database.setImgLocationForUser(userID, imgLocation);
 Database.addLobbyToFavoritesForUser(userID, lobbyID);
-Database.addLobbyToHostedForUser(userID, lobbyID);
+//Database.addLobbyToHostedForUser(userID, lobbyID);
 
