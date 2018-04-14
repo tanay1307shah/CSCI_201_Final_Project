@@ -10,12 +10,6 @@ import java.util.List;
 public class Database {
 	static Connection conn;
 	
-	/*String fname;
-	String lname;
-*/	/*List<Integer> friends = new ArrayList<>();
-	List<String> friendImages = new ArrayList<>();
-	List<String> FriendNames = new ArrayList<>();
-	*/
 	public Database() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -197,6 +191,12 @@ public class Database {
 	 // do not need a id, need a song file??	
 	}
 	
+	
+	/**
+	 * ASK AND MIGHT HAVE TO CHANGE
+	 * @param lobbyId
+	 * @param songId
+	 */
 	public static void removeSongFromLobby(int lobbyId, int songId) {
 		try {
 			PreparedStatement ps= null;
@@ -253,134 +253,118 @@ public class Database {
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-}
-	
-	/*{
+	public static List<Integer> getFavLobbies(int userId){
+		List<Integer> temp = new ArrayList<>();
 		try {
-			this.fname = fname;
-			this.lname = lname;
-			
-			
-			
-			this.generalResultSet = ps.executeQuery();
-			this.generalResultSet.next();
-			
-			//File f = new File("pic.jpg");
-						
-			//getting all the data of friends from ids
-			fillFriendData();
-			
-			
-			PreparedStatement ps2 = null;
-			ps2 = conn.prepareStatement("SELECT * FROM Chats WHERE fromUserId=?");
-			ps2.setInt(1, generalResultSet.getInt("userId"));
-			this.chatResultSet = ps2.executeQuery();
-			this.friendResultSet.next();
-			
-			
-		} catch (ClassNotFoundException e) {
-			System.out.println("JDBC Driver class: " + e.getMessage());
-		} catch (SQLException e) {
-			System.out.println("SQLE: " + e.getMessage());
-		}
-	}
-	
-	public static  List<String> getFriendImages() {
-		return friendImages;
-	}
-
-	public void setFriendImages(List<String> friendImages) {
-		this.friendImages = friendImages;
-	}
-
-	public List<String> getFriendNames() {
-		return FriendNames;
-	}
-
-	public void setFriendNames(List<String> friendNames) {
-		FriendNames = friendNames;
-	}
-
-	public ResultSet getGeneralResultSet() {
-		return generalResultSet;
-	}
-
-	public void setGeneralResultSet(ResultSet generalResultSet) {
-		this.generalResultSet = generalResultSet;
-	}
-
-	public String songLocation() { 
-		String loc = null;
-		try {
-			loc = generalResultSet.getString("slocation");
-		} catch (SQLException e) {
-			if(loc == null) {
-				return null;
-			}
-			System.out.println("getSonglocation error: " + e.getMessage());
-		}
-		return loc;
-	}
-	
-	public boolean getPalttinumStatus() {
-		boolean status = false;
-		try {
-			status  = generalResultSet.getBoolean("plattinumUser");
-		} catch (SQLException e) {
-			status = false;
-			System.out.println("getPlattinumStatus error: " + e.getMessage());
-		}
-		return status;
-	}
-	
-	public String getProfileImg() {
-		String loc = "";
-		try {
-			loc = generalResultSet.getString("imgLocation");
-		}
-		catch(SQLException e) {
-			System.out.println("Profile Img error: " + e.getMessage());
-		}
-		return loc;
-	}
-	
-	public void setProfileImg(String loc) {
-		PreparedStatement ps = null;
-		int userId;
-		try {
-			
-			userId = generalResultSet.getInt("userId");
-			ps  = conn.prepareStatement("INSERT INTO USERS(userId,imgLocation) VALUES (?,?)");
+			PreparedStatement ps = null;
+			ps = conn.prepareStatement("SELECT * FROM favLobbies WHERE userId = ?");
 			ps.setInt(1, userId);
-			ps.setString(2, loc);
 			ResultSet rs = ps.executeQuery();
 			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			while(rs.next()) {
+				temp.add(rs.getInt("lobbyId"));
+			}
 			
-		}
-	}
-	
-	
-	public void fillFriendData() {
-		try {	
-			
-				this.friendImages.add(rs.getString("imgLocation"));
-			}	
 		}catch(SQLException e) {
+			System.out.println("SQLE in getting Fav Lobbies: " + e.getMessage());
+		}
+		
+		return temp;
+	}
+	
+	public static List<Integer> getHostedLobbies(int userId){
+		List<Integer> temp = new ArrayList<>();
+		try {
+			PreparedStatement ps = null;
+			ps = conn.prepareStatement("SELECT * FROM Lobbies WHERE userId = ?");
+			ps.setInt(1, userId);
+			ResultSet rs = ps.executeQuery();
 			
+			while(rs.next()) {
+				temp.add(rs.getInt("lobbyId"));
+			}
+		}catch(SQLException e) {
+			System.out.println("SQLE in getting hosted lobbies for user " + userId + ": " + e.getMessage());
+		}
+		return null;
+	}
+	
+	
+	public static void setUserName(int userId,String userName) {
+		try {
+			PreparedStatement ps = null;
+			ps = conn.prepareStatement("UPDATE Users SET username = ? WHERE userId =?");
+			ps.setString(1, userName);
+			ps.setInt(2, userId);
+			int x = ps.executeUpdate();
+		}catch(SQLException e) {
+			System.out.println("SQLE in setting username: " + e.getMessage());
 		}
 	}
 	
 	
+	public static void setUserPassword(int userId, String password) {
+		try {
+			PreparedStatement ps = null;
+			ps = conn.prepareStatement("UPDATE Users SET pwd = ? WHERE userId =?");
+			ps.setString(1, password);
+			ps.setInt(2, userId);
+			int x = ps.executeUpdate();
+		}catch(SQLException e) {
+			System.out.println("SQLE in setting password: " + e.getMessage());
+		}
+	}
 	
 	
+	public static void setUserFriendlist(int userId, List<Integer> friendList) {
+		
+	}
+	
+	
+	public static void setSongLocation(int userId, String songLocation) {
+		
+	}
+	
+	/*public static void setFavouoriteLobbies(int userId, int lobbyId) {
+		
+	}*/
+	
+	
+	public static void hostNewLobby(int userId) {
+		
+	}
+	
+	public static void setUserPlattinumStatus(int userId, boolean plattinumStatus) {
+		try {
+			PreparedStatement ps =null;
+			ps = conn.prepareStatement("UPDATE Users SET plattinumUser = ? WHERE userId =?");
+			ps.setBoolean(1, plattinumStatus);
+			ps.setInt(2, userId);
+		}catch(SQLException e) {
+			System.out.println("SQLE in settting user plattinumstatus: " +e.getMessage());
+		}
+	}
+	
+	//ASK , and need the to id as well!!
+	public static void setChatFilesLocation(int userId,String location) {
+		try {
+			PreparedStatement ps = null;
+			ps = conn.prepareStatement("UPDATE Chats SET ");
+		}catch(SQLException e){
+			System.out.println("SQLE in setting chat location: " + e.getMessage());
+		}
+	}
+	
+	public static void setImgLocation(int userId, String location) {
+		try {
+			PreparedStatement ps = null;
+			ps = conn.prepareStatement("UPDATE User SET imgLocation =? WHERE userId =?");
+			ps.setString(1,location);
+			ps.setInt(2, userId);
+			int x = ps.executeUpdate();
+		}catch(SQLException e) {
+			System.out.println("SQLE in setting user Image location: " + e.getMessage());
+		}
+	}
 	
 }
-*/
