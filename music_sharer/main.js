@@ -1,6 +1,7 @@
 const electron = require('electron')
 // Module to control application life.
 const app = electron.app
+app.setName("Music Sharer")
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
 
@@ -10,20 +11,33 @@ const url = require('url')
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
+var filename = "public/index.html"
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 1000, height: 800})
-
+  mainWindow = new BrowserWindow({width: 800,
+    height: 600,
+    show: false,
+    minWidth: 700,
+    minHeight: 600,
+    center: true,
+    title: "Music Sharer",
+    backgroundColor: "#200122"})
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show()
+  })
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
-    pathname: path.join(__dirname, 'public/index.html'),
+    pathname: path.join(__dirname, filename),
     protocol: 'file:',
     slashes: true
   }))
+  // filename = mainWindow.getRepresentedFilename()
+  console.log(filename)
+  // console.log(app.getAppPath())
 
   // Open the DevTools.
-   mainWindow.webContents.openDevTools()
+  // mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -31,6 +45,7 @@ function createWindow () {
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     mainWindow = null
+    // mainWindow.hide()
   })
 }
 
@@ -54,6 +69,7 @@ app.on('activate', function () {
   if (mainWindow === null) {
     createWindow()
   }
+  // mainWindow.show()
 })
 
 // In this file you can include the rest of your app's specific main process
