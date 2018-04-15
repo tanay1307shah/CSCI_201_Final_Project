@@ -19,7 +19,6 @@ public class User {
     private List<Integer> favoriteLobbies;
     private List<Integer> hostedLobbies;
     private boolean platinumUser = false;
-    private String chatFilesLocation;
     // private String songLocation;
     private int userID;
 
@@ -42,7 +41,7 @@ public class User {
      */
     User(int userID) {
         this.userID = userID;
-        ResultSet rs = Database.getUser(userID);
+        ResultSet rs = Database.getUserData(userID);
         try {
             rs.next();
             username = rs.getString("Username");
@@ -50,7 +49,6 @@ public class User {
             email = rs.getString("email");
             //songLocation = rs.getString("slocation");
             imgLocation = rs.getString("imgLocation");
-            chatFilesLocation = rs.getString("chatLoc");
             friendsList = Database.getFriendsFromUser(userID);
             favoriteLobbies = Database.getFavoriteLobbiesFromUser(userID);
             hostedLobbies = Database.getHostedLobbiesFromUser(userID);
@@ -100,9 +98,9 @@ public class User {
         return friendsList;
     }
 
-    public void setFriendsList(List<Integer> friendsList) {
-        this.friendsList = friendsList;
-        Database.setFriendsListForUser(userID, friendsList);
+    public void addFriendToUser(int otherUserID) {
+        this.friendsList.add(otherUserID);
+        Database.addFriendToUser(userID, otherUserID);
     }
 
     //public String getSongLocation() {
@@ -118,28 +116,14 @@ public class User {
         return favoriteLobbies;
     }
 
-    public void setFavoriteLobbies(List<Integer> favoriteLobbies) {
-        this.favoriteLobbies = favoriteLobbies;
-        Database.setFavoriteLobbiesForUser(userID, favoriteLobbies);
-    }
-
     public void addLobbyToFavorites(int lobbyID) {
         this.favoriteLobbies.add(lobbyID);
         Database.addLobbyToFavoritesForUser(userID, lobbyID);
     }
 
     public List<Integer> getHostedLobbies() {
+        hostedLobbies = Database.getHostedLobbiesFromUser(userID);
         return hostedLobbies;
-    }
-
-    public void setHostedLobbies(List<Integer> hostedLobbies) {
-        this.hostedLobbies = hostedLobbies;
-        Database.setHostedLobbiesForUser(userID, hostedLobbies);
-    }
-
-    public void addLobbyToHosted(int lobbyID) {
-        this.hostedLobbies.add(lobbyID);
-        Database.addLobbyToHostedForUser(userID, lobbyID);
     }
 
     public boolean isPlatinumUser() {
@@ -149,15 +133,6 @@ public class User {
     public void setPlatinumUser(boolean platinumUser) {
         this.platinumUser = platinumUser;
         Database.setPlatinumForUser(userID, platinumUser);
-    }
-
-    public String getChatFilesLocation() {
-        return chatFilesLocation;
-    }
-
-    public void setChatFilesLocation(String chatFilesLocation) {
-        this.chatFilesLocation = chatFilesLocation;
-        Database.setChatFilesLocationForUser(userID, chatFilesLocation);
     }
 
     public String getImgLocation() {

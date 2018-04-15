@@ -1,3 +1,6 @@
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -9,16 +12,18 @@ import java.util.List;
  * isn't taken, then create the lobby here.
  * Only use this class to edit the lobby, any calls to this class will
  * automatically update the database using calls to Database.
+ * NOTE: Songs cannot be reordred in the queue as of now
  */
 public class Lobby {
     private String name;
     private String password;
     private int host;
-    private ArrayList<Integer> peopleInLobby;
+    private List<Integer> peopleInLobby;
     private boolean isPublic;
-    private ArrayList<Integer> songList; //the first item in songlist is currently playing
+    private List<Integer> songList; //NOT ORDERED, just all the songs in the lobby
     private int lobbyID;
     private int songTime;
+    private String chatFilesLocation;
 
     /** Generates a lobby.
      * Make sure to first check if the lobby name is in use using
@@ -32,7 +37,7 @@ public class Lobby {
         if (isPublic == false) {
             this.password = password;
         }
-        this.lobbyID = Database.createLobby(host.getID(), password, isPublic, true);
+        this.lobbyID = Database.createLobby(host.getID(), name, password, isPublic);
     }
 
     /**
@@ -43,8 +48,8 @@ public class Lobby {
     Lobby(int lobbyID) {
         this.lobbyID = lobbyID;
         ResultSet rs = Database.getLobby(lobbyID);
-        rs.next();
         try {
+            rs.next();
             name = rs.getString("name");
             password = rs.getString("pwd");
             host = rs.getInt("hostId");
@@ -52,18 +57,29 @@ public class Lobby {
             isPublic = rs.getBoolean("isPublic");
             songList = Database.getSongsFromLobby(lobbyID);
             songTime = rs.getInt("currentTime");
+            chatFilesLocation = rs.getString("");
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
-
-
+    /**
+     * Returns a Json string using Jackson
+     * Returns empty string if Jackson fails (somehow)
+     */
+    public String toJson() {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
     //Adds a user to the lobby
     //note that the privelege of the user is not checked here
-    public void addUser(User usr) {
-        peopleInLobby.addUser(usr);
-        Database.addUserToLobby(lobbyID, usr.getID());
+    public void addUser(int userID) {
+        peopleInLobby.add(userID);
+        Database.addUserToLobby(lobbyID, userID);
     }
 
     public void addSong(int songID) {
@@ -76,33 +92,12 @@ public class Lobby {
     }
 
     public void removeSong(int songID) {
-        for(int sng : songList)
-        {
-            if (sng.getID() == id)
-                songList.remove(sng);
-        }
+        songList.remove(songID);
         Database.removeSongFromLobby(lobbyID, songID);
-    }
-
-    public void moveint(int songID, int index) {
-        for(int i = 0; i < songList.size(); i++)
-        {
-            if(songList.get(i) == songID) {
-                int tmp = songList.get(i);
-                songList.remove(i);
-                songList.add(index, tmp);
-            }
-        }
-        Database.moveSongFromLobby(lobbyID, songID, index);
     }
 
     public int getHost() {
         return host;
-    }
-
-    public void setHost(int host) {
-        this.host = host;
-        Database.setLobbyHostForLobby(lobbyID, host);
     }
 
     public List<Integer> getPeopleInLobby() {

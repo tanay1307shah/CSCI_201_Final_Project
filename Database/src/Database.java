@@ -23,8 +23,7 @@ public class Database {
 		}
 		 
 	}
-	
-	
+
 	public static int createUser(String username,String password,String imgLocation,String email) {
 		try {
 			PreparedStatement ps =null;
@@ -41,9 +40,6 @@ public class Database {
 		}
 		
 	}
-	
-	
-	
 	
 	//Return -1 if login is wrong
 	public static int login(String username, String password){
@@ -162,7 +158,7 @@ public class Database {
 	}
 	
 	// return null if that id does not exsists ..!
-	public static List<Integer> getUserFromLobby(int id){
+	public static List<Integer> getUsersFromLobby(int id){
 		List<Integer> temp = new ArrayList<>();
 		try {
 			PreparedStatement ps = null;
@@ -183,23 +179,6 @@ public class Database {
 		return temp;
 	}
 	
-	public static List<Integer> getintsFromLobby(int lobbyid){
-		List<Integer> temp = new ArrayList<>();
-		try {
-			PreparedStatement ps = null;
-			ps = conn.prepareStatement("SELECT * FROM Music WHERE lobbyId = ?");
-			ps.setInt(1, lobbyid);
-			ResultSet rs = ps.executeQuery();
-			
-			while(rs.next()) {
-				temp.add(rs.getInt("songId"));
-			}
-		}catch(SQLException e) {
-			System.out.println("SQLE in get Ints from Lobby: " + e.getMessage());
-		}
-		return temp;
-	}
-	
 	public static void addUserToLobby(int lobbyId, int userId) {
 		try {
 			PreparedStatement ps = null;
@@ -216,8 +195,24 @@ public class Database {
 	public static void addSongToLobby(int lobbyId,int songId) {
 	 // do not need a id, need a song file??	
 	}
-	
-	
+
+	public static List<Integer> getSongsFromLobby(int lobbyid){
+		List<Integer> temp = new ArrayList<>();
+		try {
+			PreparedStatement ps = null;
+			ps = conn.prepareStatement("SELECT * FROM Music WHERE lobbyId = ?");
+			ps.setInt(1, lobbyid);
+			ResultSet rs = ps.executeQuery();
+
+			while(rs.next()) {
+				temp.add(rs.getInt("songId"));
+			}
+		}catch(SQLException e) {
+			System.out.println("SQLE in get Ints from Lobby: " + e.getMessage());
+		}
+		return temp;
+	}
+
 	/**
 	 * ASK AND MIGHT HAVE TO CHANGE
 	 * @param lobbyId
@@ -235,10 +230,6 @@ public class Database {
 		}
 	}
 	
-	public static void moveSongFromLobby(int lobbyId, int songId, String Location) {
-		
-	}
-		
 	public static void setNameForLobby(int lobbyId, String name) {
 		try {
 			PreparedStatement ps = null;
@@ -326,26 +317,19 @@ public class Database {
 			System.out.println("SQLE in setting password: " + e.getMessage());
 		}
 	}
-	
-	
-	public static void setUserFriendlist(int userId, List<Integer> friendList) {
-		
+
+	public static void addFriendToUser(int userId,int friendId) {
+		try {
+			PreparedStatement ps = null;
+			ps = conn.prepareStatement("INSERT INTO Friendship(fromUserId,toUserId)");
+			ps.setInt(1, userId);
+			ps.setInt(2, friendId);
+			int x = ps.executeUpdate();
+		}catch(SQLException e) {
+			System.out.println("SQLE in add friend: " + e.getMessage());
+		}
 	}
-	
-	
-	public static void setSongLocation(int userId, String songLocation) {
-		
-	}
-	
-	/*public static void setFavouoriteLobbies(int userId, int lobbyId) {
-		
-	}*/
-	
-	
-	public static void hostNewLobby(int userId) {
-		
-	}
-	
+
 	public static void setPlatinumForUser(int userId, boolean plattinumStatus) {
 		try {
 			PreparedStatement ps =null;
@@ -358,7 +342,7 @@ public class Database {
 	}
 	
 	//ASK , and need the to id as well!!
-	public static void setChatFilesLocation(int lobbyId,String location) {
+	public static void setChatFilesLocationForLobby(int lobbyId,String location) {
 		try {
 			PreparedStatement ps = null;
 			ps = conn.prepareStatement("UPDATE Chats SET chatLoc=? WHERE lobbyId = ?");
@@ -407,8 +391,8 @@ public class Database {
 			System.out.println("SQLE in adding lobby to favs for user: " + e.getMessage());
 		}
 	}
-	
-	public static void addNewLobby(int hostId, String lobbyName, String password) {
+
+	public static int createLobby(int hostId, String lobbyName, String password, boolean isPublic) {
 		try {
 			PreparedStatement ps =null;
 			ps = conn.prepareStatement("INSERT INTO Lobbies(hostId,lobbyName,pswd) VALUES(?,?,?)");
@@ -416,21 +400,39 @@ public class Database {
 			ps.setString(2, lobbyName);
 			ps.setString(3, password);
 			int x = ps.executeUpdate();
+			setIsPublicForLobby(x, isPublic);
+			return x;
 		}catch(SQLException e) {
 			System.out.println("SQLE in add a new lobby: " + e.getMessage());
 		}
+		return -1;
 	}
 	
-	public static void createSong(int lobbyId,String location) {
+	public static int createSong(int lobbyId,String location) {
 		try {
 			PreparedStatement ps = null;
 			ps = conn.prepareStatement("INSERT INTO Music(lobbyId,slocation) VALUES(?,?)");
 			ps.setInt(1, lobbyId);
 			ps.setString(2, location);
 			int x = ps.executeUpdate();
+			return x;
 		}catch(SQLException e) {
 			System.out.println("SQLE in create song: " + e.getMessage());
 		}
+		return -1;
 	}
+
+	public static ResultSet getSongData(int songId) {
+	    try{
+	        PreparedStatement ps = null;
+	        ps = conn.prepareStatement("SELECT * FROM Music WHERE songId = ?");
+	        ps.setInt(1,songId);
+	        ResultSet rs = ps.executeQuery();
+	        return rs;
+        }catch(SQLException e){
+	        System.out.println("SQLE in getSongData: " + e.getMessage());
+        }
+	    return null;
+    }
 	
 }
