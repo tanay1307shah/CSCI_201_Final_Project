@@ -358,10 +358,13 @@ public class Database {
 	}
 	
 	//ASK , and need the to id as well!!
-	public static void setChatFilesLocation(int userId,String location) {
+	public static void setChatFilesLocation(int lobbyId,String location) {
 		try {
 			PreparedStatement ps = null;
-			ps = conn.prepareStatement("UPDATE Chats SET ");
+			ps = conn.prepareStatement("UPDATE Chats SET chatLoc=? WHERE lobbyId = ?");
+			ps.setString(1, location);
+			ps.setInt(2, lobbyId);
+			int x = ps.executeUpdate();
 		}catch(SQLException e){
 			System.out.println("SQLE in setting chat location: " + e.getMessage());
 		}
@@ -405,6 +408,17 @@ public class Database {
 		}
 	}
 	
-	
+	public static void addNewLobby(int hostId, String lobbyName, String password) {
+		try {
+			PreparedStatement ps =null;
+			ps = conn.prepareStatement("INSERT INTO Lobbies(hostId,lobbyName,pswd) VALUES(?,?,?)");
+			ps.setInt(1, hostId);
+			ps.setString(2, lobbyName);
+			ps.setString(3, password);
+			int x = ps.executeUpdate();
+		}catch(SQLException e) {
+			System.out.println("SQLE in add a new lobby: " + e.getMessage());
+		}
+	}
 	
 }
