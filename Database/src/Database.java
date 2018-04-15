@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.util.Pair;
+
 public class Database {
 	static Connection conn;
 	
@@ -434,5 +436,69 @@ public class Database {
         }
 	    return null;
     }
+	
+	
+	public static int getUserId(String username) {
+		try {
+			PreparedStatement ps = null;
+			ps = conn.prepareStatement("SELECT userId FROM USERS WHERE username =?");
+			ps.setString(1, username);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			return rs.getInt("userId");
+		}catch(SQLException e) {
+			System.out.println("SQLE in getUserId: " + e.getMessage());
+		}
+		return -1;
+	}
+	
+	public static int getLobbyId(String lobbyname) {
+		try {
+			PreparedStatement ps = null;
+			ps = conn.prepareStatement("SELECT lobbyId FROM Lobbies WHERE lobbyName =?");
+			ps.setString(1, lobbyname);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			return rs.getInt("lobbyId");
+		}catch(SQLException e) {
+			System.out.println("SQLE in getLobbyId: " + e.getMessage());
+		}
+		return -1;
+	}
+	
+	public static List<String> getAllUsers(){
+		List<String> temp = new ArrayList<>();
+		try {
+			PreparedStatement ps = null;
+			ps = conn.prepareStatement("SELECT username FROM USERS;");
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				temp.add(rs.getString("username"));
+			}
+			
+		}catch(SQLException e) {
+			System.out.println("SQLE in getAllUsers: " + e.getMessage());
+		}
+		return temp;
+	}
+	
+	public static List<String> getAllLobbies(){
+		List<String> temp = new ArrayList<>();
+		try {
+			PreparedStatement ps = null;
+			ps = conn.prepareStatement("SELECT lobbyName FROM Lobbies;");
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				temp.add(rs.getString("lobbyName"));
+			}
+			
+		}catch(SQLException e) {
+			System.out.println("SQLE in getAllLobbies: " + e.getMessage());
+		}
+		return temp;
+	}
+	
 	
 }
