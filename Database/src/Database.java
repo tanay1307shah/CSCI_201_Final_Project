@@ -421,4 +421,16 @@ public class Database {
 		}
 	}
 	
+	public static void createSong(int lobbyId,String location) {
+		try {
+			PreparedStatement ps = null;
+			ps = conn.prepareStatement("INSERT INTO Music(lobbyId,slocation) VALUES(?,?)");
+			ps.setInt(1, lobbyId);
+			ps.setString(2, location);
+			int x = ps.executeUpdate();
+		}catch(SQLException e) {
+			System.out.println("SQLE in create song: " + e.getMessage());
+		}
+	}
+	
 }
