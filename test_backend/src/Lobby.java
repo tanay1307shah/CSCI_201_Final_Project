@@ -1,42 +1,121 @@
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * A class that represents a single Lobby
+ * To create a lobby, first call Database.isLobby(lobbyName) to make sure it
+ * isn't taken, then create the lobby here.
+ * Only use this class to edit the lobby, any calls to this class will
+ * automatically update the database using calls to Database.
+ * NOTE: Songs cannot be reordred in the queue as of now
+ */
 public class Lobby {
     private String name;
     private String password;
-    private User host;
-    private UserList peopleInLobby;
-    boolean publicBool;
+    private int host;
+    private List<Integer> peopleInLobby;
+    private boolean isPublic;
+    private List<Integer> songList; //NOT ORDERED, just all the songs in the lobby
+    private int lobbyID;
+    private int songTime;
+    private String chatFilesLocation;
 
-
-    Lobby(String name, String password, User host, boolean publicBool) {
+    /** Generates a lobby.
+     * Make sure to first check if the lobby name is in use using
+     * Database.isLobby(name)
+     */
+    Lobby(String name, String password, User host, boolean isPublic) {
         this.name = name;
-        this.host = host;
-        this.publicBool = publicBool;
-        if (publicBool == false) {
+        this.host = host.getID();
+        this.isPublic = isPublic;
+        songList = new ArrayList<Integer>();
+        if (isPublic == false) {
             this.password = password;
         }
+        this.lobbyID = Database.createLobby(host.getID(), name, password, isPublic);
     }
 
-    public User getHost() {
+    /**
+     * Constructs a new lobby from the data in the Database
+     * Does not change the database
+     * Assume the lobby fields are fully populated after this constructor
+     */
+    Lobby(int lobbyID) {
+        this.lobbyID = lobbyID;
+        ResultSet rs = Database.getLobby(lobbyID);
+        try {
+            rs.next();
+            name = rs.getString("name");
+            password = rs.getString("pwd");
+            host = rs.getInt("hostId");
+            peopleInLobby = Database.getUsersFromLobby(lobbyID);
+            isPublic = rs.getBoolean("isPublic");
+            songList = Database.getSongsFromLobby(lobbyID);
+            songTime = rs.getInt("currentTime");
+            chatFilesLocation = rs.getString("");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    /**
+     * Returns a Json string using Jackson
+     * Returns empty string if Jackson fails (somehow)
+     */
+    public String toJson() {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+    //Adds a user to the lobby
+    //note that the privelege of the user is not checked here
+    public void addUser(int userID) {
+        peopleInLobby.add(userID);
+        Database.addUserToLobby(lobbyID, userID);
+    }
+
+    public void addSong(int songID) {
+        songList.add(songID);
+        Database.addSongToLobby(lobbyID, songID);
+    }
+
+    public List<Integer> getints() {
+        return songList;
+    }
+
+    public void removeSong(int songID) {
+        songList.remove(songID);
+        Database.removeSongFromLobby(lobbyID, songID);
+    }
+
+    public int getHost() {
         return host;
     }
 
-    public void setHost(User host) {
-        this.host = host;
-    }
-
-    public UserList getPeopleInLobby() {
+    public List<Integer> getPeopleInLobby() {
         return peopleInLobby;
     }
 
-    public void setPeopleInLobby(UserList peopleInLobby) {
-        this.peopleInLobby = peopleInLobby;
+    public void addPeopleToLobby(int usr) {
+        this.peopleInLobby.add(usr);
+        Database.addUserToLobby(lobbyID, usr);
     }
 
     public boolean isPublicBool() {
-        return publicBool;
+        return isPublic;
     }
 
-    public void setPublicBool(boolean publicBool) {
-        this.publicBool = publicBool;
+    public void setPublicBool(boolean isPublic) {
+        this.isPublic = isPublic;
+        Database.setIsPublicForLobby(lobbyID, isPublic);
     }
 
     public String getName() {
@@ -45,6 +124,7 @@ public class Lobby {
 
     public void setName(String name) {
         this.name = name;
+        Database.setNameForLobby(lobbyID, name);
     }
 
     public String getPassword() {
@@ -53,5 +133,6 @@ public class Lobby {
 
     public void setPassword(String password) {
         this.password = password;
+        Database.setPasswordForLobby(lobbyID, password);
     }
 }

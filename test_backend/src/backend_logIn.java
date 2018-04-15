@@ -9,7 +9,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet("/backend_logIn")
-public class music_backend extends HttpServlet {
+public class backend_logIn extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ServletContext context = getServletContext();
         response.setHeader("Access-Control-Allow-Origin", "*");
@@ -18,13 +18,12 @@ public class music_backend extends HttpServlet {
         System.out.println("User email is: " + request.getParameter("userEmail"));
         System.out.println("User password is: " + request.getParameter("password"));
 
-        //SOL validation for user info. Danial and Tanay figure this shit out.
+        String username = request.getParameter("userEmail");
+        String password = request.getParameter("password");
 
 
-//        Database newDB = new Database();
-//        int loggedInUserID = newDB.login(username, password);
-        
-        int loggedInUserID = 1;
+        Database newDB = new Database();
+        int loggedInUserID = Database.login(username, password);
 
         if(loggedInUserID != -1) {
             HttpSession session = request.getSession();

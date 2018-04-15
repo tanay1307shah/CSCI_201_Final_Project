@@ -1,53 +1,89 @@
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+
+/**
+ * Contains all the data, setters, and getters for User
+ * Also manages connections to the database
+ */
 public class User {
     private String username;
     private String password;
-    private String userEmail;
-    private List<User> friendsList;
-//    private String googleID;
-    private String songLocation;
-    private List<Lobby> favoriteLobbies;
-    private List<Lobby> hostedLobbies;
+    private String email;
+    private List<Integer> friendsList;
+    private String imgLocation;
+    private List<Integer> favoriteLobbies;
+    private List<Integer> hostedLobbies;
     private boolean platinumUser = false;
-    private String chatFilesLocation;
-    private String avatar;
-    private Lobby currentLobby;
+    // private String songLocation;
+    private int userID;
 
-    public Lobby getCurrentLobby() {
-        return currentLobby;
+    /**
+     * Constructs a new User. Be sure to check that the username is unique
+     * before creation 
+     */
+    User(String username, String password, String imgLocation, String email){
+        this.username = username;
+        this.password = password;
+        this.imgLocation = imgLocation;
+        this.email = email;
+        userID = Database.createUser(username, password, imgLocation, email);
     }
 
-    public void setCurrentLobby(Lobby currentLobby) {
-
-        this.currentLobby = currentLobby;
+    /**
+     * Constructs a new user from the data in the Database
+     * Does not change the database at all
+     * Assume the user fields are fully populated after this constructor
+     */
+    User(int userID) {
+        this.userID = userID;
+        ResultSet rs = Database.getUserData(userID);
+        try {
+            rs.next();
+            username = rs.getString("Username");
+            password = rs.getString("pwd");
+            email = rs.getString("email");
+            //songLocation = rs.getString("slocation");
+            imgLocation = rs.getString("imgLocation");
+            friendsList = Database.getFriendsFromUser(userID);
+            if(friendsList == null){
+                friendsList = new ArrayList<>();
+            }
+            favoriteLobbies = Database.getFavoriteLobbiesFromUser(userID);
+            if(favoriteLobbies == null){
+                favoriteLobbies = new ArrayList<>();
+            }
+            hostedLobbies = Database.getHostedLobbiesFromUser(userID);
+            if(hostedLobbies == null){
+                hostedLobbies = new ArrayList<>();
+            }
+            platinumUser = rs.getBoolean("platinumUser");
+        } catch (SQLException e) { //TODO: Actually do something here
+            e.printStackTrace();
+        }
     }
 
-    User(String username, String password){
-        setUsername(username);
-        setPassword(password);
-        this.friendsList = new ArrayList<>();
-        this.favoriteLobbies = new ArrayList<>();
-        this.hostedLobbies = new ArrayList<>();
+    /**
+     * Returns a Json string using Jackson
+     * Returns empty string if Jackson fails (somehow)
+     */
+    public String toJson() {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 
-    User(String userEmail, String username, String password, String avatar){
-        setUsername(username);
-        setPassword(password);
-        setUserEmail(userEmail);
-        setAvatar(avatar);
-        this.friendsList = new ArrayList<>();
-        this.favoriteLobbies = new ArrayList<>();
-        this.hostedLobbies = new ArrayList<>();
-    }
-
-    public String getUserEmail() {
-        return userEmail;
-    }
-
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
+    public int getID() {
+        return userID;
     }
 
     public String getUsername() {
@@ -56,6 +92,7 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+        Database.setUsernameForUser(userID, username);
     }
 
     public String getPassword() {
@@ -64,38 +101,39 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+        Database.setPasswordForUser(userID, password);
     }
 
-    public List<User> getFriendsList() {
+    public List<Integer> getFriendsList() {
         return friendsList;
     }
 
-    public void setFriendsList(List<User> friendsList) {
-        this.friendsList = friendsList;
+    public void addFriendToUser(int otherUserID) {
+        this.friendsList.add(otherUserID);
+        Database.addFriendToUser(userID, otherUserID);
     }
 
-    public String getSongLocation() {
-        return songLocation;
-    }
+    //public String getSongLocation() {
+    //    return songLocation;
+    //}
 
-    public void setSongLocation(String songLocation) {
-        this.songLocation = songLocation;
-    }
+    //public void setSongLocation(String songLocation) {
+    //    this.songLocation = songLocation;
+    //    Database.setSongLocationForUser(userID, songLocation);
+    //}
 
-    public List<Lobby> getFavoriteLobbies() {
+    public List<Integer> getFavoriteLobbies() {
         return favoriteLobbies;
     }
 
-    public void setFavoriteLobbies(List<Lobby> favoriteLobbies) {
-        this.favoriteLobbies = favoriteLobbies;
+    public void addLobbyToFavorites(int lobbyID) {
+        this.favoriteLobbies.add(lobbyID);
+        Database.addLobbyToFavoritesForUser(userID, lobbyID);
     }
 
-    public List<Lobby> getHostedLobbies() {
+    public List<Integer> getHostedLobbies() {
+        hostedLobbies = Database.getHostedLobbiesFromUser(userID);
         return hostedLobbies;
-    }
-
-    public void setHostedLobbies(List<Lobby> hostedLobbies) {
-        this.hostedLobbies = hostedLobbies;
     }
 
     public boolean isPlatinumUser() {
@@ -104,22 +142,16 @@ public class User {
 
     public void setPlatinumUser(boolean platinumUser) {
         this.platinumUser = platinumUser;
+        Database.setPlatinumForUser(userID, platinumUser);
     }
 
-    public String getChatFilesLocation() {
-        return chatFilesLocation;
+    public String getImgLocation() {
+        return imgLocation;
     }
 
-    public void setChatFilesLocation(String chatFilesLocation) {
-        this.chatFilesLocation = chatFilesLocation;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
+    public void setImgLocation(String imgLocation) {
+        this.imgLocation = imgLocation;
+        Database.setImgLocationForUser(userID, imgLocation);
     }
 
     public void loginUser(String username, String password){

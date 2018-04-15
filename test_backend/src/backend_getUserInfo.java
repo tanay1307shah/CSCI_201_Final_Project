@@ -14,21 +14,17 @@ public class backend_getUserInfo extends HttpServlet {
 
     }
 
+
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setHeader("Access-Control-Allow-Origin", "*");
         System.out.println("----------Getting User Info");
         HttpSession session = request.getSession();
         int testUserID = Integer.parseInt(session.getAttribute("userID").toString());
-        System.out.println("Current Loggedin UserID is: " + testUserID);
 
-        //User curLoggedInUser = new User(loggedInUserID);
-
-        User tempUser = new User("email", "username", "password", "https://i.imgur.com/wbLgKuo.png");
-
-        ObjectMapper outputMapper = new ObjectMapper();
-        String curUserJsonString = outputMapper.writeValueAsString(tempUser);
-        System.out.println(curUserJsonString);
-
-        response.getWriter().write(curUserJsonString);
+        User currentUser = new User(testUserID);
+        String currentUserJSONString = currentUser.toJson();
+        System.out.println(currentUserJSONString);
+        response.getWriter().write(currentUserJSONString);
     }
 }
