@@ -43,6 +43,7 @@ public class Lobby {
     Lobby(int lobbyID) {
         this.lobbyID = lobbyID;
         ResultSet rs = Database.getLobby(lobbyID);
+        rs.next();
         try {
             name = rs.getString("name");
             password = rs.getString("pwd");

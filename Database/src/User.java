@@ -44,6 +44,7 @@ public class User {
         this.userID = userID;
         ResultSet rs = Database.getUser(userID);
         try {
+            rs.next();
             username = rs.getString("Username");
             password = rs.getString("pwd");
             email = rs.getString("email");
