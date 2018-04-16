@@ -7,10 +7,14 @@ var num_chats = 2;
 var current_chat = 0;
 var isProfileShowing = 0;
 var userInfo;
+var currentLobby = null;
 
 $(function() {
 	// get all user info
 	getAllUserInfo();
+	bindAllEvent();
+});
+function bindAllEvent(){
 	// music control
 	$("#play_button").click(function(){
 		if (playing==0) {
@@ -94,13 +98,19 @@ $(function() {
 		}
 	});
 	$("#lobby_list .name").click(function(event){
-		console.log(event.target);
+		var lobbyName = event.target.innerHTML;
+		switchLobby(lobbyName);
 	});
 	$("#friends_list .name").click(function(event){
+		console.log("click search results");
 		var username = event.target.innerHTML;
 		showOtherUserModal(username);
 	});
-});
+	$("#search_list .name").on("click",function(event){
+		var username = event.target.innerHTML;
+		showOtherUserModal(username);
+	});
+}
 
 function isEmpty(str) {
     return (!str || 0 === str.length);
@@ -169,15 +179,20 @@ function searching(){
 	}
 	// call ajax to get searched info
 
-	$.get('http://192.168.137.125:8080/handleEvent?event=search&searchType='+searchType+'&searchStr='+searchStr,function(data){
-		console.log(data);
-	});
+	// $.get('http://192.168.137.125:8080/handleEvent?event=search&searchType='+searchType+'&searchStr='+searchStr,function(data){
+	// 	console.log(data);
+	// });
 
 	//display the results
 	var results = ["testuser1","testuser2"];
 	for (var i = 0; i < results.length; i++) {
-		$("#search_list .names").append('<div class="name">'+results[i]+'</div>');
+		var $div = $("<div>", {class: "name"});
+        $div.append(results[i]);
+        $("#search_list .names").append($div);
+		// $("#search_list .names").append('<div class="name">'+results[i]+'</div>');
+		console.log($("#search_list .names"));
 	}
+	bindAllEvent();
 	return false;
 }
 function changeChat(i){
@@ -201,21 +216,25 @@ function scrollToBottom(str){
 function getAllUserInfo(){
 	// $.get('http://192.168.137.125:8080/backend_getUserInfo',function(data){
 	// 	console.log(data);
-	// 	userInfo = '{"username":"AlexVal","password":"test1323","userEmail":"alex@gmail.com","friendsList":[],"songLocation":null,"favoriteLobbies":[],"hostedLobbies":[],"platinumUser":false,"chatFilesLocation":null,"avatar":null,"currentLobby":null}';
+	// 	userInfo = '{"username":"AlexVal","password":"test1323","userEmail":"alex@gmail.com","friendsList":[],"songLocation":null,"favoriteLobbies":[],"hostedLobbies":[],"platinumUser":false,"chatFilesLocation":null,"imgLocation":null,"currentLobby":null}';
 	// 	console.log(userInfo);
 	// });
-	userInfo = JSON.parse('{"username":"AlexVal","password":"test1323","userEmail":"alex@gmail.com","friendsList":[{"username":"Joe"},{"username":"Daniel"},{"username":"Tanay"}],"songLocation":null,"favoriteLobbies":["Joe\'s"],"hostedLobbies":["Alex\'s"],"platinumUser":false,"chatFilesLocation":null,"avatar":"https://scontent-lax3-2.xx.fbcdn.net/v/t1.0-1/14095730_1479406308752132_1902501536827789351_n.jpg?_nc_cat=0&oh=0bc43133d027d62ddcae8ffca1529208&oe=5B68892F","currentLobby":null}');
+	// userInfo = JSON.parse('{"username":"AlexVal","password":"test1323","userEmail":"alex@gmail.com","friendsList":[{"username":"Joe"},{"username":"Daniel"},{"username":"Tanay"}],"songLocation":null,"favoriteLobbies":["Joe\'s"],"hostedLobbies":["Alex\'s"],"platinumUser":false,"chatFilesLocation":null,"imgLocation":"https://scontent-lax3-2.xx.fbcdn.net/v/t1.0-1/14095730_1479406308752132_1902501536827789351_n.jpg?_nc_cat=0&oh=0bc43133d027d62ddcae8ffca1529208&oe=5B68892F","currentLobby":null}');
+	userInfo = JSON.parse('{"username":"avalante","password":"swim","friendsList":[{"username":"Joe"},{"username":"Daniel"},{"username":"Tanay"}],"imgLocation":"https://scontent-lax3-2.xx.fbcdn.net/v/t1.0-1/14095730_1479406308752132_1902501536827789351_n.jpg?_nc_cat=0&oh=0bc43133d027d62ddcae8ffca1529208&oe=5B68892F","favoriteLobbies":["Joe\'s","Daniel\'s","Tanay\'s"],"hostedLobbies":["Alex\'s"],"platinumUser":false,"id":2}');
 	console.log(userInfo);
 	populateUserInfo();
 	populateFriendsList();
     populateLobbyList();
-    populateCurrentLobby();
+    // populateCurrentLobby();
     populateProfile();
     populateChats();
 }
 function populateUserInfo(){
-	$("#side_bar img").attr("src", userInfo.avatar);
-	$(".profilePhoto_edit").val(userInfo.avatar);
+	if (userInfo.imgLocation==null) {
+		userInfo.imgLocation = "../assets/images/no_image.jpg";
+	}
+	$("#side_bar img").attr("src", userInfo.imgLocation);
+	$(".profilePhoto_edit").val(userInfo.imgLocation);
     $("#side_bar .username").text(userInfo.username);
     $("#side_bar .email").text(userInfo.userEmail);
 }
@@ -251,14 +270,13 @@ function populateLobbyList(){
     }
 }
 function populateCurrentLobby(){
-	if(userInfo.currentLobby === null){
-    }else{
-        $("#lobby_control .username").text(userInfo.currentLobby.name);
-        $("#lobby_control .password").text(userInfo.currentLobby.password);
-        $("#lobby_control .number_member").text(userInfo.currentLobby.peopleInLobby.length);
-        for (var i = 0; i < userInfo.currentLobby.peopleInLobby.length; i++) {
-        	$("#lobby_control .member_list").append('<div class="name">'+userInfo.currentLobby.peopleInLobby[i]+'</div>');
-        }
+    $("#lobby_control .username span").text(currentLobby.name);
+    $("#lobby_control .password span").text(currentLobby.password);
+    $("#lobby_control .number_member span").text(currentLobby.peopleInLobby.length);
+    if (currentLobby.peopleInLobby!=null) {
+    	for (var i = 0; i < currentLobby.peopleInLobby.length; i++) {
+    		$("#lobby_control .member_list").append('<div class="name">'+currentLobby.peopleInLobby[i].username+'</div>');
+    	}
     }
 }
 function populateProfile(){
@@ -278,7 +296,7 @@ function populateChats(){
 function showEditModal(){
 	$(".username_edit").val(userInfo.username);
 	$(".password_edit").val(userInfo.password);
-	$(".profilePhoto_edit").val(userInfo.avatar);
+	$(".profilePhoto_edit").val(userInfo.imgLocation);
 	$("#editModal").css("opacity",0);
 	$("#editModal").removeClass("hidden");
 	$("#editModal").animate({
@@ -314,16 +332,30 @@ function showOtherUserModal(username){
 	// $.get('http://192.168.137.125:8080/handleEvent?event=getUserInfo&username=somename',function(data){
 	// 	console.log(data);
 	// });
-	$(".lobby_name").val("");
-	$(".lobby_password").val("");
-	$("#createLobbyModal").css("opacity",0);
-	$("#createLobbyModal").removeClass("hidden");
-	$("#createLobbyModal").animate({
+	var data = 
+	$("#otherUserModal").css("opacity",0);
+	$("#otherUserModal").removeClass("hidden");
+	$("#otherUserModal").animate({
 		opacity:"1"
 	},500);
 }
+function hideOtherUserModal(){
+	$("#otherUserModal").addClass("hidden");
+}
 function switchLobby(lobbyName){
-
+	//get a lobby's info when clicking a friend in friends list, need the lobby's info in write back
+	// $.get('http://192.168.137.125:8080/handleEvent?event=getLobbyInfo&lobbyName=somename',function(data){
+	// 	console.log(data);
+	// });
+	var data = JSON.parse('{"name":"firstTestLobby","password":"test","host":2,"peopleInLobby":[],"ints":[],"publicBool":true}');
+	if(currentLobby === null){
+		currentLobby = JSON.parse('{"name":"no lobby selected","password":"","host":1,"peopleInLobby":[],"ints":[],"publicBool":true}');
+    }
+	currentLobby.name = lobbyName;
+	currentLobby.password = data.password;
+	currentLobby.peopleInLobby = data.peopleInLobby;
+	populateCurrentLobby();
+	bindAllEvent();
 }
 function modifyInfo(){
 	var new_username = $(".username_edit").val();
@@ -331,7 +363,7 @@ function modifyInfo(){
 	var new_profile_photo = $(".profilePhoto_edit").val();
 	userInfo.username = new_username;
 	userInfo.password = new_password;
-	userInfo.avatar = new_profile_photo;
+	userInfo.imgLocation = new_profile_photo;
 	populateUserInfo();
 	populateProfile();
 	// send the change to the server

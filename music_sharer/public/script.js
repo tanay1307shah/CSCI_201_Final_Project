@@ -54,18 +54,26 @@ $(function(){
 			$("#container2 .error").removeClass("hidden");
 			return;
 		}
-		$.ajax({
-			method: 'GET',
-			url: 'http://192.168.137.125:8080/backend_newUser?userName=' + username + '&userEmail='+userEmail+'&password=' + password
-		}).done(data => {
-			console.log(data);
-			if(res === 'WRONG') {
+		// $.ajax({
+		// 	method: 'GET',
+		// 	url: 'http://192.168.137.125:8080/backend_newUser?userName=' + username + '&userEmail='+userEmail+'&password=' + password
+		// }).done(data => {
+		// 	console.log(data);
+		// 	if(res === 'WRONG') {
 				
-				$(".error").removeClass("hidden/index.html");
+		// 		$(".error").removeClass("hidden/index.html");
+		// 	}
+		// 	else {
+		// 		window.location.href = "lobby/";
+		// 	}
+		// });
+		$.get('http://192.168.137.125:8080/backend_newUser?userName=' + username + '&userEmail='+userEmail+'&password=' + password,function(data){
+			console.log(data);
+			if(data === 'WRONG') {
+				$(".error").removeClass("hidden");
 			}
 			else {
-				Session.setAttribute("userID", data['userID']);
-				window.location.href = "lobby/";
+				window.location.replace("lobby/index.html");
 			}
 		});
 		window.location.href = "lobby/index.html";
@@ -85,7 +93,6 @@ $(function(){
 				$(".error").removeClass("hidden");
 			}
 			else {
-				Session.setAttribute("userID", data['userID']);
 				window.location.replace("lobby/index.html");
 			}
 		});
