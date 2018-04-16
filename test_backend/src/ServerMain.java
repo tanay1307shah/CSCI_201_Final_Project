@@ -27,8 +27,8 @@ public class ServerMain {
     @OnMessage
     public void onMessage(String message, Session session) {
         String inputMessage = message;
-        String string = "004-034556";
-        String[] parts = string.split("|~|");
+        //String string = "004-034556";
+        String[] parts = inputMessage.split("|~|");
         String event = parts[0]; // 004
         if(event.equals("MusicControl")){
 

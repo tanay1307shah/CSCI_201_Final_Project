@@ -49,14 +49,13 @@ public class Lobby {
         this.lobbyID = lobbyID;
         ResultSet rs = Database.getLobby(lobbyID);
         try {
-            rs.next();
-            name = rs.getString("name");
-            password = rs.getString("pwd");
+            name = rs.getString("lobbyName");
+            password = rs.getString("pswd");
             host = rs.getInt("hostId");
             peopleInLobby = Database.getUsersFromLobby(lobbyID);
             isPublic = rs.getBoolean("isPublic");
             songList = Database.getSongsFromLobby(lobbyID);
-            songTime = rs.getInt("currentTime");
+//            songTime = rs.getInt("currentTime");
             chatFilesLocation = rs.getString("");
         } catch (SQLException e) {
             e.printStackTrace();
