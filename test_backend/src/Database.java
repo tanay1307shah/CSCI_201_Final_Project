@@ -84,13 +84,13 @@ public class Database {
         List<Integer> temp = new ArrayList<>();
         try {
             PreparedStatement ps1 = null;
-            ps1 = conn.prepareStatement("SELECT * FROM Friendship WHERE fromUserId=?");
+            ps1 = conn.prepareStatement("SELECT toUserId FROM Friendship WHERE fromUserId=?");
             ps1.setInt(1, id);
             ResultSet rs = ps1.executeQuery();
 
             while (rs.next()) {
-                int tid = rs.getInt("toUserID");
-                temp.add(id);
+                int tid = rs.getInt("toUserId");
+                temp.add(tid);
             }
 
         } catch (SQLException e) {
@@ -141,7 +141,7 @@ public class Database {
     public static ResultSet getLobby(int lobbyId) {
         try {
             PreparedStatement ps = null;
-            ps = conn.prepareStatement("SELECT * FROM Lobbies WHERE Lobbies.lobbyId = ?");
+            ps = conn.prepareStatement("SELECT * FROM Lobbies WHERE lobbyId = ?");
             ps.setInt(1, lobbyId);
             ResultSet rs = ps.executeQuery();
             rs.next();
@@ -162,11 +162,9 @@ public class Database {
         List<Integer> temp = new ArrayList<>();
         try {
             PreparedStatement ps = null;
-            ps = conn.prepareStatement("SELECT * FROM LobbyUsers WHERE Lobbies.lobbyId = ?");
+            ps = conn.prepareStatement("SELECT * FROM LobbyUsers WHERE lobbyId = ?");
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
-
-
             while (rs.next()) {
                 temp.add(rs.getInt(("userId")));
             }
@@ -280,7 +278,7 @@ public class Database {
         List<Integer> temp = new ArrayList<>();
         try {
             PreparedStatement ps = null;
-            ps = conn.prepareStatement("SELECT * FROM Lobbies WHERE userId = ?");
+            ps = conn.prepareStatement("SELECT * FROM Lobbies WHERE hostId = ?");
             ps.setInt(1, userId);
             ResultSet rs = ps.executeQuery();
 
@@ -322,7 +320,7 @@ public class Database {
     public static void addFriendToUser(int userId, int friendId) {
         try {
             PreparedStatement ps = null;
-            ps = conn.prepareStatement("INSERT INTO Friendship(fromUserId,toUserId)");
+            ps = conn.prepareStatement("INSERT INTO Friendship(fromUserId,toUserId) VALUES (?,?)");
             ps.setInt(1, userId);
             ps.setInt(2, friendId);
             int x = ps.executeUpdate();
@@ -402,6 +400,14 @@ public class Database {
             ps.setString(3, password);
             int x = ps.executeUpdate();
             setIsPublicForLobby(x, isPublic);
+            ps = conn.prepareStatement("INSERT INTO favLobbies(lobbyId, userId) VALUES(?,?)");
+            ps.setInt(1, getLobbyId(lobbyName));
+            ps.setInt(2, hostId);
+            ps.executeUpdate();
+            ps = conn.prepareStatement("INSERT INTO LobbyUsers(lobbyId, userId) VALUES(?,?)");
+            ps.setInt(1,getLobbyId(lobbyName));
+            ps.setInt(2, hostId);
+            ps.executeUpdate();
             return x;
         } catch (SQLException e) {
             System.out.println("SQLE in add a new lobby: " + e.getMessage());

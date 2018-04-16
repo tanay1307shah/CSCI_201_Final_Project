@@ -2,6 +2,8 @@ import javafx.util.Pair;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.net.Socket;
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
@@ -16,7 +18,7 @@ import javax.websocket.server.ServerEndpoint;
 @ServerEndpoint(value = "/ws")
 public class ServerMain {
 
-    private Map<Integer, Session> sessions = new ConcurrentHashMap<>();
+    private Vector<Session> sessions = new Vector<>();
 
     @OnOpen
     public void open(Session session) {
@@ -26,12 +28,41 @@ public class ServerMain {
 
     @OnMessage
     public void onMessage(String message, Session session) {
-        String inputMessage = message;
         //String string = "004-034556";
-        String[] parts = inputMessage.split("|~|");
+        String[] parts = message.split("|~|");
         String event = parts[0]; // 004
-        if(event.equals("MusicControl")){
+        if (event.equals("MusicControl")) {
+            String action = parts[1];
+            String lobbyName = parts[2];
+            int currentLobbyId = Database.getLobbyId(lobbyName);
+            Lobby currentLobby = new Lobby(currentLobbyId);
+            List<Integer> useresInCurLobby = currentLobby.getPeopleInLobby();
+            StringBuilder userListBuilder = new StringBuilder();
+            for (int temp : useresInCurLobby) {
+                userListBuilder.append(Integer.toString(temp)).append(",");
+            }
+            String userList = userListBuilder.toString();
 
+            if (action.equals("PlayMusic")) {  //SENDS OUT "PlayMusic|~|1,2,3"
+                String output = "PlayMusic|~|" + userList;
+                for (Session users : sessions) {
+                    try {
+                        users.getBasicRemote().sendText(output);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+
+            } else if (action.equals("StopMusic")) {
+                String output = "StopMusic|~|" + userList;
+                for (Session users : sessions) {
+                    try {
+                        users.getBasicRemote().sendText(output);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
         }
 //        try {
 //            for(Pair<Integer, Session> userSocet : sessions) {
@@ -46,7 +77,7 @@ public class ServerMain {
     @OnClose
     public void close(Session session) {
         System.out.println("Disconnecting!");
-//        sessionVector.remove(session);
+        sessions.remove(session);
     }
 
     @OnError

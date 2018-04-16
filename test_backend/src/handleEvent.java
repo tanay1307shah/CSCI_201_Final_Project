@@ -23,10 +23,9 @@ public class handleEvent extends HttpServlet {
         if (event.equals("createLobby")) {
             String lobbyName = request.getParameter("lobbyName");
             String lobbyPassword = request.getParameter("lobbyPassword");
-            String hostUserame = request.getParameter("hostName");
-            int hostUserID = Database.getUserId(hostUserame);
-            User lobbyHost = new User(hostUserID);
-            Lobby newLobby = new Lobby(lobbyName, lobbyPassword, lobbyHost, false);
+            String hostId = request.getParameter("hostId");
+            int hostUserID = Integer.parseInt(hostId);
+            Lobby newLobby = new Lobby(lobbyName, lobbyPassword, hostUserID, false);
             String lobbyJSON = newLobby.toJson();
             response.getWriter().write("success");
 
@@ -90,7 +89,8 @@ public class handleEvent extends HttpServlet {
             String output = chatString.toString();
             response.getWriter().write(output);
 
-        } else if (event.equals("search")) {
+        }
+        else if (event.equals("search")) {
             List<String> lobbyList = Database.getAllLobbies();
             List<String> userList = Database.getAllUsers();
             String searchType = request.getParameter("searchType");
@@ -103,7 +103,7 @@ public class handleEvent extends HttpServlet {
                     }
                 }
             } else if (searchType.equals("lobby")) {
-                for (String temp : userList) {
+                for (String temp : lobbyList) {
                     if (temp.startsWith(searchTerm)) {
                         results.add(temp);
                     }
@@ -115,6 +115,24 @@ public class handleEvent extends HttpServlet {
             }
             String output = resonceString.toString();
             response.getWriter().write(output);
+        }else if(event.equals("addLobby")){
+            int userId = Integer.parseInt(request.getParameter("hostId"));
+            String lobbyName = request.getParameter("lobbyName");
+            int lobbyId = Database.getLobbyId(lobbyName);
+            Database.addLobbyToFavoritesForUser(userId,lobbyId);
+        }else if(event.equals("addFriend")){
+            String friendUsername = request.getParameter("friendName");
+            int hostId = Integer.parseInt(request.getParameter("hostId"));
+            int friendId = Database.getUserId(friendUsername);
+            Database.addFriendToUser(hostId, friendId);
+        }else if(event.equals("editCurrentUser")){
+            int hostId = Integer.parseInt(request.getParameter("hostId"));
+            String newUsername = request.getParameter("newUsername");
+            Database.setUsernameForUser(hostId, newUsername);
+            String newPassword = request.getParameter("newPassword");
+            Database.setPasswordForUser(hostId, newPassword);
+            String newImgLocation = request.getParameter("newImgLocation");
+            Database.setImgLocationForUser(hostId, newImgLocation);
         }
 
 

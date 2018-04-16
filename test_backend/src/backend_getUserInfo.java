@@ -1,3 +1,4 @@
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.ServletException;
@@ -23,8 +24,15 @@ public class backend_getUserInfo extends HttpServlet {
         int testUserID = Integer.parseInt(session.getAttribute("userID").toString());
 
         User currentUser = new User(testUserID);
-        String currentUserJSONString = currentUser.toJson();
-        System.out.println(currentUserJSONString);
-        response.getWriter().write(currentUserJSONString);
+        ObjectMapper mapper = new ObjectMapper();
+        String result;
+        try {
+            result = mapper.writeValueAsString(currentUser);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            result = "";
+        }
+        System.out.println(result);
+        response.getWriter().write(result);
     }
 }

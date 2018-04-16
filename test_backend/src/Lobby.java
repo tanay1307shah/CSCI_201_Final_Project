@@ -1,6 +1,7 @@
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -19,6 +20,16 @@ public class Lobby {
     private String password;
     private int host;
     private List<Integer> peopleInLobby;
+
+    public List<String> getPeopleInLobbyString() {
+        return peopleInLobbyString;
+    }
+
+    public void setPeopleInLobbyString(List<String> peopleInLobbyString) {
+        this.peopleInLobbyString = peopleInLobbyString;
+    }
+
+    private List<String> peopleInLobbyString = new ArrayList<>();
     private boolean isPublic;
     private List<Integer> songList; //NOT ORDERED, just all the songs in the lobby
     private int lobbyID;
@@ -29,15 +40,15 @@ public class Lobby {
      * Make sure to first check if the lobby name is in use using
      * Database.isLobby(name)
      */
-    Lobby(String name, String password, User host, boolean isPublic) {
+    Lobby(String name, String password, int host, boolean isPublic) {
         this.name = name;
-        this.host = host.getID();
+        this.host = host;
         this.isPublic = isPublic;
         songList = new ArrayList<Integer>();
         if (isPublic == false) {
             this.password = password;
         }
-        this.lobbyID = Database.createLobby(host.getID(), name, password, isPublic);
+        this.lobbyID = Database.createLobby(host, name, password, isPublic);
     }
 
     /**
@@ -56,7 +67,15 @@ public class Lobby {
             isPublic = rs.getBoolean("isPublic");
             songList = Database.getSongsFromLobby(lobbyID);
 //            songTime = rs.getInt("currentTime");
-            chatFilesLocation = rs.getString("");
+            chatFilesLocation = Database.getChatLocation(lobbyID);
+            for(int i : peopleInLobby){
+                PreparedStatement ps = null;
+                ps = Database.conn.prepareStatement("SELECT username FROM USERS WHERE userId =?");
+                ps.setInt(1,i);
+                rs = ps.executeQuery();
+                rs.next();
+                peopleInLobbyString.add(rs.getString("username"));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

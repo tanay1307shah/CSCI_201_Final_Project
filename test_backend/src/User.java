@@ -1,3 +1,4 @@
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,9 +17,12 @@ public class User {
     private String password;
     private String email;
     private List<Integer> friendsList;
+    private List<String> friendsListStrings;
     private String imgLocation;
     private List<Integer> favoriteLobbies;
+    private List<String> favoriteLobbiesString = new ArrayList<>();
     private List<Integer> hostedLobbies;
+    private List<String> hostedLobbiesString = new ArrayList<>();
     private boolean platinumUser = false;
     // private String songLocation;
     private int userID;
@@ -33,6 +37,14 @@ public class User {
         this.imgLocation = imgLocation;
         this.email = email;
         userID = Database.createUser(username, password, imgLocation, email);
+    }
+
+    public List<String> getFavoriteLobbiesString() {
+        return favoriteLobbiesString;
+    }
+
+    public void setFavoriteLobbiesString(List<String> favoriteLobbiesString) {
+        this.favoriteLobbiesString = favoriteLobbiesString;
     }
 
     /**
@@ -62,7 +74,25 @@ public class User {
             if(hostedLobbies == null){
                 hostedLobbies = new ArrayList<>();
             }
-            platinumUser = rs.getBoolean("platinumUser");
+            platinumUser = rs.getBoolean("plattinumUser");
+            PreparedStatement ps = null;
+            friendsListStrings = new ArrayList<>();
+            for(int i : friendsList){
+                ps = Database.conn.prepareStatement("SELECT username FROM MUSICRT.USERS WHERE userId = ?");
+                ps.setString(1, Integer.toString(i));
+                rs = ps.executeQuery();
+                rs.next();
+                String userNameNew = rs.getString("username");
+                friendsListStrings.add(userNameNew);
+            }
+            for(int i : favoriteLobbies){
+                ps = Database.conn.prepareStatement("SELECT lobbyName FROM MUSICRT.Lobbies WHERE lobbyId = ?");
+                ps.setString(1, Integer.toString(i));
+                rs = ps.executeQuery();
+                rs.next();
+                String lobbyNameNew = rs.getString("lobbyName");
+                favoriteLobbiesString.add(lobbyNameNew);
+            }
         } catch (SQLException e) { //TODO: Actually do something here
             e.printStackTrace();
         }
@@ -160,4 +190,11 @@ public class User {
         }
     }
 
+    public List<String> getFriendsListStrings() {
+        return friendsListStrings;
+    }
+
+    public void setFriendsListStrings(List<String> friendsListStrings) {
+        this.friendsListStrings = friendsListStrings;
+    }
 }
