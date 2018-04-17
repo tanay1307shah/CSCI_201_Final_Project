@@ -18,18 +18,17 @@ public class backend_newUser extends HttpServlet {
         String userEmail = request.getParameter("userEmail");
         String password = request.getParameter("password");
         String username = request.getParameter("userName");
+        String imgLocation = request.getParameter("imgLocation");
 
         //right here would be sent to the SQL server. Danial or Tanay figure this shit out.
-//        Database newDB = new Database();
-//        int loggedInUserID = newDB.login(username, password);
-        int loggedInUserID = 1;
+        Database newDB = new Database();Database.createUser(username, password, imgLocation, userEmail);
+        int loggedInUserID = Database.login(userEmail, password);
+
 
         if(loggedInUserID != -1) {
             HttpSession session = request.getSession();
             session.setAttribute("userID", loggedInUserID);
-            String pageToForward = "/public/lobby/index.html";
-            RequestDispatcher dispatch = context.getRequestDispatcher(pageToForward);
-            dispatch.forward(request, response);
+            response.getWriter().write("OK");
             return;
         }
             response.getWriter().write("WRONG");

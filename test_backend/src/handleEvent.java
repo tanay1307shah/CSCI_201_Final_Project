@@ -26,6 +26,8 @@ public class handleEvent extends HttpServlet {
             String hostId = request.getParameter("hostId");
             int hostUserID = Integer.parseInt(hostId);
             Lobby newLobby = new Lobby(lobbyName, lobbyPassword, hostUserID, false);
+            Database.addUserToLobby(newLobby.getLobbyID(), hostUserID);
+            Database.addLobbyToFavoritesForUser(hostUserID, newLobby.getLobbyID());
             String lobbyJSON = newLobby.toJson();
             response.getWriter().write("success");
 
@@ -98,13 +100,13 @@ public class handleEvent extends HttpServlet {
             List<String> results = new ArrayList<>();
             if (searchType.equals("user")) {
                 for (String temp : userList) {
-                    if (temp.startsWith(searchTerm)) {
+                    if (temp.toLowerCase().startsWith(searchTerm.toLowerCase())) {
                         results.add(temp);
                     }
                 }
             } else if (searchType.equals("lobby")) {
                 for (String temp : lobbyList) {
-                    if (temp.startsWith(searchTerm)) {
+                    if (temp.toLowerCase().startsWith(searchTerm.toLowerCase())) {
                         results.add(temp);
                     }
                 }
@@ -120,6 +122,7 @@ public class handleEvent extends HttpServlet {
             String lobbyName = request.getParameter("lobbyName");
             int lobbyId = Database.getLobbyId(lobbyName);
             Database.addLobbyToFavoritesForUser(userId,lobbyId);
+            Database.addUserToLobby(lobbyId, userId);
         }else if(event.equals("addFriend")){
             String friendUsername = request.getParameter("friendName");
             int hostId = Integer.parseInt(request.getParameter("hostId"));

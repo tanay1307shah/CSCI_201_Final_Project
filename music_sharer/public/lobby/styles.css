@@ -608,7 +608,7 @@ music control styling
   padding-bottom: 20px;
 }
 #otherUserModal .image{
-  margin-top: 50px;
+  margin-top: 100px;
   margin-bottom: 30px;
   width: 90px;
   height: 90px;
@@ -631,7 +631,9 @@ music control styling
 #otherUserModal img:hover{
   transform: scale(0.75);
 }
-
+.addFriendBtn{
+  min-height: 50px !important;
+}
 
 .hidden{
   display: none;

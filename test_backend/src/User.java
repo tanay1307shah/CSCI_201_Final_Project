@@ -24,6 +24,7 @@ public class User {
     private List<Integer> hostedLobbies;
     private List<String> hostedLobbiesString = new ArrayList<>();
     private boolean platinumUser = false;
+    private String currentLobby = "";
     // private String songLocation;
     private int userID;
 

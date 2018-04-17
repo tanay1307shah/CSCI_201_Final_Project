@@ -80,6 +80,15 @@ public class Lobby {
             e.printStackTrace();
         }
     }
+
+    public int getLobbyID() {
+        return lobbyID;
+    }
+
+    public void setLobbyID(int lobbyID) {
+        this.lobbyID = lobbyID;
+    }
+
     /**
      * Returns a Json string using Jackson
      * Returns empty string if Jackson fails (somehow)
@@ -92,6 +101,7 @@ public class Lobby {
             e.printStackTrace();
             return "";
         }
+
     }
     //Adds a user to the lobby
     //note that the privelege of the user is not checked here

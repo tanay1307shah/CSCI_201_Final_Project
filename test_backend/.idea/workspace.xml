@@ -47,7 +47,158 @@
     <favorites_list name="test_backend" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="ServerMain.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ServerMain.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="137">
+              <caret line="33" column="0" lean-forward="false" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#550#559#0" expanded="true" />
+                <element signature="e#3156#3157#0" expanded="true" />
+                <element signature="e#3200#3201#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="USERS" pinned="false" current-in-tab="false">
+        <entry file="das://table:/7b30c5c3/86f2caac-bdf7-4eba-82a0-373d8ed0db06/MUSICRT.USERS">
+          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+            <state>
+              <filtering enabled="true" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="backend_logIn.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/backend_logIn.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="305">
+              <caret line="30" column="45" lean-forward="true" selection-start-line="30" selection-start-column="12" selection-end-line="30" selection-end-column="45" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="backend_newUser.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/backend_newUser.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="225">
+              <caret line="23" column="0" lean-forward="false" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="console.sql" pinned="false" current-in-tab="false">
+        <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/86f2caac-bdf7-4eba-82a0-373d8ed0db06/console.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="379">
+              <caret line="48" column="27" lean-forward="true" selection-start-line="48" selection-start-column="27" selection-end-line="48" selection-end-column="27" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="backend_getUserInfo.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/backend_getUserInfo.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="210">
+              <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="User.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/User.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="237">
+              <caret line="26" column="35" lean-forward="false" selection-start-line="26" selection-start-column="35" selection-end-line="26" selection-end-column="35" />
+              <folding>
+                <marker date="1523989722094" expanded="true" signature="2947:2998" ph="SELECT usern... USERS" />
+                <marker date="1523989722094" expanded="true" signature="3348:3403" ph="SELECT lobby... Lobbies" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Database.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Database.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="184">
+              <caret line="397" column="33" lean-forward="true" selection-start-line="397" selection-start-column="33" selection-end-line="397" selection-end-column="33" />
+              <folding>
+                <marker date="1523995603184" expanded="true" signature="965:1031" ph="INSERT INTO USERS... " />
+                <marker date="1523995603184" expanded="true" signature="1609:1652" ph="SELECT * FRO... USERS" />
+                <marker date="1523995603184" expanded="true" signature="2347:2381" ph="SELECT * FRO... USERS" />
+                <marker date="1523995603184" expanded="true" signature="2847:2897" ph="SELECT * FRO... Friendship" />
+                <marker date="1523995603184" expanded="true" signature="3586:3656" ph="SELECT * FRO... USERSWHERE" />
+                <marker date="1523995603184" expanded="true" signature="4245:4296" ph="SELECT * FRO... Lobbies" />
+                <marker date="1523995603184" expanded="true" signature="4811:4850" ph="SELECT * FRO... Lobbies" />
+                <marker date="1523995603184" expanded="true" signature="5481:5523" ph="SELECT * FRO... LobbyUsers" />
+                <marker date="1523995603184" expanded="true" signature="6074:6148" ph="INSERT INTO LobbyUsers... " />
+                <marker date="1523995603184" expanded="true" signature="6732:6769" ph="SELECT * FRO... Music" />
+                <marker date="1523995603184" expanded="true" signature="7370:7427" ph="DELETE FROM Music... " />
+                <marker date="1523995603184" expanded="true" signature="7839:7887" ph="UPDATE Lobbies... " />
+                <marker date="1523995603184" expanded="true" signature="8304:8347" ph="UPDATE Lobbies... " />
+                <marker date="1523995603184" expanded="true" signature="8814:8855" ph="SELECT * FRO... favLobbies" />
+                <marker date="1523995603184" expanded="true" signature="9405:9443" ph="SELECT * FRO... Lobbies" />
+                <marker date="1523995603184" expanded="true" signature="9973:10018" ph="UPDATE Users... " />
+                <marker date="1523995603184" expanded="true" signature="10435:10475" ph="UPDATE Users... " />
+                <marker date="1523995603184" expanded="true" signature="10885:10928" ph="INSERT INTO Friendship... " />
+                <marker date="1523995603184" expanded="true" signature="10885:10941" ph="INSERT INTO Friendship... " />
+                <marker date="1523995603184" expanded="true" signature="11356:11406" ph="UPDATE Users... " />
+                <marker date="1523995603184" expanded="true" signature="11855:11899" ph="UPDATE Chats... " />
+                <marker date="1523995603184" expanded="true" signature="12324:12370" ph="UPDATE User... " />
+                <marker date="1523995603184" expanded="true" signature="12801:12848" ph="UPDATE Lobbies... " />
+                <marker date="1523995603184" expanded="true" signature="13281:13332" ph="INSERT INTO favLobbies... " />
+                <marker date="1523995603184" expanded="true" signature="13785:13841" ph="INSERT INTO Lobbies... " />
+                <marker date="1523995603184" expanded="true" signature="14084:14135" ph="INSERT INTO favLobbies... " />
+                <marker date="1523995603184" expanded="true" signature="14294:14345" ph="INSERT INTO LobbyUsers... " />
+                <marker date="1523995603184" expanded="true" signature="14794:14842" ph="INSERT INTO Music... " />
+                <marker date="1523995603184" expanded="true" signature="15276:15312" ph="SELECT * FRO... Music" />
+                <marker date="1523995603184" expanded="true" signature="15740:15776" ph="SELECT * FRO... Chats" />
+                <marker date="1523995603184" expanded="true" signature="16216:16267" ph="SELECT userI... USERS" />
+                <marker date="1523995603184" expanded="true" signature="16710:16756" ph="SELECT lobby... Lobbies" />
+                <marker date="1523995603184" expanded="true" signature="17243:17269" ph="SELECT usern... USERS" />
+                <marker date="1523995603184" expanded="true" signature="17758:17787" ph="SELECT lobby... Lobbies" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="handleEvent.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/handleEvent.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="192">
+              <caret line="95" column="0" lean-forward="false" selection-start-line="95" selection-start-column="0" selection-end-line="95" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Lobby.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Lobby.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="161">
+              <caret line="44" column="0" lean-forward="false" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
+              <folding>
+                <element signature="e#805#806#0" expanded="true" />
+                <element signature="e#847#848#0" expanded="true" />
+                <element signature="e#2963#2964#0" expanded="true" />
+                <element signature="e#2993#2994#0" expanded="true" />
+                <element signature="e#3036#3037#0" expanded="true" />
+                <element signature="e#3074#3075#0" expanded="true" />
+                <marker date="1523989948100" expanded="true" signature="2624:2666" ph="SELECT usern... USERS" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -71,7 +222,13 @@
       <find>fromUserId</find>
       <find>addFriend</find>
       <find>12345678</find>
+      <find>|~|</find>
+      <find>toJ</find>
+      <find>addL</find>
     </findStrings>
+    <replaceStrings>
+      <replace>~</replace>
+    </replaceStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$</dir>
     </dirStrings>
@@ -85,16 +242,16 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/music_backend.java" />
-        <option value="$PROJECT_DIR$/src/backend_newUser.java" />
         <option value="$PROJECT_DIR$/src/backend_logIn.java" />
-        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/86f2caac-bdf7-4eba-82a0-373d8ed0db06/console.sql" />
         <option value="$PROJECT_DIR$/web/WEB-INF/chat1" />
         <option value="$PROJECT_DIR$/web/index.jsp" />
         <option value="$PROJECT_DIR$/src/ServerMain.java" />
-        <option value="$PROJECT_DIR$/src/backend_getUserInfo.java" />
         <option value="$PROJECT_DIR$/src/User.java" />
         <option value="$PROJECT_DIR$/src/Lobby.java" />
         <option value="$PROJECT_DIR$/src/Database.java" />
+        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/86f2caac-bdf7-4eba-82a0-373d8ed0db06/console.sql" />
+        <option value="$PROJECT_DIR$/src/backend_getUserInfo.java" />
+        <option value="$PROJECT_DIR$/src/backend_newUser.java" />
         <option value="$PROJECT_DIR$/src/handleEvent.java" />
       </list>
     </option>
@@ -131,8 +288,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="AndroidView" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -145,23 +301,13 @@
               <item name="test_backend" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="test_backend" type="b2602c69:ProjectViewProjectNode" />
-              <item name="test_backend" type="462c0819:PsiDirectoryNode" />
-              <item name="web" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="test_backend" type="b2602c69:ProjectViewProjectNode" />
-              <item name="test_backend" type="462c0819:PsiDirectoryNode" />
-              <item name="web" type="462c0819:PsiDirectoryNode" />
-              <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="Scratches" />
-      <pane id="PackagesPane" />
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -174,6 +320,7 @@
     <property name="settings.editor.selected.configurable" value="database.main" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="com.intellij.database.dataSource.DataSourceTemplate" value="MySQL" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -388,11 +535,13 @@
       <workItem from="1523823786171" duration="9828000" />
       <workItem from="1523835315749" duration="47000" />
       <workItem from="1523835421222" duration="17524000" />
+      <workItem from="1523862647064" duration="6071000" />
+      <workItem from="1523983794046" duration="7641000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="75087000" />
+    <option name="totallyTimeSpent" value="88799000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -403,7 +552,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29097223" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29097223" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -417,9 +566,9 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34705883" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18333334" sideWeight="0.47192982" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18333334" sideWeight="0.47192982" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.52156866" order="5" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.52807015" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -427,7 +576,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -452,19 +601,13 @@
           <option name="timeStamp" value="64" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Database.java</url>
-          <line>321</line>
-          <properties />
-          <option name="timeStamp" value="69" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/handleEvent.java</url>
-          <line>128</line>
+          <line>131</line>
           <properties />
           <option name="timeStamp" value="70" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="71" />
+      <option name="time" value="92" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -481,9 +624,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
           <caret line="29" column="54" lean-forward="false" selection-start-line="29" selection-start-column="54" selection-end-line="29" selection-end-column="54" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -491,7 +632,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="420">
           <caret line="31" column="47" lean-forward="false" selection-start-line="31" selection-start-column="47" selection-end-line="31" selection-end-column="47" />
-          <folding />
+          <folding>
+            <marker date="1523989722094" expanded="true" signature="2947:2998" ph="SELECT usern... USERS" />
+            <marker date="1523989722094" expanded="true" signature="3348:3403" ph="SELECT lobby... Lobbies" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -502,7 +646,11 @@
           <folding>
             <element signature="e#805#806#0" expanded="true" />
             <element signature="e#847#848#0" expanded="true" />
-            <marker date="1523857622257" expanded="true" signature="2624:2666" ph="SELECT usern... USERS" />
+            <element signature="e#2963#2964#0" expanded="true" />
+            <element signature="e#2993#2994#0" expanded="true" />
+            <element signature="e#3036#3037#0" expanded="true" />
+            <element signature="e#3074#3075#0" expanded="true" />
+            <marker date="1523989948100" expanded="true" signature="2624:2666" ph="SELECT usern... USERS" />
           </folding>
         </state>
       </provider>
@@ -536,9 +684,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
           <caret line="29" column="54" lean-forward="false" selection-start-line="29" selection-start-column="54" selection-end-line="29" selection-end-column="54" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -546,7 +692,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="420">
           <caret line="31" column="47" lean-forward="true" selection-start-line="31" selection-start-column="47" selection-end-line="31" selection-end-column="47" />
-          <folding />
+          <folding>
+            <marker date="1523989722094" expanded="true" signature="2947:2998" ph="SELECT usern... USERS" />
+            <marker date="1523989722094" expanded="true" signature="3348:3403" ph="SELECT lobby... Lobbies" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -557,7 +706,11 @@
           <folding>
             <element signature="e#805#806#0" expanded="true" />
             <element signature="e#847#848#0" expanded="true" />
-            <marker date="1523857622257" expanded="true" signature="2624:2666" ph="SELECT usern... USERS" />
+            <element signature="e#2963#2964#0" expanded="true" />
+            <element signature="e#2993#2994#0" expanded="true" />
+            <element signature="e#3036#3037#0" expanded="true" />
+            <element signature="e#3074#3075#0" expanded="true" />
+            <marker date="1523989948100" expanded="true" signature="2624:2666" ph="SELECT usern... USERS" />
           </folding>
         </state>
       </provider>
@@ -647,13 +800,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/86f2caac-bdf7-4eba-82a0-373d8ed0db06/console.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="354">
-          <caret line="67" column="21" lean-forward="true" selection-start-line="67" selection-start-column="21" selection-end-line="67" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/WEB-INF/chat1">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
@@ -665,7 +811,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
           <caret line="29" column="13" lean-forward="false" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -673,15 +818,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
           <caret line="5" column="8" lean-forward="false" selection-start-line="5" selection-start-column="2" selection-end-line="5" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/handleEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="429">
-          <caret line="138" column="0" lean-forward="false" selection-start-line="138" selection-start-column="0" selection-end-line="138" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -693,34 +829,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ServerMain.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2838#2839#0" expanded="true" />
-            <element signature="e#2882#2883#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/backend_logIn.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="106">
-          <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://table:/7b30c5c3/86f2caac-bdf7-4eba-82a0-373d8ed0db06/MUSICRT.USERS">
+    <entry file="das://table:/7b30c5c3/86f2caac-bdf7-4eba-82a0-373d8ed0db06/MUSICRT.Music">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
           <filtering enabled="true" />
         </state>
       </provider>
     </entry>
-    <entry file="das://table:/7b30c5c3/86f2caac-bdf7-4eba-82a0-373d8ed0db06/MUSICRT.Music">
+    <entry file="das://table:/7b30c5c3/86f2caac-bdf7-4eba-82a0-373d8ed0db06/MUSICRT.Friendship">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://table:/7b30c5c3/86f2caac-bdf7-4eba-82a0-373d8ed0db06/MUSICRT.Chats">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://table:/7b30c5c3/86f2caac-bdf7-4eba-82a0-373d8ed0db06/MUSICRT.favLobbies">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
           <filtering enabled="true" />
@@ -741,115 +871,132 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/ServerMain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="137">
+          <caret line="33" column="0" lean-forward="false" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#550#559#0" expanded="true" />
+            <element signature="e#3156#3157#0" expanded="true" />
+            <element signature="e#3200#3201#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="237">
+          <caret line="26" column="35" lean-forward="false" selection-start-line="26" selection-start-column="35" selection-end-line="26" selection-end-column="35" />
+          <folding>
+            <marker date="1523989722094" expanded="true" signature="2947:2998" ph="SELECT usern... USERS" />
+            <marker date="1523989722094" expanded="true" signature="3348:3403" ph="SELECT lobby... Lobbies" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/backend_logIn.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="305">
+          <caret line="30" column="45" lean-forward="true" selection-start-line="30" selection-start-column="12" selection-end-line="30" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://table:/7b30c5c3/86f2caac-bdf7-4eba-82a0-373d8ed0db06/MUSICRT.USERS">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/backend_newUser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="39">
-          <caret line="11" column="40" lean-forward="false" selection-start-line="11" selection-start-column="40" selection-end-line="11" selection-end-column="40" />
+        <state relative-caret-position="225">
+          <caret line="23" column="0" lean-forward="false" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/backend_getUserInfo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="166">
-          <caret line="26" column="0" lean-forward="false" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+        <state relative-caret-position="210">
+          <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/User.java">
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/86f2caac-bdf7-4eba-82a0-373d8ed0db06/console.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="35">
-          <caret line="64" column="44" lean-forward="true" selection-start-line="64" selection-start-column="44" selection-end-line="64" selection-end-column="44" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1371#1372#0" expanded="true" />
-            <element signature="e#1415#1416#0" expanded="true" />
-            <element signature="e#4147#4148#0" expanded="true" />
-            <element signature="e#4176#4177#0" expanded="true" />
-            <element signature="e#4639#4640#0" expanded="true" />
-            <element signature="e#4673#4674#0" expanded="true" />
-            <element signature="e#6236#6237#0" expanded="true" />
-            <element signature="e#6277#6278#0" expanded="true" />
-            <element signature="e#6351#6352#0" expanded="true" />
-            <element signature="e#6411#6412#0" expanded="true" />
-            <marker date="1523853771865" expanded="true" signature="2909:2960" ph="SELECT usern... USERS" />
-            <marker date="1523853771865" expanded="true" signature="3310:3365" ph="SELECT lobby... Lobbies" />
-          </folding>
+        <state relative-caret-position="379">
+          <caret line="48" column="27" lean-forward="true" selection-start-line="48" selection-start-column="27" selection-end-line="48" selection-end-column="27" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="das://table:/7b30c5c3/86f2caac-bdf7-4eba-82a0-373d8ed0db06/MUSICRT.favLobbies">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://table:/7b30c5c3/86f2caac-bdf7-4eba-82a0-373d8ed0db06/MUSICRT.Friendship">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Lobby.java">
+    <entry file="file://$PROJECT_DIR$/src/handleEvent.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
-          <caret line="50" column="0" lean-forward="false" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
-          <folding>
-            <element signature="e#805#806#0" expanded="true" />
-            <element signature="e#847#848#0" expanded="true" />
-            <marker date="1523857622257" expanded="true" signature="2624:2666" ph="SELECT usern... USERS" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://table:/7b30c5c3/86f2caac-bdf7-4eba-82a0-373d8ed0db06/MUSICRT.Chats">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
+        <state relative-caret-position="192">
+          <caret line="95" column="0" lean-forward="false" selection-start-line="95" selection-start-column="0" selection-end-line="95" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Database.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="249">
-          <caret line="329" column="0" lean-forward="false" selection-start-line="329" selection-start-column="0" selection-end-line="329" selection-end-column="0" />
+        <state relative-caret-position="184">
+          <caret line="397" column="33" lean-forward="true" selection-start-line="397" selection-start-column="33" selection-end-line="397" selection-end-column="33" />
           <folding>
-            <marker date="1523861199877" expanded="true" signature="1608:1651" ph="SELECT * FRO... USERS" />
-            <marker date="1523861199877" expanded="true" signature="2346:2380" ph="SELECT * FRO... USERS" />
-            <marker date="1523861199877" expanded="true" signature="2846:2896" ph="SELECT * FRO... Friendship" />
-            <marker date="1523861199877" expanded="true" signature="3585:3655" ph="SELECT * FRO... USERSWHERE" />
-            <marker date="1523861199877" expanded="true" signature="4244:4295" ph="SELECT * FRO... Lobbies" />
-            <marker date="1523861199877" expanded="true" signature="4810:4849" ph="SELECT * FRO... Lobbies" />
-            <marker date="1523861199877" expanded="true" signature="5480:5522" ph="SELECT * FRO... LobbyUsers" />
-            <marker date="1523861199877" expanded="true" signature="6073:6147" ph="INSERT INTO LobbyUsers... " />
-            <marker date="1523861199877" expanded="true" signature="6731:6768" ph="SELECT * FRO... Music" />
-            <marker date="1523861199877" expanded="true" signature="7369:7426" ph="DELETE FROM Music... " />
-            <marker date="1523861199877" expanded="true" signature="7838:7886" ph="UPDATE Lobbies... " />
-            <marker date="1523861199877" expanded="true" signature="8303:8346" ph="UPDATE Lobbies... " />
-            <marker date="1523861199877" expanded="true" signature="8813:8854" ph="SELECT * FRO... favLobbies" />
-            <marker date="1523861199877" expanded="true" signature="9404:9442" ph="SELECT * FRO... Lobbies" />
-            <marker date="1523861199877" expanded="true" signature="9972:10017" ph="UPDATE Users... " />
-            <marker date="1523861199877" expanded="true" signature="10434:10474" ph="UPDATE Users... " />
-            <marker date="1523861199877" expanded="true" signature="10884:10927" ph="INSERT INTO Friendship... " />
-            <marker date="1523861199877" expanded="true" signature="10884:10940" ph="INSERT INTO Friendship... " />
-            <marker date="1523861199877" expanded="true" signature="11355:11405" ph="UPDATE Users... " />
-            <marker date="1523861199877" expanded="true" signature="11854:11898" ph="UPDATE Chats... " />
-            <marker date="1523861199877" expanded="true" signature="12323:12369" ph="UPDATE User... " />
-            <marker date="1523861199877" expanded="true" signature="12800:12847" ph="UPDATE Lobbies... " />
-            <marker date="1523861199877" expanded="true" signature="13280:13331" ph="INSERT INTO favLobbies... " />
-            <marker date="1523861199877" expanded="true" signature="13784:13840" ph="INSERT INTO Lobbies... " />
-            <marker date="1523861199877" expanded="true" signature="14083:14134" ph="INSERT INTO favLobbies... " />
-            <marker date="1523861199877" expanded="true" signature="14293:14344" ph="INSERT INTO LobbyUsers... " />
-            <marker date="1523861199877" expanded="true" signature="14793:14841" ph="INSERT INTO Music... " />
-            <marker date="1523861199877" expanded="true" signature="15275:15311" ph="SELECT * FRO... Music" />
-            <marker date="1523861199877" expanded="true" signature="15739:15775" ph="SELECT * FRO... Chats" />
-            <marker date="1523861199877" expanded="true" signature="16215:16266" ph="SELECT userI... USERS" />
-            <marker date="1523861199877" expanded="true" signature="16709:16755" ph="SELECT lobby... Lobbies" />
-            <marker date="1523861199877" expanded="true" signature="17242:17268" ph="SELECT usern... USERS" />
-            <marker date="1523861199877" expanded="true" signature="17757:17786" ph="SELECT lobby... Lobbies" />
+            <marker date="1523995603184" expanded="true" signature="965:1031" ph="INSERT INTO USERS... " />
+            <marker date="1523995603184" expanded="true" signature="1609:1652" ph="SELECT * FRO... USERS" />
+            <marker date="1523995603184" expanded="true" signature="2347:2381" ph="SELECT * FRO... USERS" />
+            <marker date="1523995603184" expanded="true" signature="2847:2897" ph="SELECT * FRO... Friendship" />
+            <marker date="1523995603184" expanded="true" signature="3586:3656" ph="SELECT * FRO... USERSWHERE" />
+            <marker date="1523995603184" expanded="true" signature="4245:4296" ph="SELECT * FRO... Lobbies" />
+            <marker date="1523995603184" expanded="true" signature="4811:4850" ph="SELECT * FRO... Lobbies" />
+            <marker date="1523995603184" expanded="true" signature="5481:5523" ph="SELECT * FRO... LobbyUsers" />
+            <marker date="1523995603184" expanded="true" signature="6074:6148" ph="INSERT INTO LobbyUsers... " />
+            <marker date="1523995603184" expanded="true" signature="6732:6769" ph="SELECT * FRO... Music" />
+            <marker date="1523995603184" expanded="true" signature="7370:7427" ph="DELETE FROM Music... " />
+            <marker date="1523995603184" expanded="true" signature="7839:7887" ph="UPDATE Lobbies... " />
+            <marker date="1523995603184" expanded="true" signature="8304:8347" ph="UPDATE Lobbies... " />
+            <marker date="1523995603184" expanded="true" signature="8814:8855" ph="SELECT * FRO... favLobbies" />
+            <marker date="1523995603184" expanded="true" signature="9405:9443" ph="SELECT * FRO... Lobbies" />
+            <marker date="1523995603184" expanded="true" signature="9973:10018" ph="UPDATE Users... " />
+            <marker date="1523995603184" expanded="true" signature="10435:10475" ph="UPDATE Users... " />
+            <marker date="1523995603184" expanded="true" signature="10885:10928" ph="INSERT INTO Friendship... " />
+            <marker date="1523995603184" expanded="true" signature="10885:10941" ph="INSERT INTO Friendship... " />
+            <marker date="1523995603184" expanded="true" signature="11356:11406" ph="UPDATE Users... " />
+            <marker date="1523995603184" expanded="true" signature="11855:11899" ph="UPDATE Chats... " />
+            <marker date="1523995603184" expanded="true" signature="12324:12370" ph="UPDATE User... " />
+            <marker date="1523995603184" expanded="true" signature="12801:12848" ph="UPDATE Lobbies... " />
+            <marker date="1523995603184" expanded="true" signature="13281:13332" ph="INSERT INTO favLobbies... " />
+            <marker date="1523995603184" expanded="true" signature="13785:13841" ph="INSERT INTO Lobbies... " />
+            <marker date="1523995603184" expanded="true" signature="14084:14135" ph="INSERT INTO favLobbies... " />
+            <marker date="1523995603184" expanded="true" signature="14294:14345" ph="INSERT INTO LobbyUsers... " />
+            <marker date="1523995603184" expanded="true" signature="14794:14842" ph="INSERT INTO Music... " />
+            <marker date="1523995603184" expanded="true" signature="15276:15312" ph="SELECT * FRO... Music" />
+            <marker date="1523995603184" expanded="true" signature="15740:15776" ph="SELECT * FRO... Chats" />
+            <marker date="1523995603184" expanded="true" signature="16216:16267" ph="SELECT userI... USERS" />
+            <marker date="1523995603184" expanded="true" signature="16710:16756" ph="SELECT lobby... Lobbies" />
+            <marker date="1523995603184" expanded="true" signature="17243:17269" ph="SELECT usern... USERS" />
+            <marker date="1523995603184" expanded="true" signature="17758:17787" ph="SELECT lobby... Lobbies" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Lobby.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="44" column="0" lean-forward="false" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
+          <folding>
+            <element signature="e#805#806#0" expanded="true" />
+            <element signature="e#847#848#0" expanded="true" />
+            <element signature="e#2963#2964#0" expanded="true" />
+            <element signature="e#2993#2994#0" expanded="true" />
+            <element signature="e#3036#3037#0" expanded="true" />
+            <element signature="e#3074#3075#0" expanded="true" />
+            <marker date="1523989948100" expanded="true" signature="2624:2666" ph="SELECT usern... USERS" />
           </folding>
         </state>
       </provider>

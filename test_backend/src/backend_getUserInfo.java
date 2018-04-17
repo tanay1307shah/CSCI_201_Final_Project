@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.crypto.Data;
+import java.awt.image.DataBuffer;
 import java.io.IOException;
 
 @WebServlet("/backend_getUserInfo")

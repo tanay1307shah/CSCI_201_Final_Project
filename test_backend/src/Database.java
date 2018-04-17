@@ -29,7 +29,7 @@ public class Database {
     public static int createUser(String username, String password, String imgLocation, String email) {
         try {
             PreparedStatement ps = null;
-            ps = conn.prepareStatement("INSER INTO USERS(username,pwd,imgLocation,email) VALUES (?,?,?,?)");
+            ps = conn.prepareStatement("INSERT INTO USERS(username,pwd,imgLocation,email) VALUES (?,?,?,?)");
             ps.setString(1, username);
             ps.setString(2, password);
             ps.setString(3, imgLocation);

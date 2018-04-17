@@ -47,6 +47,7 @@ $(function(){
 	$("#container2 .signup").click(function(){
 		// sign up validation
 		$(".error").addClass("hidden");
+		const imgLocaitn = $("#container2 .profilePhoto").val();
 		const username = $("#container2 .username").val();
 		const userEmail = $("#container2 .userEmail").val();
 		const password = $("#container2 .password").val();
@@ -67,7 +68,7 @@ $(function(){
 		// 		window.location.href = "lobby/";
 		// 	}
 		// });
-		$.get('http://192.168.137.125:8080/backend_newUser?userName=' + username + '&userEmail='+userEmail+'&password=' + password,function(data){
+		$.get('http://localhost:8080/backend_newUser?userName=' + username + '&userEmail='+userEmail+'&password=' + password + "&imgLocation=" + imgLocaitn,function(data){
 			console.log(data);
 			if(data === 'WRONG') {
 				$(".error").removeClass("hidden");
@@ -76,7 +77,6 @@ $(function(){
 				window.location.replace("lobby/index.html");
 			}
 		});
-		window.location.href = "lobby/index.html";
 	});
 	$("#container3 .login").click(function(){
 		// login validation
@@ -87,7 +87,7 @@ $(function(){
 			$("#container3 .error").removeClass("hidden");
 			return;
 		}
-		$.get('http://192.168.137.125:8080/backend_logIn?'+'userEmail='+userEmail+'&password=' + password,function(data){
+		$.get('http://localhost:8080/backend_logIn?'+'userEmail='+userEmail+'&password=' + password,function(data){
 			console.log(data);
 			if(data === 'WRONG') {
 				$(".error").removeClass("hidden");
@@ -96,6 +96,6 @@ $(function(){
 				window.location.replace("lobby/index.html");
 			}
 		});
-		window.location.href = "lobby/index.html";
+		//window.location.href = "lobby/index.html";
 	});
 });

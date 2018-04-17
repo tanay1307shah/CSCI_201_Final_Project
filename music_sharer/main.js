@@ -19,7 +19,7 @@ function createWindow () {
     height: 600,
     show: false,
     minWidth: 700,
-    minHeight: 600,
+    minHeight: 700,
     center: true,
     title: "Music Sharer",
     backgroundColor: "#200122"})
@@ -37,7 +37,7 @@ function createWindow () {
   // console.log(app.getAppPath())
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+   mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
