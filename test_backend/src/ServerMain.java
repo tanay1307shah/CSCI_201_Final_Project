@@ -75,8 +75,10 @@ public class ServerMain {
                     }
                 }
             }
-        } else if (event.equals("Message")) { //event
+        } else if (event.equals("Message")) {//event
+            String user = parts[4];
             String messageToSend = parts[3];
+            String totalMsg = user + ": " + messageToSend;
             String output = "SendMessage~" + userList + "~" + currentLobbyId + "~" + messageToSend;
             for (Session users : sessions) {
                 if (users != session) {

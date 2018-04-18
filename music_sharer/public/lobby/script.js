@@ -8,11 +8,8 @@ var current_chat = 0;
 var isProfileShowing = 0;
 var userInfo;
 var currentLobby = null;
+var ip = "localhost";
 var socket;
-var currentIP = "localhost";
-var joinOnlyCurrentTime = 0;
-
-
 $(function () {
     // get all user info
     getAllUserInfo();
@@ -20,10 +17,11 @@ $(function () {
 });
 
 function connectToServer() {
-    socket = new WebSocket("ws://" + currentIP + ":8080/ws");
+    socket = new WebSocket("ws://" +ip+ ":8080/ws");
 
     socket.onopen = function (ev) {
         console.log("Connected to Server!");
+
     };
     socket.onmessage = function (event) {
         var msgData = event.data.split("~");
@@ -40,11 +38,13 @@ function connectToServer() {
         var lobbyID = msgData[2];
         console.log("Current Lobby Id: " + lobbyID);
 
-        console.log("LobbyID(" + lobbyID + "):::(" + userInfo.currentLobby + ") Your currentLobby");
+        console.log("LobbyID("+ lobbyID + "):::(" + userInfo.currentLobby + ") Your currentLobby");
         //alert("LobbyID("+ lobbyID + "):::(" + userInfo.currentLobby + ") Your currentLobby");
 
 
-        if (lobbyID == userInfo.currentLobby) {
+
+
+        if(lobbyID == userInfo.currentLobby) {
             for (var ID in userInts) {
                 console.log("CeckID(" + userInts[ID] + "):::(" + currentUserId + ") YourID");
                 if (userInts[ID] == currentUserId) {
@@ -63,13 +63,11 @@ function connectToServer() {
                         $("#audio")[0].pause();
                         playing = 0;
                         return;
-                    } else if (action === "UpdateCurrentTime") {
-                        joinOnlyCurrentTime = msgData[3];
-                    }
-                    else if (action === "SendMessage") {
+                    } else if (action === "SendMessage") {
                         var msgToSend = msgData[3];
                         console.log(msgToSend);
-                        $("#message" + current_chat).append('<div class="text"><span>somebody: </span><br>' + msgToSend + '</div>');
+                        var m = msgToSend.split(":");
+                        $("#message" + current_chat).append('<div class="text"><span>'+m[0]+': </span><br>' + m[1] + '</div>');
                     }
                 }
             }
@@ -82,43 +80,24 @@ function connectToServer() {
     };
 }
 
-
-
-// function updateCurrentTime() {
-//     console.log("updaitng current itme: " + $("#audio")[0].currentTime);
-//     if (currentLobby) {
-//         socket.send("MusicControl~UpdateCurrentTime~" + currentLobby.name + "~" + $("#audio")[0].currentTime);
-//     }
-// }
-
-
 function bindAllEvent() {
     // music control
     $("#play_button").click(function () {
-        currentLobby.currentSongTime = $("#audio")[0].currentTime;
-        if (playing == 0) {
-            console.log("------------PLAY BUTTON EVENT------------");
-            console.log("current ID (" + userInfo.id + "):::(" + currentLobby.host + ") currentLobbyHost");
-            if (currentLobby.host === userInfo.id) {
-                console.log("Song current time is: " + currentLobby.currentSongTime);
-                socket.send("MusicControl~PlayMusic~" + currentLobby.name + "~" + currentLobby.currentSongTime);
-                currentLobby.isPlayingMusic = 1;
-
-            }
-        }
-        else {
-            if (currentLobby.host === userInfo.id) {
-                console.log("------------STOP BUTTON EVENT------------");
+            if (playing == 0) {
+                console.log("------------PLAY BUTTON EVENT------------");
                 console.log("current ID (" + userInfo.id + "):::(" + currentLobby.host + ") currentLobbyHost");
-                console.log("Song current time is: " + currentLobby.currentSongTime);
                 if (currentLobby.host === userInfo.id) {
-                    socket.send("MusicControl~StopMusic~" + currentLobby.name + "~" + currentLobby.currentSongTime);
-                    currentLobby.isPlayingMusic = 0;
+                    socket.send("MusicControl~PlayMusic~" + currentLobby.name);
                 }
             }
-        }
+            else {
+                if (currentLobby.host === userInfo.id) {
+                    console.log("------------STOP BUTTON EVENT------------");
+                    console.log("current ID (" + userInfo.id + "):::(" + currentLobby.host + ") currentLobbyHost");
+                    socket.send("MusicControl~StopMusic~" + currentLobby.name);
+                }
+            }
     });
-
     $("#previous_button").click(function () {
         song_index--;
         if (song_index < 0) {
@@ -205,6 +184,9 @@ function bindAllEvent() {
         var username = $("#otherUserModal .username").text();
         addFriend(username);
     });
+    $(".log_out").click(function(){
+        fantasticEnding();
+    });
 }
 
 function addFriend(friendName) {
@@ -212,7 +194,7 @@ function addFriend(friendName) {
     var hostId = userInfo.id;
     userInfo.friendsListStrings.push(friendName);
     $("#friends_list .names").append('<div class="name">' + friendName + '</div>');
-    $.get('http://' + currentIP + ':8080/handleEvent?event=addFriend&friendName=' + friendName + '&hostId=' + hostId, function (data) {
+    $.get('http://' + ip + ':8080/handleEvent?event=addFriend&friendName=' + friendName + '&hostId=' + hostId, function (data) {
         hideOtherUserModal();
     });
 }
@@ -223,7 +205,7 @@ function addLobby(_lobbyName) {
     // var lobbyPassword = $(".lobby_password").val();
     userInfo.favoriteLobbiesString.push(_lobbyName);
     $("#lobby_list .names").append('<div class="name">' + _lobbyName + '</div>');
-    $.get('http://' + currentIP + ':8080/handleEvent?event=addLobby&hostId=' + hostId + '&lobbyName=' + _lobbyName, function (data) {
+    $.get('http://' + ip + ':8080/handleEvent?event=addLobby&hostId=' + hostId + '&lobbyName=' + _lobbyName, function (data) {
         console.log(data);
         unbindEvent("#search_list .name");
         $("#lobby_list .name").click(function (event) {
@@ -310,7 +292,7 @@ function searching() {
     }
     // call ajax to get searched info
 
-    $.get('http://' + currentIP + ':8080/handleEvent?event=search&searchType=' + searchType + '&searchStr=' + searchStr, function (data) {
+    $.get('http://' + ip + ':8080/handleEvent?event=search&searchType=' + searchType + '&searchStr=' + searchStr, function (data) {
         var results = data.split(',');
         for (var i = 0; i < results.length; i++) {
             var $div = $("<div>", {class: "name"});
@@ -351,8 +333,8 @@ function changeChat(i) {
 }
 
 function sendMsg(str) {
-    socket.send("Message~Send~" + currentLobby.name + "~" + str);
-    $("#message" + current_chat).append('<div class="text my_text"><span>Joe: </span><br>' + str + '</div>');
+    socket.send("Message~Send~" + currentLobby.name + "~" + userInfo.username +"~"+ str);
+    $("#message" + current_chat).append('<div class="text my_text"><span>'+userInfo.username+': </span><br>' + str + '</div>');
 }
 
 function scrollToBottom(str) {
@@ -362,7 +344,7 @@ function scrollToBottom(str) {
 }
 
 function getAllUserInfo() {
-    $.get('http://' + currentIP + ':8080/backend_getUserInfo', function (data) {
+    $.get('http://' + ip + ':8080/backend_getUserInfo', function (data) {
         userInfo = JSON.parse(data);
         console.log(userInfo);
 
@@ -371,7 +353,6 @@ function getAllUserInfo() {
         populateLobbyList();
         // populateCurrentLobby();
         populateProfile();
-        populateChats();
         bindAllEvent();
         // userInfo = '{"username":"AlexVal","password":"test1323","userEmail":"alex@gmail.com","friendsList":[],"songLocation":null,"favoriteLobbiesStrings":[],"hostedLobbies":[],"platinumUser":false,"chatFilesLocation":null,"imgLocation":null,"currentLobby":null}';
         // console.log(userInfo);
@@ -388,7 +369,7 @@ function getAllUserInfo() {
 }
 
 function populateUserInfo() {
-    if (userInfo.imgLocation == null) {
+    if (userInfo.imgLocation == null||userInfo.imgLocation=="") {
         userInfo.imgLocation = "../assets/images/no_image.jpg";
     }
     $("#side_bar img").attr("src", userInfo.imgLocation);
@@ -431,10 +412,11 @@ function populateLobbyList() {
 }
 
 function populateCurrentLobby() {
+    $("#lobby_control .member_list").empty();
     $("#lobby_control .username span").text(currentLobby.name);
     $("#lobby_control .password span").text(currentLobby.password);
     if (currentLobby.peopleInLobbyString != null) {
-        $("#lobby_control .number_member span").text(currentLobby.peopleInLobbyString.length);
+        // $("#lobby_control .number_member span").text(currentLobby.peopleInLobbyString.length);
         for (var i = 0; i < currentLobby.peopleInLobbyString.length; i++) {
             $("#lobby_control .member_list").append('<div class="name">' + currentLobby.peopleInLobbyString[i] + '</div>');
         }
@@ -454,7 +436,20 @@ function populateProfile() {
 }
 
 function populateChats() {
-
+    var lobbyName = currentLobby.name;
+    $.get('http://' + ip + ':8080/handleEvent?event=getChat&lobbyName=' + lobbyName, function (data) {
+        // var data = "Joe:hello,Alex:hello2,Daniel:Hello3,";
+        var chats = data.split(",");
+        // console.log(chats.length);
+        for (var i = 0; i < chats.length-1; i++) {
+            var msg = chats[i].split(":");
+            if (msg[0]=="Joe") {
+                $("#message" + current_chat).append('<div class="text my_text"><span>'+msg[0]+': </span><br>' + msg[1] + '</div>');
+            } else {
+                $("#message" + current_chat).append('<div class="text"><span>'+msg[0]+': </span><br>' + msg[1] + '</div>');
+            }
+        }
+    });
 }
 
 function showEditModal() {
@@ -478,7 +473,7 @@ function createLobby() {
     var lobbyPassword = $(".lobby_password").val();
     userInfo.favoriteLobbiesString.push(_lobbyName);
     $("#lobby_list .names").append('<div class="name">' + _lobbyName + '</div>');
-    $.get('http://' + currentIP + ':8080/handleEvent?event=createLobby&hostId=' + hostId + '&lobbyName=' + _lobbyName + '&lobbyPassword=' + lobbyPassword, function (data) {
+    $.get('http://' + ip + ':8080/handleEvent?event=createLobby&hostId=' + hostId + '&lobbyName=' + _lobbyName + '&lobbyPassword=' + lobbyPassword, function (data) {
         console.log(data);
         unbindEvent("#search_list .name");
         $("#lobby_list .name").click(function (event) {
@@ -489,8 +484,8 @@ function createLobby() {
     });
     // unbindEvent("#search_list .name");
     // $("#lobby_list .name").click(function(event){
-    // 	var lobbyName = event.target.innerHTML;
-    // 	switchLobby(lobbyName);
+    //  var lobbyName = event.target.innerHTML;
+    //  switchLobby(lobbyName);
     // });
     // switchLobby(lobbyName);
 }
@@ -511,13 +506,25 @@ function hideCreateModal() {
 
 function showOtherUserModal(username) {
     // check if the user is a friend
-
+    var isFriend = 0;
+    for (var i = 0; i < userInfo.friendsListStrings.length; i++) {
+        if (userInfo.friendsListStrings[i]==username) {
+            isFriend = 1;
+        }
+        
+    }
+    if (isFriend==1) {
+        $(".addFriendBtn").css("display","hidden");
+    } else {
+        $(".addFriendBtn").css("display","block");
+    }
+    
     // get a user's info when clicking a friend in friends list, need the user's info in write back
-    $.get('http://' + currentIP + ':8080/handleEvent?event=getUserInfo&username=' + username, function (data) {
+    $.get('http://' + ip + ':8080/handleEvent?event=getUserInfo&username=' + username, function (data) {
         var that_user = JSON.parse(data);
         console.log(that_user);
         // populate the modal
-        if (that_user.imgLocation == null) {
+        if (that_user.imgLocation == null||userInfo.imgLocation=="") {
             that_user.imgLocation = "../assets/images/no_image.jpg";
         }
         $("#otherUserModal img").attr("src", that_user.imgLocation);
@@ -561,10 +568,10 @@ function showOtherUserModal(username) {
         }, 500);
     });
     // var that_user = JSON.parse('{"username":"Shi Zeng","password":"zeng","friendsList":[{"username":"Alex"},{"username":"Daniel"},{"username":"Tanay"}],'+
-    // 	'"imgLocation":null,"favoriteLobbiesStrings":["Alex\'s","Daniel\'s","Tanay\'s"],"hostedLobbies":["Joe\'s"],"platinumUser":false,"id":1}');
+    //  '"imgLocation":null,"favoriteLobbiesStrings":["Alex\'s","Daniel\'s","Tanay\'s"],"hostedLobbies":["Joe\'s"],"platinumUser":false,"id":1}');
     // // populate the modal
     // if (that_user.imgLocation==null) {
-    // 	that_user.imgLocation = "../assets/images/no_image.jpg";
+    //  that_user.imgLocation = "../assets/images/no_image.jpg";
     // }
     // $("#otherUserModal img").attr("src", that_user.imgLocation);
     //    $("#otherUserModal .username").text(that_user.username);
@@ -576,26 +583,26 @@ function showOtherUserModal(username) {
     //        $("#other_friends_list .names").append($div);
     //    } else {
     //        for (var i = 0; i < that_user.friendsList.length; i++) {
-    //        	var $div = $("<div>", {class: "name"});
+    //          var $div = $("<div>", {class: "name"});
     //            $div.append(that_user.friendsList[i].username);
     //            $("#other_friends_list .names").append($div);
     //        }
     //    }
     //    $("#other_lobby_list .names").empty();
     //    if ((that_user.hostedLobbies==null||that_user.hostedLobbies.length === 0)
-    // 	&& (that_user.favoriteLobbiesStrings==null||that_user.favoriteLobbiesStrings.length === 0)) {
+    //  && (that_user.favoriteLobbiesStrings==null||that_user.favoriteLobbiesStrings.length === 0)) {
     //    } else {
     //        if(that_user.hostedLobbies.length === 0){
     //        }else{
-    //        	for (var i = 0; i < that_user.hostedLobbies.length; i++) {
-    //        		$("#other_lobby_list .names").append('<div class="name">'+that_user.hostedLobbies[i]+'</div>');
-    //        	}
+    //          for (var i = 0; i < that_user.hostedLobbies.length; i++) {
+    //              $("#other_lobby_list .names").append('<div class="name">'+that_user.hostedLobbies[i]+'</div>');
+    //          }
     //        }
     //        if(that_user.favoriteLobbiesStrings.length === 0){
     //        }else{
-    // 		for (var i = 0; i < that_user.favoriteLobbiesStrings.length; i++) {
-    //        		$("#other_lobby_list .names").append('<div class="name">'+that_user.favoriteLobbiesStrings[i]+'</div>');
-    //        	}
+    //      for (var i = 0; i < that_user.favoriteLobbiesStrings.length; i++) {
+    //              $("#other_lobby_list .names").append('<div class="name">'+that_user.favoriteLobbiesStrings[i]+'</div>');
+    //          }
     //        }
     //    }
 
@@ -603,7 +610,7 @@ function showOtherUserModal(username) {
     // $("#otherUserModal").css("opacity",0);
     // $("#otherUserModal").removeClass("hidden");
     // $("#otherUserModal").animate({
-    // 	opacity:"1"
+    //  opacity:"1"
     // },500);
 }
 
@@ -614,7 +621,7 @@ function hideOtherUserModal() {
 function switchLobby(lobbyName) {
     console.log("calling ajax to get lobby info");
     // get a lobby's info when clicking a friend in friends list, need the lobby's info in write back
-    $.get('http://' + currentIP + ':8080/handleEvent?event=getLobbyInfo&lobbyName=' + lobbyName, function (data) {
+    $.get('http://' + ip + ':8080/handleEvent?event=getLobbyInfo&lobbyName=' + lobbyName, function (data) {
         // console.log(data);
         // data = '{"name":"firstTestLobby","password":"test","host":2,"peopleInLobbyString":[1,2,4,3],"publicBool":true,"ints":[]}';
         // console.log(data);
@@ -626,15 +633,6 @@ function switchLobby(lobbyName) {
         //if user is host show controle buttons here
         //
         ////
-        // alert(joinOnlyCurrentTime);
-        // if (currentLobby.isPlayingMusic == 1) {
-        //     $("#audio")[0].currentTime = joinOnlyCurrentTime;
-        //     $("#audio")[0].play();
-        // } else {
-        //     $("#audio")[0].currentTime = joinOnlyCurrentTime;
-        //     $("#audio")[0].pause();
-        // }
-
         if (currentLobby === null) {
             currentLobby = JSON.parse('{"name":"no lobby selected","password":"","host":0,"peopleInLobbyString":[],"ints":[],"publicBool":true}');
         }
@@ -642,11 +640,12 @@ function switchLobby(lobbyName) {
         // currentLobby.password = data.password;
         // currentLobby.peopleInLobbyString = data.peopleInLobbyString;
         populateCurrentLobby();
+        populateChats();
     });
     // var data = JSON.parse('{"name":"firstTestLobby","password":"test","host":2,"peopleInLobbyString":["Joe","Joe","Joe"],"ints":[],"publicBool":true}');
     // console.log(data);
     // if(currentLobby === null){
-    // 	currentLobby = JSON.parse('{"name":"no lobby selected","password":"","host":1,"peopleInLobbyString":[],"ints":[],"publicBool":true}');
+    //  currentLobby = JSON.parse('{"name":"no lobby selected","password":"","host":1,"peopleInLobbyString":[],"ints":[],"publicBool":true}');
     //    }
     // currentLobby.name = lobbyName;
     // currentLobby.password = data.password;
@@ -665,7 +664,7 @@ function modifyInfo() {
     populateProfile();
     // send the change to the server
     var hostId = userInfo.id;
-    $.get('http://' + currentIP + ':8080/handleEvent?event=editCurrentUser&hostId=' + hostId +
+    $.get('http://'+ ip +':8080/handleEvent?event=editCurrentUser&hostId=' + hostId +
         '&newUsername=' + new_username +
         '&newPassword=' + new_password +
         '&newImgLocation=' + new_profile_photo, function (data) {
@@ -673,6 +672,31 @@ function modifyInfo() {
     });
 }
 
+function fantasticEnding(){
+    $(".container").animate({
+        opacity:"0"
+    },1000, function() {
+        $(".container").addClass("hidden");
+    });
+    $("#thankYouEnding").css("opacity","0");
+    $("#thankYouEnding").removeClass("hidden").animate({
+        opacity: "1"
+    },3000, function() {
+        $("#thankYouEnding").animate({
+            opacity:"0"
+        },2000, function() {
+            $("#thankYouEnding").addClass("hidden");
+            var height = 0-($("#fantasticEnding").height()+200);
+            console.log(height);
+            $("#fantasticEnding").removeClass("hidden").animate({
+                top: height
+            }, 30000, "linear", function() {
+                window.location.replace("../index.html");
+            });
+        });
+    });
+    
+}
 
 
 

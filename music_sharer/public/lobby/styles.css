@@ -4,6 +4,7 @@ body {
   background: -webkit-linear-gradient(to right, #6f0000, #200122);  /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, #6f0000, #200122); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   font-family: 'Raleway', sans-serif;
+  overflow: hidden;
 }
 
 
@@ -74,6 +75,9 @@ body {
   overflow: scroll;
   height: 100px;
   /*margin-top: 10px;*/
+}
+.list .names::-webkit-scrollbar{
+  display: none;
 }
 .list .name{
   height: 30px;
@@ -262,6 +266,9 @@ search content styling
   display: none;
   overflow: scroll;
 }
+#search_content::-webkit-scrollbar{
+  display: none;
+}
 #hide_content_btn{
   cursor: pointer;
   border: 1px solid rgba(255,255,255,1);
@@ -284,8 +291,11 @@ search content styling
 }
 #search_list{
   border-top: 1px solid rgba(255,255,255,0.3);
+  height: 60%;
 }
-
+#search_list .names{
+  /*height: 80%;*/
+}
 
 
 
@@ -372,6 +382,9 @@ lobby info
   border-top: 1px solid rgba(255,255,255,0.3);
   /*margin-bottom: 20px;*/
 }
+.member_list::-webkit-scrollbar{
+  display: none;
+}
 .member_list .name{
   height: 25px;
   line-height: 25px;
@@ -432,6 +445,9 @@ chating room styling
   /*align-content: center;*/
   overflow: scroll;
 }
+.tabs::-webkit-scrollbar{
+  display: none;
+}
 .tabs .button{
   width: 100px;
   height: 100%;
@@ -472,6 +488,9 @@ chating room styling
   flex-direction: column;
   align-items: flex-start;
   overflow: scroll;
+}
+.message::-webkit-scrollbar{
+  display: none;
 }
 .text{
   /*min-height: 25px;*/
@@ -530,6 +549,9 @@ music control styling
   justify-content: center;
   align-items: center;
 }
+#music_control::-webkit-scrollbar{
+  display: none;
+}
 #music_control img{
   display: block;
   width: 50px;
@@ -583,6 +605,9 @@ music control styling
   background: linear-gradient(to right, #6f0000, #200122); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   overflow: scroll;
 }
+.modal_content::-webkit-scrollbar{
+  display: none;
+}
 .modal_content button{
   /*flex: none;*/
   margin-top: 20px !important;
@@ -634,6 +659,74 @@ music control styling
 .addFriendBtn{
   min-height: 50px !important;
 }
+#thankYouEnding{
+  font-size: 50px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+#fantasticEnding{
+  width: 100%;
+  font-size: 20px;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+#credits{
+  width: 100%;
+}
+#fantasticEnding #credits .title{
+  font-size: 25px;
+  font-weight: bold;
+  /*height: 100px;*/
+  margin-bottom: 120px;
+  /*line-height: 20px;*/
+  /*border-bottom: 1px solid white;*/
+}
+#fantasticEnding #credits div{
+  height: 60px;
+  width: 100%;
+  text-align: center;
+}
+#fantasticEnding #specialThanks div{
+  height: 60px;
+  width: 100%;
+  text-align: center;
+}
+#fantasticEnding #specialThanks .title{
+  font-size: 25px;
+  font-weight: bold;
+  /*height: 100px;*/
+  margin-bottom: 120px;
+  /*line-height: 20px;*/
+  /*border-bottom: 1px solid white;*/
+}
+#specialThanks{
+  width: 100%;
+  margin-top: 100px;
+  line-height: 20px;
+}
+#fantasticEnding #tech_used div{
+  height: 60px;
+  width: 100%;
+  text-align: center;
+}
+#fantasticEnding #tech_used .title{
+  font-size: 25px;
+  font-weight: bold;
+  /*height: 100px;*/
+  margin-bottom: 120px;
+  /*line-height: 20px;*/
+  /*border-bottom: 1px solid white;*/
+}
+#tech_used{
+  width: 100%;
+  margin-top: 100px;
+  line-height: 20px;
+}
+
 
 .hidden{
   display: none;
@@ -642,6 +735,10 @@ music control styling
   font-weight: bold;
   font-style: italic;
   color: rgba(255,255,255,0.5);
+}
+.italic{
+  font-style: italic;
+  color: grey;
 }
 
 

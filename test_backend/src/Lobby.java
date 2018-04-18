@@ -1,6 +1,8 @@
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -53,7 +55,8 @@ public class Lobby {
         this.isPlayingMusic = isPlayingMusic;
     }
 
-    /** Generates a lobby.
+    /**
+     * Generates a lobby.
      * Make sure to first check if the lobby name is in use using
      * Database.isLobby(name)
      */
@@ -65,7 +68,23 @@ public class Lobby {
         if (isPublic == false) {
             this.password = password;
         }
+        String chatFileName = name + "CHAT.chat";
+        String chatLocation = "/WEB-INF/" + chatFileName;
+        String chatLocationToOpenNewFile = "/Users/Alex/git/CSCI_201_Final_Project/test_backend/web" + chatLocation;
+        File file = new File(chatLocationToOpenNewFile);
+        //Create the file
+        try {
+            if (file.createNewFile()) {
+                System.out.println("File " + chatFileName + "is created!");
+            } else {
+                System.out.println("File already exists.");
+            }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+
         this.lobbyID = Database.createLobby(host, name, password, isPublic);
+        Database.setChatFilesLocationForLobby(this.lobbyID, chatLocation);
     }
 
     /**
@@ -85,10 +104,10 @@ public class Lobby {
             songList = Database.getSongsFromLobby(lobbyID);
 //            songTime = rs.getInt("currentTime");
             chatFilesLocation = Database.getChatLocation(lobbyID);
-            for(int i : peopleInLobby){
+            for (int i : peopleInLobby) {
                 PreparedStatement ps = null;
                 ps = Database.conn.prepareStatement("SELECT username FROM USERS WHERE userId =?");
-                ps.setInt(1,i);
+                ps.setInt(1, i);
                 rs = ps.executeQuery();
                 rs.next();
                 peopleInLobbyString.add(rs.getString("username"));
@@ -120,6 +139,7 @@ public class Lobby {
         }
 
     }
+
     //Adds a user to the lobby
     //note that the privelege of the user is not checked here
     public void addUser(int userID) {

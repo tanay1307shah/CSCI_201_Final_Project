@@ -19,8 +19,7 @@
 	    <div class="container">
 		    <div id="side_bar">
 		    	<div class="image"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRg4aU635mNHiuLkJEPEc-9ZgM-aOGcQ_qUFPBfMMZVmplfM-3Xuw"></div>
-		    	<div class="des"><span class="username"></span>
-		    		<br><span class="email">bonus@usc.edu</span></div>
+		    	<div class="des"><span class="username"></div>
 		    	<div id="friends_list" class="list">
 		    		<div class="title">Friends List</div>
 		    		<div class="names">
@@ -73,14 +72,14 @@
 				    			<div id="info_items">
 					    			<div class="info_item username">Name: <span class="bold"></span></div>
 					    			<div class="info_item password">Password: <span class="bold"></span></div>
-					    			<div class="info_item number_member">Number of People: <span class="bold"></span></div>
+					    			<div class="info_item number_member">Members: <span class="bold"></span></div>
 					    		</div>
 				    			<div class="member_list">
 				    				<!-- <div class="name">Joe</div> -->
 				    			</div>
 				    		</div>
 				    		<div id="lobby_setting">
-				    			<div class="button">Quit</div>
+				    			<!-- <div class="button">Quit</div> -->
 				    			<div class="button create">Create New</div>
 				    		</div>
 				    	</div>
@@ -88,8 +87,7 @@
 			    	
 			    	<div id="chats">
 			    		<div class="tabs">
-			    			<div class="button active" id="tab0" onclick="changeChat(0);"><div>Lobby Chat</div></div>
-			    			<div class="button" id="tab1" onclick="changeChat(1);"><div>Alex</div></div>
+			    			<div class="button active" id="tab0"><div>Lobby Chat</div></div>
 			    		</div>
 			    		<div class="messages">
 			    			<div id="message0" class="message">
@@ -179,13 +177,51 @@
 			    			<!-- <div class="name">lobby 1</div> -->
 			    		</div>
 			    	</div>
-
 				</div>
 			</div>
 		</div>
+		<div id="thankYouEnding" class="hidden">
+			Thank you
+		</div>
+		<div id="fantasticEnding" class="hidden">
+			<div id="credits">
+				<div class="title" class="italic">201 Final Group Project</div>
+				<div>Frontend: <span  class="italic">Shi Zeng</span></div>
+				<div>Backend: <span  class="italic">Alex Valente</span></div>
+				<div>Backend: <span  class="italic">Daniel Shebib</span></div>
+				<div>Database: <span  class="italic">Tanay Shah</span></div>
+			</div>
+			<div id="specialThanks">
+				<div class="title"  class="italic">Special Thanks To</div>
+				<div>CSCI 201 Professor:<br>
+				<span  class="italic">Jeffrey Miller Ph.D</span></div>
+				<div>CSCI 201 Course Producer:<br>
+				<span  class="italic">Annie Song</span></div>
+			</div>
+			<div id="tech_used">
+				<div class="title"  class="italic">Technology Used</div>
+				<div>Web Development:
+					<br><span  class="italic">HTML/CSS/Javascript</span></div>
+				<div>Tomcat Server:
+					<br><span  class="italic">Java</span></div>
+				<div>DataBase:
+					<br><span  class="italic">MySQL Database</span></div>
+				<div>Open Source Framework:
+					<br><span  class="italic">Electron</span></div>
+				<div>Cross-platform Javascript Library<br>
+				<span  class="italic">jQuery</span></div>
+				<div>CSS Framework<br>
+				<span  class="italic">Semantic UI</span></div>
+				<div>Font<br>
+				<span  class="italic">Google Apis</span></div>
+			</div>
+			<div ></div>
+		</div>
 	</body>
 	<!-- jQuery -->
+
 	<script type="text/javascript" src="../assets/js/jquery-1.10.2.js"></script>
+	<!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
 	<script type="text/javascript">window.$ = window.jQuery = require('jquery');</script>
 	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
 	<!-- Initialization -->

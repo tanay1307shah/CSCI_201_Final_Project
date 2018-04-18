@@ -344,9 +344,9 @@ public class Database {
     public static void setChatFilesLocationForLobby(int lobbyId, String location) {
         try {
             PreparedStatement ps = null;
-            ps = conn.prepareStatement("UPDATE Chats SET chatLoc=? WHERE lobbyId = ?");
-            ps.setString(1, location);
-            ps.setInt(2, lobbyId);
+            ps = conn.prepareStatement("INSERT INTO Chats(lobbyId,chatLoc) VALUES (?,?)");
+            ps.setInt(1, lobbyId);
+            ps.setString(2, location);
             int x = ps.executeUpdate();
         } catch (SQLException e) {
             System.out.println("SQLE in setting chat location: " + e.getMessage());

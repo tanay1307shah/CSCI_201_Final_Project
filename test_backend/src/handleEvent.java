@@ -86,7 +86,7 @@ public class handleEvent extends HttpServlet {
                 BufferedReader reader = new BufferedReader(isr);
                 String text;
                 while ((text = reader.readLine()) != null) {
-                    chatString.append(text).append('\n');
+                    chatString.append(text).append(',');
                 }
             }
             String output = chatString.toString();
