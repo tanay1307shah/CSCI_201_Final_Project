@@ -35,6 +35,23 @@ public class Lobby {
     private int lobbyID;
     private int songTime;
     private String chatFilesLocation;
+    private int isPlayingMusic;
+
+    public int getSongTime() {
+        return songTime;
+    }
+
+    public void setSongTime(int songTime) {
+        this.songTime = songTime;
+    }
+
+    public int getIsPlayingMusic() {
+        return isPlayingMusic;
+    }
+
+    public void setIsPlayingMusic(int isPlayingMusic) {
+        this.isPlayingMusic = isPlayingMusic;
+    }
 
     /** Generates a lobby.
      * Make sure to first check if the lobby name is in use using

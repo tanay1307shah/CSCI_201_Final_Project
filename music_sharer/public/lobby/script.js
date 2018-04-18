@@ -9,6 +9,10 @@ var isProfileShowing = 0;
 var userInfo;
 var currentLobby = null;
 var socket;
+var currentIP = "localhost";
+var joinOnlyCurrentTime = 0;
+
+
 $(function () {
     // get all user info
     getAllUserInfo();
@@ -16,11 +20,10 @@ $(function () {
 });
 
 function connectToServer() {
-    socket = new WebSocket("ws://localhost:8080/ws");
+    socket = new WebSocket("ws://" + currentIP + ":8080/ws");
 
     socket.onopen = function (ev) {
         console.log("Connected to Server!");
-
     };
     socket.onmessage = function (event) {
         var msgData = event.data.split("~");
@@ -37,27 +40,33 @@ function connectToServer() {
         var lobbyID = msgData[2];
         console.log("Current Lobby Id: " + lobbyID);
 
-        console.log("LobbyID("+ lobbyID + "):::(" + userInfo.currentLobby + ") Your currentLobby");
+        console.log("LobbyID(" + lobbyID + "):::(" + userInfo.currentLobby + ") Your currentLobby");
         //alert("LobbyID("+ lobbyID + "):::(" + userInfo.currentLobby + ") Your currentLobby");
 
-        if(lobbyID == userInfo.currentLobby) {
+
+        if (lobbyID == userInfo.currentLobby) {
             for (var ID in userInts) {
                 console.log("CeckID(" + userInts[ID] + "):::(" + currentUserId + ") YourID");
                 if (userInts[ID] == currentUserId) {
                     console.log(action);
                     if (action === "PlayMusic") {
+                        $("#audio")[0].currentTime = msgData[3];
                         console.log("WE ARE NOW PLAYING MUSIC!!");
                         $("#audio")[0].play();
                         $("#play_button").attr("src", "../assets/images/stop_button.png");
                         playing = 1;
                         return;
                     } else if (action === "StopMusic") {
+                        $("#audio")[0].currentTime = msgData[3];
                         console.log("WE ARE HAVE STOPED THE MUSIC!!");
                         $("#play_button").attr("src", "../assets/images/play_button.png");
                         $("#audio")[0].pause();
                         playing = 0;
                         return;
-                    } else if (action === "SendMessage") {
+                    } else if (action === "UpdateCurrentTime") {
+                        joinOnlyCurrentTime = msgData[3];
+                    }
+                    else if (action === "SendMessage") {
                         var msgToSend = msgData[3];
                         console.log(msgToSend);
                         $("#message" + current_chat).append('<div class="text"><span>somebody: </span><br>' + msgToSend + '</div>');
@@ -73,24 +82,43 @@ function connectToServer() {
     };
 }
 
+
+
+// function updateCurrentTime() {
+//     console.log("updaitng current itme: " + $("#audio")[0].currentTime);
+//     if (currentLobby) {
+//         socket.send("MusicControl~UpdateCurrentTime~" + currentLobby.name + "~" + $("#audio")[0].currentTime);
+//     }
+// }
+
+
 function bindAllEvent() {
     // music control
     $("#play_button").click(function () {
-            if (playing == 0) {
-                console.log("------------PLAY BUTTON EVENT------------");
+        currentLobby.currentSongTime = $("#audio")[0].currentTime;
+        if (playing == 0) {
+            console.log("------------PLAY BUTTON EVENT------------");
+            console.log("current ID (" + userInfo.id + "):::(" + currentLobby.host + ") currentLobbyHost");
+            if (currentLobby.host === userInfo.id) {
+                console.log("Song current time is: " + currentLobby.currentSongTime);
+                socket.send("MusicControl~PlayMusic~" + currentLobby.name + "~" + currentLobby.currentSongTime);
+                currentLobby.isPlayingMusic = 1;
+
+            }
+        }
+        else {
+            if (currentLobby.host === userInfo.id) {
+                console.log("------------STOP BUTTON EVENT------------");
                 console.log("current ID (" + userInfo.id + "):::(" + currentLobby.host + ") currentLobbyHost");
+                console.log("Song current time is: " + currentLobby.currentSongTime);
                 if (currentLobby.host === userInfo.id) {
-                    socket.send("MusicControl~PlayMusic~" + currentLobby.name);
+                    socket.send("MusicControl~StopMusic~" + currentLobby.name + "~" + currentLobby.currentSongTime);
+                    currentLobby.isPlayingMusic = 0;
                 }
             }
-            else {
-                if (currentLobby.host === userInfo.id) {
-                    console.log("------------STOP BUTTON EVENT------------");
-                    console.log("current ID (" + userInfo.id + "):::(" + currentLobby.host + ") currentLobbyHost");
-                    socket.send("MusicControl~StopMusic~" + currentLobby.name);
-                }
-            }
+        }
     });
+
     $("#previous_button").click(function () {
         song_index--;
         if (song_index < 0) {
@@ -184,7 +212,7 @@ function addFriend(friendName) {
     var hostId = userInfo.id;
     userInfo.friendsListStrings.push(friendName);
     $("#friends_list .names").append('<div class="name">' + friendName + '</div>');
-    $.get('http://localhost:8080/handleEvent?event=addFriend&friendName=' + friendName + '&hostId=' + hostId, function (data) {
+    $.get('http://' + currentIP + ':8080/handleEvent?event=addFriend&friendName=' + friendName + '&hostId=' + hostId, function (data) {
         hideOtherUserModal();
     });
 }
@@ -195,7 +223,7 @@ function addLobby(_lobbyName) {
     // var lobbyPassword = $(".lobby_password").val();
     userInfo.favoriteLobbiesString.push(_lobbyName);
     $("#lobby_list .names").append('<div class="name">' + _lobbyName + '</div>');
-    $.get('http://localhost:8080/handleEvent?event=addLobby&hostId=' + hostId + '&lobbyName=' + _lobbyName, function (data) {
+    $.get('http://' + currentIP + ':8080/handleEvent?event=addLobby&hostId=' + hostId + '&lobbyName=' + _lobbyName, function (data) {
         console.log(data);
         unbindEvent("#search_list .name");
         $("#lobby_list .name").click(function (event) {
@@ -282,7 +310,7 @@ function searching() {
     }
     // call ajax to get searched info
 
-    $.get('http://localhost:8080/handleEvent?event=search&searchType=' + searchType + '&searchStr=' + searchStr, function (data) {
+    $.get('http://' + currentIP + ':8080/handleEvent?event=search&searchType=' + searchType + '&searchStr=' + searchStr, function (data) {
         var results = data.split(',');
         for (var i = 0; i < results.length; i++) {
             var $div = $("<div>", {class: "name"});
@@ -334,7 +362,7 @@ function scrollToBottom(str) {
 }
 
 function getAllUserInfo() {
-    $.get('http://localhost:8080/backend_getUserInfo', function (data) {
+    $.get('http://' + currentIP + ':8080/backend_getUserInfo', function (data) {
         userInfo = JSON.parse(data);
         console.log(userInfo);
 
@@ -450,7 +478,7 @@ function createLobby() {
     var lobbyPassword = $(".lobby_password").val();
     userInfo.favoriteLobbiesString.push(_lobbyName);
     $("#lobby_list .names").append('<div class="name">' + _lobbyName + '</div>');
-    $.get('http://localhost:8080/handleEvent?event=createLobby&hostId=' + hostId + '&lobbyName=' + _lobbyName + '&lobbyPassword=' + lobbyPassword, function (data) {
+    $.get('http://' + currentIP + ':8080/handleEvent?event=createLobby&hostId=' + hostId + '&lobbyName=' + _lobbyName + '&lobbyPassword=' + lobbyPassword, function (data) {
         console.log(data);
         unbindEvent("#search_list .name");
         $("#lobby_list .name").click(function (event) {
@@ -485,7 +513,7 @@ function showOtherUserModal(username) {
     // check if the user is a friend
 
     // get a user's info when clicking a friend in friends list, need the user's info in write back
-    $.get('http://localhost:8080/handleEvent?event=getUserInfo&username=' + username, function (data) {
+    $.get('http://' + currentIP + ':8080/handleEvent?event=getUserInfo&username=' + username, function (data) {
         var that_user = JSON.parse(data);
         console.log(that_user);
         // populate the modal
@@ -586,7 +614,7 @@ function hideOtherUserModal() {
 function switchLobby(lobbyName) {
     console.log("calling ajax to get lobby info");
     // get a lobby's info when clicking a friend in friends list, need the lobby's info in write back
-    $.get('http://localhost:8080/handleEvent?event=getLobbyInfo&lobbyName=' + lobbyName, function (data) {
+    $.get('http://' + currentIP + ':8080/handleEvent?event=getLobbyInfo&lobbyName=' + lobbyName, function (data) {
         // console.log(data);
         // data = '{"name":"firstTestLobby","password":"test","host":2,"peopleInLobbyString":[1,2,4,3],"publicBool":true,"ints":[]}';
         // console.log(data);
@@ -598,6 +626,15 @@ function switchLobby(lobbyName) {
         //if user is host show controle buttons here
         //
         ////
+        // alert(joinOnlyCurrentTime);
+        // if (currentLobby.isPlayingMusic == 1) {
+        //     $("#audio")[0].currentTime = joinOnlyCurrentTime;
+        //     $("#audio")[0].play();
+        // } else {
+        //     $("#audio")[0].currentTime = joinOnlyCurrentTime;
+        //     $("#audio")[0].pause();
+        // }
+
         if (currentLobby === null) {
             currentLobby = JSON.parse('{"name":"no lobby selected","password":"","host":0,"peopleInLobbyString":[],"ints":[],"publicBool":true}');
         }
@@ -628,7 +665,7 @@ function modifyInfo() {
     populateProfile();
     // send the change to the server
     var hostId = userInfo.id;
-    $.get('http://localhost:8080/handleEvent?event=editCurrentUser&hostId=' + hostId +
+    $.get('http://' + currentIP + ':8080/handleEvent?event=editCurrentUser&hostId=' + hostId +
         '&newUsername=' + new_username +
         '&newPassword=' + new_password +
         '&newImgLocation=' + new_profile_photo, function (data) {

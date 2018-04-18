@@ -4,6 +4,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.xml.crypto.Data;
 import java.io.*;
 import java.sql.ResultSet;
@@ -136,6 +137,10 @@ public class handleEvent extends HttpServlet {
             Database.setPasswordForUser(hostId, newPassword);
             String newImgLocation = request.getParameter("newImgLocation");
             Database.setImgLocationForUser(hostId, newImgLocation);
+        }else if(event.equals("updateCurrentTime")){
+            double currentTime = Double.parseDouble(request.getParameter("currentTime"));
+            HttpSession session = request.getSession();
+            session.setAttribute("currentTime", currentTime);
         }
 
 

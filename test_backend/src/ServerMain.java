@@ -45,8 +45,9 @@ public class ServerMain {
         String userList = userListBuilder.toString();
 
         if (event.equals("MusicControl")) {
-            if (action.equals("PlayMusic")) {  //SENDS OUT "PlayMusic~1,2,3"
-                String output = "PlayMusic~" + userList + "~" + currentLobbyId;
+            double currentTime =  Double.parseDouble(parts[3]);
+            if (action.equals("PlayMusic")) {  //SENDS OUT "PlayMusic~peopleInLobby~lobbyId~currentTime"
+                String output = "PlayMusic~" + userList + "~" + currentLobbyId + "~" + currentTime;
                 for (Session users : sessions) {
                     try {
                         users.getBasicRemote().sendText(output);
@@ -56,7 +57,16 @@ public class ServerMain {
                 }
 
             } else if (action.equals("StopMusic")) {
-                String output = "StopMusic~" + userList + "~" + currentLobbyId;
+                String output = "StopMusic~" + userList + "~" + currentLobbyId + "~" + currentTime;
+                for (Session users : sessions) {
+                    try {
+                        users.getBasicRemote().sendText(output);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }else if(action.equals("UpdateCurrentTime")){
+                String output = "UpdateCurrentTime~" + userList + "~" + currentLobbyId + "~" + currentTime;
                 for (Session users : sessions) {
                     try {
                         users.getBasicRemote().sendText(output);
