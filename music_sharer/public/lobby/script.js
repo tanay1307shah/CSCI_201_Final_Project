@@ -8,7 +8,7 @@ var current_chat = 0;
 var isProfileShowing = 0;
 var userInfo;
 var currentLobby = null;
-var ip = "192.168.137.7";
+var ip = "192.168.137.187";
 var socket;
 
 
@@ -289,11 +289,11 @@ function addLobby(_lobbyName) {
     $("#lobby_list .names").append('<div class="name">' + _lobbyName + '</div>');
     $.get('http://' + ip + ':8080/handleEvent?event=addLobby&hostId=' + hostId + '&lobbyName=' + _lobbyName, function (data) {
         console.log(data);
-        unbindEvent("#search_list .name");
-        $("#lobby_list .name").click(function (event) {
-            var lobbyName = event.target.innerHTML;
-            switchLobby(lobbyName);
-        });
+        // unbindEvent("#search_list .name");
+        // $("#lobby_list .name").click(function (event) {
+        //     var lobbyName = event.target.innerHTML;
+            // switchLobby(lobbyName);
+        // });
     });
 }
 
@@ -383,13 +383,13 @@ function searching() {
         }
         unbindEvent("#search_list .name");
         if (searchType == "user") {
-            $("#search_list .names").click(function (event) {
+            $("#search_list .name").click(function (event) {
                 var username = event.target.innerHTML;
                 showOtherUserModal(username);
             });
         } else {
             console.log(searchType);
-            $("#search_list .names").click(function (event) {
+            $("#search_list .name").click(function (event) {
                 var lobbyName = event.target.innerHTML;
                 hideSearchContent();
                 addLobby(lobbyName);
@@ -463,14 +463,23 @@ function populateUserInfo() {
 
 function populateFriendsList() {
     if (userInfo.friendsListStrings == null || userInfo.friendsListStrings.length === 0) {
-        var $div = $("<div>", {class: "name"});
-        $div.append("No Friends Yet!");
-        $("#friends_list .names").append($div);
+        // var $div = $("<div>", {class: "name"});
+        // $div.append("No Friends Yet!");
+        // $("#friends_list .names").append($div);
     } else {
         for (var i = 0; i < userInfo.friendsListStrings.length; i++) {
-            var $div = $("<div>", {class: "name"});
-            $div.append(userInfo.friendsListStrings[i]);
-            $("#friends_list .names").append($div);
+            var is_same = 0;
+            for (var j = 0; j < i; j++) {
+                if (userInfo.friendsListStrings[i]==userInfo.friendsListStrings[j]) {
+                    is_same = 1;
+                }
+            }
+            if (is_same==0) {
+                var $div = $("<div>", {class: "name"});
+                $div.append(userInfo.friendsListStrings[i]);
+                $("#friends_list .names").append($div);
+            }
+            
         }
     }
 }
@@ -485,10 +494,18 @@ function populateLobbyList() {
                 $("#lobby_list .names").append('<div class="name">' + userInfo.hostedLobbies[i] + '</div>');
             }
         }
-        if (userInfo.favoriteLobbiesString.length === 0) {
+        if (userInfo.favoriteLobbiesString.length == 0) {
         } else {
             for (var i = 0; i < userInfo.favoriteLobbiesString.length; i++) {
-                $("#lobby_list .names").append('<div class="name">' + userInfo.favoriteLobbiesString[i] + '</div>');
+                var is_same = 0;
+                for (var j = 0; j < i; j++) {
+                    if (userInfo.favoriteLobbiesString[i]==userInfo.favoriteLobbiesString[j]) {
+                        is_same = 1;
+                    }
+                }
+                if (is_same==0) {
+                    $("#lobby_list .names").append('<div class="name">' + userInfo.favoriteLobbiesString[i] + '</div>');
+                }
             }
         }
     }
@@ -501,7 +518,16 @@ function populateCurrentLobby() {
     if (currentLobby.peopleInLobbyString != null) {
         // $("#lobby_control .number_member span").text(currentLobby.peopleInLobbyString.length);
         for (var i = 0; i < currentLobby.peopleInLobbyString.length; i++) {
-            $("#lobby_control .member_list").append('<div class="name">' + currentLobby.peopleInLobbyString[i] + '</div>');
+            var is_same = 0;
+            for (var j = 0; j < i; j++) {
+                if (currentLobby.peopleInLobbyString[i]==currentLobby.peopleInLobbyString[j]) {
+                    is_same = 1;
+                }
+            }
+            if (is_same==0) {
+                $("#lobby_control .member_list").append('<div class="name">' + currentLobby.peopleInLobbyString[i] + '</div>');
+            }
+            
         }
     }
 }
@@ -559,7 +585,7 @@ function createLobby() {
     $("#lobby_list .names").append('<div class="name">' + _lobbyName + '</div>');
     $.get('http://' + ip + ':8080/handleEvent?event=createLobby&hostId=' + hostId + '&lobbyName=' + _lobbyName + '&lobbyPassword=' + lobbyPassword, function (data) {
         console.log(data);
-        unbindEvent("#search_list .name");
+        unbindEvent("#lobby_list .name");
         $("#lobby_list .name").click(function (event) {
             var lobbyName = event.target.innerHTML;
             switchLobby(lobbyName);
