@@ -1,0 +1,75 @@
+body {
+  color: white;
+  background: #200122;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #6f0000, #200122);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #6f0000, #200122); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+#title{
+  font-style: italic;
+  font-weight: bold;
+  font-size: 40px;
+  position: absolute;
+  font-family: 'Raleway', sans-serif;
+  display: none;
+  cursor: pointer;
+}
+
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  font-size: 15px;
+  font-family: 'Raleway', sans-serif;
+}
+#container2{
+  display: none;
+}
+#container3{
+  display: none;
+}
+#intro{
+  font-size: 35px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+#intro span{
+  font-style: italic;
+  font-weight: bold;
+  font-size: 40px;
+}
+.typed{
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+button{
+  /*flex: none;*/
+  margin-top: 20px !important;
+  width: 100px;
+  font-family: 'Raleway', sans-serif !important;
+}
+
+label{
+  font-size: 15px !important;
+  color: white !important;
+}
+input{
+  background-color: rgba(255, 255, 255, 0) !important;
+  border-color: white !important;
+  transition: all 0.2s !important;
+  color: white !important;
+}
+input:hover{
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+
+.hidden{
+  visibility: hidden;
+}
+.error{
+  color: red;
+}

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Welcome to Music Real Time</title>
+		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+		<meta name="viewport" content="width=device-width" />
+		<!-- Semantic UI CSS -->
+		<link rel="stylesheet" href="../assets/css/semantic.min.css"/>
+		<!-- Custom Stylesheet -->
+		<link rel="stylesheet" href="styles.css">
+		<!-- google fonts import -->
+		<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+		<!-- awesome fonts import -->
+		<!-- <link rel="stylesheet" type="text/css" href="../assets/css/fontawesome-all.min.css"> -->
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+	</head>
+	<body onload="connectToServer()">
+	<!-- <body> -->
+	    <div class="container">
+		    <div id="side_bar">
+		    	<div class="image"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRg4aU635mNHiuLkJEPEc-9ZgM-aOGcQ_qUFPBfMMZVmplfM-3Xuw"></div>
+		    	<div class="des"><span class="username"></span></div>
+		    	<div id="friends_list" class="list">
+		    		<div class="title">Friends List</div>
+		    		<div class="names">
+		    			<!-- <div class="name">Alex</div> -->
+		    		</div>
+		    	</div>
+		    	<div id="lobby_list" class="list">
+		    		<div class="title">Lobby List</div>
+		    		<div class="names">
+		    			<!-- <div class="name">lobby 1</div> -->
+		    		</div>
+		    	</div>
+		    </div>
+		    <div id="content">
+		    	<div id="lobby">
+		    		<div id="search_bar">
+			    		<form action="#" onsubmit="return searching()">
+			    			<div class="radios">
+			    				<input id="radio1" type="radio" name="search_type" value="User" checked><label for="radio1">User</label>
+			    				<input id="radio2" type="radio" name="search_type" value="User"><label for="radio2">Lobby</label></div>
+			    			<input class="search" type="search" name="search" placeholder="Search...">
+			    			<img src="../assets/images/search.png">
+			    		</form>
+			    	</div>
+			    	
+			    	<div id="lobby_">
+			    		<div id="search_content">
+			    			<div id="search_list" class="list">
+					    		<div class="names">
+					    		</div>
+					    	</div>
+				    		<div id="hide_content_btn"><i class="fas fa-arrow-up"></i></div>
+				    	</div>
+				    	<div id="profile">
+				    		<div id="hide_profile_btn"><i class="fas fa-arrow-left"></i></div>
+				    		<div id="lobby_info">
+				    			<div id="info_items">
+					    			<div class="info_item username">Username: <span class="bold">Shi Zeng</span></div>
+					    			<div class="info_item password">Password: <span class="bold">12345678</span></div>
+					    			<div class="info_item membership">Membership Status: <span class="bold"></span></div>
+					    			<div class="info_item payment">
+					    				<button class="ui inverted upgrade_btn button">Pay to Upgrade</button>
+					    			</div>
+					    		</div>
+				    		</div>
+				    		<div id="lobby_setting">
+				    			<div class="button log_out">Log Out</div>
+				    			<div class="button edit">Edit</div>
+				    		</div>
+				    	</div>
+			    		<div id="lobby_control">
+				    		<div id="lobby_info">
+				    			<div id="info_items">
+					    			<div class="info_item username">Name: <span class="bold"></span></div>
+					    			<div class="info_item password">Password: <span class="bold"></span></div>
+					    			<div class="info_item number_member">Members: <span class="bold"></span></div>
+					    		</div>
+				    			<div class="member_list">
+				    				<!-- <div class="name">Joe</div> -->
+				    			</div>
+				    		</div>
+				    		<div id="lobby_setting">
+				    			<!-- <div class="button">Quit</div> -->
+				    			<div class="button create">Create New</div>
+				    		</div>
+				    	</div>
+			    	</div>
+			    	
+			    	<div id="chats">
+			    		<div class="tabs">
+			    			<div class="button active" id="tab0"><div>Lobby Chat</div></div>
+			    		</div>
+			    		<div class="messages">
+			    			<div id="message0" class="message">
+			    				<!-- <div class="text"><span>Alex:</span><br>hello world. this is Alex from mars</div> -->
+			    			</div>
+			    			<div id="message1" class="message hidden">
+			    				<!-- <div class="text"><span>Alex:</span><br>hello world. this is Alex from mars</div>
+			    				<div class="text my_text"><span>Joe: </span><br>hello world</div>
+			    				<div class="text my_text"><span>Joe: </span><br>hello world</div> -->
+			    			</div>
+			    		</div>
+			    		<div class="text_input">
+			    			<input type="text" name="chat" placeholder="Type Here">
+			    		</div>
+			    	</div>
+			    	<div id="music_control">
+			    		<div class="hidden">
+			    			<audio id="audio" controls>
+								<source src="../assets/songs/Made_in_China_Higher_Brothers.mp3" type="audio/mpeg">
+							</audio>
+			    		</div>
+			    		<img id="previous_button" src="../assets/images/previous_button.png">
+			    		<img id="play_button" src="../assets/images/play_button.png">
+			    		<img id="next_button" src="../assets/images/next_button.png">
+			    	</div>
+		    	</div>
+		    </div>
+		</div>
+		<div id="editModal" class="modal hidden">
+			<div class="to_flex">
+				<div class="modal_content">
+					<form class="ui form">
+				      <div class="field">
+							<label>Username</label>
+							<input class="username_edit" type="text" name="username">
+				      </div>
+				      <div class="field">
+				       	<label>Password</label>
+				       	<input class="password_edit" type="text" name="password">
+				      </div>
+				      <div class="field">
+							<label>Profile Photo</label>
+							<input class="profilePhoto_edit" type="text" name="profilePhoto">
+				      </div>
+				      <!-- <div class="field">
+							<label>Membership</label>
+							<input class="userEmail" type="" name="userEmail">
+				      </div> -->
+				   </form>
+				   <button class="ui inverted saveProfile button">Save</button>
+				</div>
+			</div>
+		</div>
+		<div id="createLobbyModal" class="modal hidden">
+			<div class="to_flex">
+				<div class="modal_content">
+					<form class="ui form">
+				      <div class="field">
+							<label>Lobby Name</label>
+							<input class="lobby_name" type="text" name="lobby_name">
+				      </div>
+				      <div class="field">
+				       	<label>Lobby Password</label>
+				       	<input class="lobby_password" type="text" name="lobby_password">
+				      </div>
+				   </form>
+				   <button class="ui inverted createLobby button">Create</button>
+				</div>
+			</div>
+		</div>
+		<div id="otherUserModal" class="modal hidden">
+			<div class="to_flex">
+				<div class="modal_content">
+					<div class="image"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRg4aU635mNHiuLkJEPEc-9ZgM-aOGcQ_qUFPBfMMZVmplfM-3Xuw"></div>
+			    	<div><span class="username"></span>
+			    		<br><span class="email"></span></div>
+			    	<button class="ui inverted addFriendBtn button">Add Friend</button>
+			    	<div id="other_friends_list" class="list">
+			    		<div class="title">Friends List</div>
+			    		<div class="names">
+			    			<!-- <div class="name">Alex</div> -->
+			    		</div>
+			    	</div>
+			    	<div id="other_lobby_list" class="list">
+			    		<div class="title">Lobby List</div>
+			    		<div class="names">
+			    			<!-- <div class="name">lobby 1</div> -->
+			    		</div>
+			    	</div>
+				</div>
+			</div>
+		</div>
+		<div id="paymentModal" class="modal hidden">
+			<div class="to_flex">
+				<div class="modal_content">
+					<form action="/charge" method="post" id="payment-form" style="width: 400px !important;">
+					  <div class="form-row">
+					    <label for="card-element">
+					      Credit or debit card
+					    </label>
+					    <div id="card-element">
+					      <!-- A Stripe Element will be inserted here. -->
+					    </div>
+
+					    <!-- Used to display form errors. -->
+					    <div id="card-errors" role="alert"></div>
+					  </div>
+
+					  <button class="ui inverted submit_payment button">Submit Payment</button>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div id="thankYouEnding" class="hidden">
+			Thank you
+		</div>
+		<div id="fantasticEnding" class="hidden">
+			<div id="credits">
+				<div class="title" class="italic">201 Final Group Project</div>
+				<div>Frontend: <span  class="italic">Shi Zeng</span></div>
+				<div>Backend: <span  class="italic">Alex Valente</span></div>
+				<div>Backend: <span  class="italic">Daniel Shebib</span></div>
+				<div>Database: <span  class="italic">Tanay Shah</span></div>
+			</div>
+			<div id="specialThanks">
+				<div class="title"  class="italic">Special Thanks To</div>
+				<div>CSCI 201 Professor:<br>
+				<span  class="italic">Jeffrey Miller Ph.D</span></div>
+				<div>CSCI 201 Course Producer:<br>
+				<span  class="italic">Annie Song</span></div>
+			</div>
+			<div id="tech_used">
+				<div class="title"  class="italic">Technology Used</div>
+				<div>Web Development:
+					<br><span  class="italic">HTML/CSS/Javascript</span></div>
+				<div>Tomcat Server:
+					<br><span  class="italic">Java</span></div>
+				<div>DataBase:
+					<br><span  class="italic">MySQL Database</span></div>
+				<div>Open Source Framework:
+					<br><span  class="italic">Electron</span></div>
+				<div>Cross-platform Javascript Library<br>
+				<span  class="italic">jQuery</span></div>
+				<div>CSS Framework<br>
+				<span  class="italic">Semantic UI</span></div>
+				<div>Font API<br>
+				<span  class="italic">Google Font Apis</span></div>
+				<div>Payment API<br>
+				<span  class="italic">Stripe Apis</span></div>
+				<div>Devices<br>
+				<span  class="italic">Macbook 2015,2016<br>
+				Windows</span></div>
+				<div>Operating System<br>
+				<span  class="italic">MacOS</span></div>
+			</div>
+			<div ></div>
+		</div>
+	</body>
+	<!-- jQuery -->
+
+	<script type="text/javascript" src="../assets/js/jquery-1.10.2.js"></script>
+	<!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
+	<script type="text/javascript">window.$ = window.jQuery = require('jquery');</script>
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+	<!-- payment api-->
+	<script src="https://js.stripe.com/v3/"></script>
+	<!-- Initialization -->
+	<script type="text/javascript" src="script.js"></script>
+	
+</html>
