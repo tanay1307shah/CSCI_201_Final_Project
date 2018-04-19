@@ -121,14 +121,14 @@ function bindAllEvent() {
         console.log("------------PREVIOUS BUTTON EVENT------------");
         console.log("current ID (" + userInfo.id + "):::(" + currentLobby.host + ") currentLobbyHost");
         if (currentLobby.host === userInfo.id) {
-            socket.send("MusicControl~PeviousButton~" + currentLobby.name);
+            socket.send("MusicControl~PeviousButton~" + currentLobby.name +"~"+$("#audio")[0].currentTime);
         }
     });
     $("#next_button").click(function () {
         console.log("------------NEXT BUTTON EVENT------------");
         console.log("current ID (" + userInfo.id + "):::(" + currentLobby.host + ") currentLobbyHost");
         if (currentLobby.host === userInfo.id) {
-            socket.send("MusicControl~NextButton~" + currentLobby.name);
+            socket.send("MusicControl~NextButton~" + currentLobby.name +"~"+$("#audio")[0].currentTime);
         }
     });
     // chatting manipulation
@@ -156,7 +156,8 @@ function bindAllEvent() {
         showEditModal();
     });
     $("#lobby_setting .create").click(function () {
-        showCreateModal();
+        // showCreateModal();
+        window.location.replace("../index.html");
     });
     window.onclick = function (event) {
         if (event.target == $("#editModal .to_flex")[0]) {

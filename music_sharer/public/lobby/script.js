@@ -185,14 +185,14 @@ function bindAllEvent() {
         console.log("------------PREVIOUS BUTTON EVENT------------");
         console.log("current ID (" + userInfo.id + "):::(" + currentLobby.host + ") currentLobbyHost");
         if (currentLobby.host === userInfo.id) {
-            socket.send("MusicControl~PeviousButton~" + currentLobby.name);
+            socket.send("MusicControl~PeviousButton~" + currentLobby.name +"~"+$("#audio")[0].currentTime);
         }
     });
     $("#next_button").click(function () {
         console.log("------------NEXT BUTTON EVENT------------");
         console.log("current ID (" + userInfo.id + "):::(" + currentLobby.host + ") currentLobbyHost");
         if (currentLobby.host === userInfo.id) {
-            socket.send("MusicControl~NextButton~" + currentLobby.name);
+            socket.send("MusicControl~NextButton~" + currentLobby.name +"~"+$("#audio")[0].currentTime);
         }
     });
     // chatting manipulation
@@ -275,7 +275,11 @@ function addFriend(friendName) {
     userInfo.friendsListStrings.push(friendName);
     $("#friends_list .names").append('<div class="name">' + friendName + '</div>');
     // unbind and bind the #friends_list .names
-
+    unbindEvent("#friends_list .name");
+    $("#friends_list .name").click(function (event) {
+        var friendName = event.target.innerHTML;
+        showOtherUserModal(friendName);
+    });
     $.get('http://' + ip + ':8080/handleEvent?event=addFriend&friendName=' + friendName + '&hostId=' + hostId, function (data) {
         hideOtherUserModal();
     });
@@ -646,7 +650,7 @@ function showOtherUserModal(username) {
         var that_user = JSON.parse(data);
         console.log(that_user);
         // populate the modal
-        if (that_user.imgLocation == null || userInfo.imgLocation == "") {
+        if (that_user.imgLocation == null || that_user.imgLocation == "") {
             that_user.imgLocation = "../assets/images/no_image.jpg";
         }
         $("#otherUserModal img").attr("src", that_user.imgLocation);
