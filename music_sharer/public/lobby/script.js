@@ -12,13 +12,9 @@ var ip = "192.168.137.7";
 var socket;
 
 
-
-
-
-
 /**
-payment
-*/
+ payment
+ */
 // Create a Stripe client.
 var stripe = Stripe('pk_test_6pRNASCoBOKtIshFeQd4XMUh');
 
@@ -28,20 +24,20 @@ var elements = stripe.elements();
 // Custom styling can be passed to options when creating an Element.
 // (Note that this demo uses a wider set of styles than the guide below.)
 var style = {
-  base: {
-    color: '#32325d',
-    lineHeight: '18px',
-    fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-    fontSmoothing: 'antialiased',
-    fontSize: '16px',
-    '::placeholder': {
-      color: '#aab7c4'
+    base: {
+        color: '#32325d',
+        lineHeight: '18px',
+        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+        fontSmoothing: 'antialiased',
+        fontSize: '16px',
+        '::placeholder': {
+            color: '#aab7c4'
+        }
+    },
+    invalid: {
+        color: '#fa755a',
+        iconColor: '#fa755a'
     }
-  },
-  invalid: {
-    color: '#fa755a',
-    iconColor: '#fa755a'
-  }
 };
 
 // Create an instance of the card Element.
@@ -51,30 +47,30 @@ var card = elements.create('card', {style: style});
 card.mount('#card-element');
 
 // Handle real-time validation errors from the card Element.
-card.addEventListener('change', function(event) {
-  var displayError = document.getElementById('card-errors');
-  if (event.error) {
-    displayError.textContent = event.error.message;
-  } else {
-    displayError.textContent = '';
-  }
+card.addEventListener('change', function (event) {
+    var displayError = document.getElementById('card-errors');
+    if (event.error) {
+        displayError.textContent = event.error.message;
+    } else {
+        displayError.textContent = '';
+    }
 });
 
 // Handle form submission.
 var form = document.getElementById('payment-form');
-form.addEventListener('submit', function(event) {
-  event.preventDefault();
+form.addEventListener('submit', function (event) {
+    event.preventDefault();
 
-  stripe.createToken(card).then(function(result) {
-    if (result.error) {
-      // Inform the user if there was an error.
-      var errorElement = document.getElementById('card-errors');
-      errorElement.textContent = result.error.message;
-    } else {
-      // Send the token to your server.
-      stripeTokenHandler(result.token);
-    }
-  });
+    stripe.createToken(card).then(function (result) {
+        if (result.error) {
+            // Inform the user if there was an error.
+            var errorElement = document.getElementById('card-errors');
+            errorElement.textContent = result.error.message;
+        } else {
+            // Send the token to your server.
+            stripeTokenHandler(result.token);
+        }
+    });
 });
 
 
@@ -85,7 +81,7 @@ $(function () {
 });
 
 function connectToServer() {
-    socket = new WebSocket("ws://" +ip+ ":8080/ws");
+    socket = new WebSocket("ws://" + ip + ":8080/ws");
 
     socket.onopen = function (ev) {
         console.log("Connected to Server!");
@@ -106,13 +102,11 @@ function connectToServer() {
         var lobbyID = msgData[2];
         console.log("Current Lobby Id: " + lobbyID);
 
-        console.log("LobbyID("+ lobbyID + "):::(" + userInfo.currentLobby + ") Your currentLobby");
+        console.log("LobbyID(" + lobbyID + "):::(" + userInfo.currentLobby + ") Your currentLobby");
         //alert("LobbyID("+ lobbyID + "):::(" + userInfo.currentLobby + ") Your currentLobby");
 
 
-
-
-        if(lobbyID == userInfo.currentLobby) {
+        if (lobbyID == userInfo.currentLobby) {
             for (var ID in userInts) {
                 console.log("CeckID(" + userInts[ID] + "):::(" + currentUserId + ") YourID");
                 if (userInts[ID] == currentUserId) {
@@ -131,11 +125,32 @@ function connectToServer() {
                         $("#audio")[0].pause();
                         playing = 0;
                         return;
-                    } else if (action === "SendMessage") {
+                    } else if (action == "PeviousButton") {
+                        song_index--;
+                        if (song_index < 0) {
+                            song_index = music_urls.length - 1;
+                        }
+                        $("#audio")[0].src = music_urls[song_index];
+                        $("#audio")[0].load();
+                        $("#audio")[0].play();
+                        $("#play_button").attr("src", "../assets/images/stop_button.png");
+                        playing = 1;
+                    } else if(acction === "NextButton"){
+                        song_index++;
+                        if (song_index >= music_urls.length) {
+                            song_index = 0;
+                        }
+                        $("#audio")[0].src = music_urls[song_index];
+                        $("#audio")[0].load();
+                        $("#audio")[0].play();
+                        $("#play_button").attr("src", "../assets/images/stop_button.png");
+                        playing = 1;
+                    }
+                    else if (action === "SendMessage") {
                         var msgToSend = msgData[3];
                         console.log(msgToSend);
                         var m = msgToSend.split(":");
-                        $("#message" + current_chat).append('<div class="text"><span>'+m[0]+': </span><br>' + m[1] + '</div>');
+                        $("#message" + current_chat).append('<div class="text"><span>' + m[0] + ': </span><br>' + m[1] + '</div>');
                     }
                 }
             }
@@ -151,42 +166,34 @@ function connectToServer() {
 function bindAllEvent() {
     // music control
     $("#play_button").click(function () {
-            if (playing == 0) {
-                console.log("------------PLAY BUTTON EVENT------------");
+        if (playing == 0) {
+            console.log("------------PLAY BUTTON EVENT------------");
+            console.log("current ID (" + userInfo.id + "):::(" + currentLobby.host + ") currentLobbyHost");
+            if (currentLobby.host === userInfo.id) {
+                socket.send("MusicControl~PlayMusic~" + currentLobby.name);
+            }
+        }
+        else {
+            if (currentLobby.host === userInfo.id) {
+                console.log("------------STOP BUTTON EVENT------------");
                 console.log("current ID (" + userInfo.id + "):::(" + currentLobby.host + ") currentLobbyHost");
-                if (currentLobby.host === userInfo.id) {
-                    socket.send("MusicControl~PlayMusic~" + currentLobby.name);
-                }
+                socket.send("MusicControl~StopMusic~" + currentLobby.name);
             }
-            else {
-                if (currentLobby.host === userInfo.id) {
-                    console.log("------------STOP BUTTON EVENT------------");
-                    console.log("current ID (" + userInfo.id + "):::(" + currentLobby.host + ") currentLobbyHost");
-                    socket.send("MusicControl~StopMusic~" + currentLobby.name);
-                }
-            }
+        }
     });
     $("#previous_button").click(function () {
-        song_index--;
-        if (song_index < 0) {
-            song_index = music_urls.length - 1;
+        console.log("------------PREVIOUS BUTTON EVENT------------");
+        console.log("current ID (" + userInfo.id + "):::(" + currentLobby.host + ") currentLobbyHost");
+        if (currentLobby.host === userInfo.id) {
+            socket.send("MusicControl~PeviousButton~" + currentLobby.name);
         }
-        $("#audio")[0].src = music_urls[song_index];
-        $("#audio")[0].load();
-        $("#audio")[0].play();
-        $("#play_button").attr("src", "../assets/images/stop_button.png");
-        playing = 1;
     });
     $("#next_button").click(function () {
-        song_index++;
-        if (song_index >= music_urls.length) {
-            song_index = 0;
+        console.log("------------NEXT BUTTON EVENT------------");
+        console.log("current ID (" + userInfo.id + "):::(" + currentLobby.host + ") currentLobbyHost");
+        if (currentLobby.host === userInfo.id) {
+            socket.send("MusicControl~NextButton~" + currentLobby.name);
         }
-        $("#audio")[0].src = music_urls[song_index];
-        $("#audio")[0].load();
-        $("#audio")[0].play();
-        $("#play_button").attr("src", "../assets/images/stop_button.png");
-        playing = 1;
     });
     // chatting manipulation
     $(".text_input input").on('keyup', function (e) {
@@ -254,10 +261,10 @@ function bindAllEvent() {
         var username = $("#otherUserModal .username").text();
         addFriend(username);
     });
-    $(".log_out").click(function(){
+    $(".log_out").click(function () {
         fantasticEnding();
     });
-    $(".upgrade_btn").click(function(){
+    $(".upgrade_btn").click(function () {
         showPaymentModal();
     });
 }
@@ -269,7 +276,7 @@ function addFriend(friendName) {
     $("#friends_list .names").append('<div class="name">' + friendName + '</div>');
     // unbind and bind the #friends_list .names
 
-    $.get('http://'+ip+':8080/handleEvent?event=addFriend&friendName=' + friendName + '&hostId=' + hostId, function (data) {
+    $.get('http://' + ip + ':8080/handleEvent?event=addFriend&friendName=' + friendName + '&hostId=' + hostId, function (data) {
         hideOtherUserModal();
     });
 }
@@ -280,7 +287,7 @@ function addLobby(_lobbyName) {
     // var lobbyPassword = $(".lobby_password").val();
     userInfo.favoriteLobbiesString.push(_lobbyName);
     $("#lobby_list .names").append('<div class="name">' + _lobbyName + '</div>');
-    $.get('http://'+ip+':8080/handleEvent?event=addLobby&hostId=' + hostId + '&lobbyName=' + _lobbyName, function (data) {
+    $.get('http://' + ip + ':8080/handleEvent?event=addLobby&hostId=' + hostId + '&lobbyName=' + _lobbyName, function (data) {
         console.log(data);
         unbindEvent("#search_list .name");
         $("#lobby_list .name").click(function (event) {
@@ -367,7 +374,7 @@ function searching() {
     }
     // call ajax to get searched info
 
-    $.get('http://'+ip+':8080/handleEvent?event=search&searchType=' + searchType + '&searchStr=' + searchStr, function (data) {
+    $.get('http://' + ip + ':8080/handleEvent?event=search&searchType=' + searchType + '&searchStr=' + searchStr, function (data) {
         var results = data.split(',');
         for (var i = 0; i < results.length; i++) {
             var $div = $("<div>", {class: "name"});
@@ -408,8 +415,8 @@ function changeChat(i) {
 }
 
 function sendMsg(str) {
-    socket.send("Message~Send~" + currentLobby.name + "~" + userInfo.username +"~"+ str);
-    $("#message" + current_chat).append('<div class="text my_text"><span>'+userInfo.username+': </span><br>' + str + '</div>');
+    socket.send("Message~Send~" + currentLobby.name + "~" + userInfo.username + "~" + str);
+    $("#message" + current_chat).append('<div class="text my_text"><span>' + userInfo.username + ': </span><br>' + str + '</div>');
 }
 
 function scrollToBottom(str) {
@@ -419,7 +426,7 @@ function scrollToBottom(str) {
 }
 
 function getAllUserInfo() {
-    $.get('http://'+ip+':8080/backend_getUserInfo', function (data) {
+    $.get('http://' + ip + ':8080/backend_getUserInfo', function (data) {
         userInfo = JSON.parse(data);
         console.log(userInfo);
 
@@ -445,7 +452,7 @@ function getAllUserInfo() {
 }
 
 function populateUserInfo() {
-    if (userInfo.imgLocation == null||userInfo.imgLocation=="") {
+    if (userInfo.imgLocation == null || userInfo.imgLocation == "") {
         userInfo.imgLocation = "../assets/images/no_image.jpg";
     }
     $("#side_bar img").attr("src", userInfo.imgLocation);
@@ -514,16 +521,16 @@ function populateProfile() {
 function populateChats() {
     $("#message" + current_chat).empty();
     var lobbyName = currentLobby.name;
-    $.get('http://'+ip+':8080/handleEvent?event=getChat&lobbyName=' + lobbyName, function (data) {
+    $.get('http://' + ip + ':8080/handleEvent?event=getChat&lobbyName=' + lobbyName, function (data) {
         // var data = "Joe:hello,Alex:hello2,Daniel:Hello3,";
         var chats = data.split(",");
         // console.log(chats.length);
-        for (var i = 0; i < chats.length-1; i++) {
+        for (var i = 0; i < chats.length - 1; i++) {
             var msg = chats[i].split(":");
-            if (msg[0]==userInfo.username) {
-                $("#message" + current_chat).append('<div class="text my_text"><span>'+msg[0]+': </span><br>' + msg[1] + '</div>');
+            if (msg[0] == userInfo.username) {
+                $("#message" + current_chat).append('<div class="text my_text"><span>' + msg[0] + ': </span><br>' + msg[1] + '</div>');
             } else {
-                $("#message" + current_chat).append('<div class="text"><span>'+msg[0]+': </span><br>' + msg[1] + '</div>');
+                $("#message" + current_chat).append('<div class="text"><span>' + msg[0] + ': </span><br>' + msg[1] + '</div>');
             }
         }
     });
@@ -550,7 +557,7 @@ function createLobby() {
     var lobbyPassword = $(".lobby_password").val();
     userInfo.favoriteLobbiesString.push(_lobbyName);
     $("#lobby_list .names").append('<div class="name">' + _lobbyName + '</div>');
-    $.get('http://'+ip+':8080/handleEvent?event=createLobby&hostId=' + hostId + '&lobbyName=' + _lobbyName + '&lobbyPassword=' + lobbyPassword, function (data) {
+    $.get('http://' + ip + ':8080/handleEvent?event=createLobby&hostId=' + hostId + '&lobbyName=' + _lobbyName + '&lobbyPassword=' + lobbyPassword, function (data) {
         console.log(data);
         unbindEvent("#search_list .name");
         $("#lobby_list .name").click(function (event) {
@@ -576,14 +583,16 @@ function showCreateModal() {
         opacity: "1"
     }, 500);
 }
-function showPaymentModal(){
+
+function showPaymentModal() {
     $("#paymentModal").css("opacity", 0);
     $("#paymentModal").removeClass("hidden");
     $("#paymentModal").animate({
         opacity: "1"
     }, 500);
 }
-function hidePaymentModal(){
+
+function hidePaymentModal() {
     $("#paymentModal").addClass("hidden");
 }
 
@@ -595,23 +604,23 @@ function showOtherUserModal(username) {
     // check if the user is a friend
     var isFriend = 0;
     for (var i = 0; i < userInfo.friendsListStrings.length; i++) {
-        if (userInfo.friendsListStrings[i]==username) {
+        if (userInfo.friendsListStrings[i] == username) {
             isFriend = 1;
         }
-        
+
     }
-    if (isFriend==1) {
-        $(".addFriendBtn").css("display","hidden");
+    if (isFriend == 1) {
+        $(".addFriendBtn").css("display", "hidden");
     } else {
-        $(".addFriendBtn").css("display","block");
+        $(".addFriendBtn").css("display", "block");
     }
-    
+
     // get a user's info when clicking a friend in friends list, need the user's info in write back
-    $.get('http://'+ip+':8080/handleEvent?event=getUserInfo&username=' + username, function (data) {
+    $.get('http://' + ip + ':8080/handleEvent?event=getUserInfo&username=' + username, function (data) {
         var that_user = JSON.parse(data);
         console.log(that_user);
         // populate the modal
-        if (that_user.imgLocation == null||userInfo.imgLocation=="") {
+        if (that_user.imgLocation == null || userInfo.imgLocation == "") {
             that_user.imgLocation = "../assets/images/no_image.jpg";
         }
         $("#otherUserModal img").attr("src", that_user.imgLocation);
@@ -708,7 +717,7 @@ function hideOtherUserModal() {
 function switchLobby(lobbyName) {
     console.log("calling ajax to get lobby info");
     // get a lobby's info when clicking a friend in friends list, need the lobby's info in write back
-    $.get('http://'+ip+':8080/handleEvent?event=getLobbyInfo&lobbyName=' + lobbyName, function (data) {
+    $.get('http://' + ip + ':8080/handleEvent?event=getLobbyInfo&lobbyName=' + lobbyName, function (data) {
         // console.log(data);
         // data = '{"name":"firstTestLobby","password":"test","host":2,"peopleInLobbyString":[1,2,4,3],"publicBool":true,"ints":[]}';
         // console.log(data);
@@ -751,7 +760,7 @@ function modifyInfo() {
     populateProfile();
     // send the change to the server
     var hostId = userInfo.id;
-    $.get('http://'+ip+':8080/handleEvent?event=editCurrentUser&hostId=' + hostId +
+    $.get('http://' + ip + ':8080/handleEvent?event=editCurrentUser&hostId=' + hostId +
         '&newUsername=' + new_username +
         '&newPassword=' + new_password +
         '&newImgLocation=' + new_profile_photo, function (data) {
@@ -759,30 +768,30 @@ function modifyInfo() {
     });
 }
 
-function fantasticEnding(){
+function fantasticEnding() {
     $(".container").animate({
-        opacity:"0"
-    },1000, function() {
+        opacity: "0"
+    }, 1000, function () {
         $(".container").addClass("hidden");
     });
-    $("#thankYouEnding").css("opacity","0");
+    $("#thankYouEnding").css("opacity", "0");
     $("#thankYouEnding").removeClass("hidden").animate({
         opacity: "1"
-    },3000, function() {
+    }, 3000, function () {
         $("#thankYouEnding").animate({
-            opacity:"0"
-        },2000, function() {
+            opacity: "0"
+        }, 2000, function () {
             $("#thankYouEnding").addClass("hidden");
-            var height = 0-($("#fantasticEnding").height()+200);
+            var height = 0 - ($("#fantasticEnding").height() + 200);
             console.log(height);
             $("#fantasticEnding").removeClass("hidden").animate({
                 top: height
-            }, 30000, "linear", function() {
+            }, 30000, "linear", function () {
                 window.location.replace("../index.html");
             });
         });
     });
-    
+
 }
 
 
