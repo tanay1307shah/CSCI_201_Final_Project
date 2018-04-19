@@ -1,4 +1,4 @@
-var ip = "192.168.137.7";
+var ip = "192.168.137.187";
 var typed = new Typed("#typed", {
   strings: ["anywhere", "anytime","with anyone"],
   smartBackspace: false, // Default value
@@ -87,6 +87,15 @@ $(function(){
 		//window.location.href = "lobby/index.html";
 	});
 	$(".guest").click(function(){
-		window.location.replace("guest/index.html");
+		$.get('http://'+ip+':8080/backend_logIn?'+'userEmail='+'guest'+'&password=' + 'guest',function(data){
+			console.log(data);
+			if(data === 'WRONG') {
+				$(".error").removeClass("hidden");
+			}
+			else {
+				window.location.replace("guest/index.html");
+			}
+		});
+		// window.location.replace("guest/index.html");
 	});
 });

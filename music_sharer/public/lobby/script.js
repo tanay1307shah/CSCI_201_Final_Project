@@ -135,7 +135,7 @@ function connectToServer() {
                         $("#audio")[0].play();
                         $("#play_button").attr("src", "../assets/images/stop_button.png");
                         playing = 1;
-                    } else if(acction === "NextButton"){
+                    } else if(action === "NextButton"){
                         song_index++;
                         if (song_index >= music_urls.length) {
                             song_index = 0;
@@ -170,14 +170,14 @@ function bindAllEvent() {
             console.log("------------PLAY BUTTON EVENT------------");
             console.log("current ID (" + userInfo.id + "):::(" + currentLobby.host + ") currentLobbyHost");
             if (currentLobby.host === userInfo.id) {
-                socket.send("MusicControl~PlayMusic~" + currentLobby.name);
+                socket.send("MusicControl~PlayMusic~" + currentLobby.name +"~"+$("#audio")[0].currentTime);
             }
         }
         else {
             if (currentLobby.host === userInfo.id) {
                 console.log("------------STOP BUTTON EVENT------------");
                 console.log("current ID (" + userInfo.id + "):::(" + currentLobby.host + ") currentLobbyHost");
-                socket.send("MusicControl~StopMusic~" + currentLobby.name);
+                socket.send("MusicControl~StopMusic~" + currentLobby.name +"~"+$("#audio")[0].currentTime);
             }
         }
     });
