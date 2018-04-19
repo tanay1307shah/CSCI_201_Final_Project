@@ -16,11 +16,10 @@
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
 	</head>
 	<body onload="connectToServer()">
-	<!-- <body> -->
 	    <div class="container">
 		    <div id="side_bar">
 		    	<div class="image"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRg4aU635mNHiuLkJEPEc-9ZgM-aOGcQ_qUFPBfMMZVmplfM-3Xuw"></div>
-		    	<div class="des"><span class="username"></span></div>
+		    	<div class="des"><span class="username">Guest</span></div>
 		    	<div id="friends_list" class="list">
 		    		<div class="title">Friends List</div>
 		    		<div class="names">
@@ -39,8 +38,8 @@
 		    		<div id="search_bar">
 			    		<form action="#" onsubmit="return searching()">
 			    			<div class="radios">
-			    				<input id="radio1" type="radio" name="search_type" value="User" checked><label for="radio1">User</label>
-			    				<input id="radio2" type="radio" name="search_type" value="User"><label for="radio2">Lobby</label></div>
+			    				<!-- <input id="radio1" type="radio" name="search_type" value="User" checked><label for="radio1">User</label> -->
+			    				<input id="radio2" type="radio" name="search_type" value="User" checked><label for="radio2">Lobby</label></div>
 			    			<input class="search" type="search" name="search" placeholder="Search...">
 			    			<img src="../assets/images/search.png">
 			    		</form>
@@ -61,9 +60,6 @@
 					    			<div class="info_item username">Username: <span class="bold">Shi Zeng</span></div>
 					    			<div class="info_item password">Password: <span class="bold">12345678</span></div>
 					    			<div class="info_item membership">Membership Status: <span class="bold"></span></div>
-					    			<div class="info_item payment">
-					    				<button class="ui inverted upgrade_btn button">Pay to Upgrade</button>
-					    			</div>
 					    		</div>
 				    		</div>
 				    		<div id="lobby_setting">
@@ -74,7 +70,7 @@
 			    		<div id="lobby_control">
 				    		<div id="lobby_info">
 				    			<div id="info_items">
-					    			<div class="info_item username">Name: <span class="bold"></span></div>
+					    			<div class="info_item username">Name: <span class="bold">Guest</span></div>
 					    			<div class="info_item password">Password: <span class="bold"></span></div>
 					    			<div class="info_item number_member">Members: <span class="bold"></span></div>
 					    		</div>
@@ -84,28 +80,9 @@
 				    		</div>
 				    		<div id="lobby_setting">
 				    			<!-- <div class="button">Quit</div> -->
-				    			<div class="button create">Create New</div>
+				    			<div class="button create">Become a User</div>
 				    		</div>
 				    	</div>
-			    	</div>
-			    	
-			    	<div id="chats">
-			    		<div class="tabs">
-			    			<div class="button active" id="tab0"><div>Lobby Chat</div></div>
-			    		</div>
-			    		<div class="messages">
-			    			<div id="message0" class="message">
-			    				<!-- <div class="text"><span>Alex:</span><br>hello world. this is Alex from mars</div> -->
-			    			</div>
-			    			<div id="message1" class="message hidden">
-			    				<!-- <div class="text"><span>Alex:</span><br>hello world. this is Alex from mars</div>
-			    				<div class="text my_text"><span>Joe: </span><br>hello world</div>
-			    				<div class="text my_text"><span>Joe: </span><br>hello world</div> -->
-			    			</div>
-			    		</div>
-			    		<div class="text_input">
-			    			<input type="text" name="chat" placeholder="Type Here">
-			    		</div>
 			    	</div>
 			    	<div id="music_control">
 			    		<div class="hidden">
@@ -119,91 +96,6 @@
 			    	</div>
 		    	</div>
 		    </div>
-		</div>
-		<div id="editModal" class="modal hidden">
-			<div class="to_flex">
-				<div class="modal_content">
-					<form class="ui form">
-				      <div class="field">
-							<label>Username</label>
-							<input class="username_edit" type="text" name="username">
-				      </div>
-				      <div class="field">
-				       	<label>Password</label>
-				       	<input class="password_edit" type="text" name="password">
-				      </div>
-				      <div class="field">
-							<label>Profile Photo</label>
-							<input class="profilePhoto_edit" type="text" name="profilePhoto">
-				      </div>
-				      <!-- <div class="field">
-							<label>Membership</label>
-							<input class="userEmail" type="" name="userEmail">
-				      </div> -->
-				   </form>
-				   <button class="ui inverted saveProfile button">Save</button>
-				</div>
-			</div>
-		</div>
-		<div id="createLobbyModal" class="modal hidden">
-			<div class="to_flex">
-				<div class="modal_content">
-					<form class="ui form">
-				      <div class="field">
-							<label>Lobby Name</label>
-							<input class="lobby_name" type="text" name="lobby_name">
-				      </div>
-				      <div class="field">
-				       	<label>Lobby Password</label>
-				       	<input class="lobby_password" type="text" name="lobby_password">
-				      </div>
-				   </form>
-				   <button class="ui inverted createLobby button">Create</button>
-				</div>
-			</div>
-		</div>
-		<div id="otherUserModal" class="modal hidden">
-			<div class="to_flex">
-				<div class="modal_content">
-					<div class="image"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRg4aU635mNHiuLkJEPEc-9ZgM-aOGcQ_qUFPBfMMZVmplfM-3Xuw"></div>
-			    	<div><span class="username"></span>
-			    		<br><span class="email"></span></div>
-			    	<button class="ui inverted addFriendBtn button">Add Friend</button>
-			    	<div id="other_friends_list" class="list">
-			    		<div class="title">Friends List</div>
-			    		<div class="names">
-			    			<!-- <div class="name">Alex</div> -->
-			    		</div>
-			    	</div>
-			    	<div id="other_lobby_list" class="list">
-			    		<div class="title">Lobby List</div>
-			    		<div class="names">
-			    			<!-- <div class="name">lobby 1</div> -->
-			    		</div>
-			    	</div>
-				</div>
-			</div>
-		</div>
-		<div id="paymentModal" class="modal hidden">
-			<div class="to_flex">
-				<div class="modal_content">
-					<form action="/charge" method="post" id="payment-form" style="width: 400px !important;">
-					  <div class="form-row">
-					    <label for="card-element">
-					      Credit or debit card
-					    </label>
-					    <div id="card-element">
-					      <!-- A Stripe Element will be inserted here. -->
-					    </div>
-
-					    <!-- Used to display form errors. -->
-					    <div id="card-errors" role="alert"></div>
-					  </div>
-
-					  <button class="ui inverted submit_payment button">Submit Payment</button>
-					</form>
-				</div>
-			</div>
 		</div>
 		<div id="thankYouEnding" class="hidden">
 			Thank you
@@ -237,15 +129,8 @@
 				<span  class="italic">jQuery</span></div>
 				<div>CSS Framework<br>
 				<span  class="italic">Semantic UI</span></div>
-				<div>Font API<br>
-				<span  class="italic">Google Font Apis</span></div>
-				<div>Payment API<br>
-				<span  class="italic">Stripe Apis</span></div>
-				<div>Devices<br>
-				<span  class="italic">Macbook 2015,2016<br>
-				Windows</span></div>
-				<div>Operating System<br>
-				<span  class="italic">MacOS</span></div>
+				<div>Font<br>
+				<span  class="italic">Google Apis</span></div>
 			</div>
 			<div ></div>
 		</div>
@@ -256,27 +141,6 @@
 	<!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
 	<script type="text/javascript">window.$ = window.jQuery = require('jquery');</script>
 	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
-	<!-- payment api-->
-	<script src="https://js.stripe.com/v3/"></script>
-	<script>
-	  window.fbAsyncInit = function() {
-	    FB.init({
-	      appId            : '489677664767740',
-	      autoLogAppEvents : true,
-	      xfbml            : true,
-	      version          : 'v2.12'
-	    });
-	  };
-
-	  (function(d, s, id){
-	     var js, fjs = d.getElementsByTagName(s)[0];
-	     if (d.getElementById(id)) {return;}
-	     js = d.createElement(s); js.id = id;
-	     js.src = "https://connect.facebook.net/en_US/sdk.js";
-	     fjs.parentNode.insertBefore(js, fjs);
-	   }(document, 'script', 'facebook-jssdk'));
-	</script>
 	<!-- Initialization -->
 	<script type="text/javascript" src="script.js"></script>
-	
 </html>

@@ -10,78 +10,50 @@ var userInfo;
 var currentLobby = null;
 var ip = "192.168.137.7";
 var socket;
-
-
-
-
-
-
-/**
-payment
-*/
-// Create a Stripe client.
-var stripe = Stripe('pk_test_6pRNASCoBOKtIshFeQd4XMUh');
-
-// Create an instance of Elements.
-var elements = stripe.elements();
-
-// Custom styling can be passed to options when creating an Element.
-// (Note that this demo uses a wider set of styles than the guide below.)
-var style = {
-  base: {
-    color: '#32325d',
-    lineHeight: '18px',
-    fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-    fontSmoothing: 'antialiased',
-    fontSize: '16px',
-    '::placeholder': {
-      color: '#aab7c4'
-    }
-  },
-  invalid: {
-    color: '#fa755a',
-    iconColor: '#fa755a'
-  }
-};
-
-// Create an instance of the card Element.
-var card = elements.create('card', {style: style});
-
-// Add an instance of the card Element into the `card-element` <div>.
-card.mount('#card-element');
-
-// Handle real-time validation errors from the card Element.
-card.addEventListener('change', function(event) {
-  var displayError = document.getElementById('card-errors');
-  if (event.error) {
-    displayError.textContent = event.error.message;
-  } else {
-    displayError.textContent = '';
-  }
-});
-
-// Handle form submission.
-var form = document.getElementById('payment-form');
-form.addEventListener('submit', function(event) {
-  event.preventDefault();
-
-  stripe.createToken(card).then(function(result) {
-    if (result.error) {
-      // Inform the user if there was an error.
-      var errorElement = document.getElementById('card-errors');
-      errorElement.textContent = result.error.message;
-    } else {
-      // Send the token to your server.
-      stripeTokenHandler(result.token);
-    }
-  });
-});
-
-
 $(function () {
     // get all user info
     getAllUserInfo();
 
+    
+    // $("#play_button").click(function () {
+    //         if (playing == 0) {
+    //             $("#audio")[0].play();
+    //             $("#play_button").attr("src", "../assets/images/stop_button.png");
+    //             playing = 1;
+    //             return;
+    //         }
+    //         else {
+    //             $("#play_button").attr("src", "../assets/images/play_button.png");
+    //             $("#audio")[0].pause();
+    //             playing = 0;
+    //             return;
+    //         }
+    // });
+    // $("#previous_button").click(function () {
+    //     song_index--;
+    //     if (song_index < 0) {
+    //         song_index = music_urls.length - 1;
+    //     }
+    //     $("#audio")[0].src = music_urls[song_index];
+    //     $("#audio")[0].load();
+    //     $("#audio")[0].play();
+    //     $("#play_button").attr("src", "../assets/images/stop_button.png");
+    //     playing = 1;
+    // });
+    // $("#next_button").click(function () {
+    //     song_index++;
+    //     if (song_index >= music_urls.length) {
+    //         song_index = 0;
+    //     }
+    //     $("#audio")[0].src = music_urls[song_index];
+    //     $("#audio")[0].load();
+    //     $("#audio")[0].play();
+    //     $("#play_button").attr("src", "../assets/images/stop_button.png");
+    //     playing = 1;
+    // });
+    $("#lobby_setting .create").click(function () {
+        window.location.replace("../index.html");
+    });
 });
 
 function connectToServer() {
@@ -140,7 +112,6 @@ function connectToServer() {
                 }
             }
         }
-
     };
 
     socket.onclose = function (ev) {
@@ -150,65 +121,65 @@ function connectToServer() {
 
 function bindAllEvent() {
     // music control
-    $("#play_button").click(function () {
-            if (playing == 0) {
-                console.log("------------PLAY BUTTON EVENT------------");
-                console.log("current ID (" + userInfo.id + "):::(" + currentLobby.host + ") currentLobbyHost");
-                if (currentLobby.host === userInfo.id) {
-                    socket.send("MusicControl~PlayMusic~" + currentLobby.name);
-                }
-            }
-            else {
-                if (currentLobby.host === userInfo.id) {
-                    console.log("------------STOP BUTTON EVENT------------");
-                    console.log("current ID (" + userInfo.id + "):::(" + currentLobby.host + ") currentLobbyHost");
-                    socket.send("MusicControl~StopMusic~" + currentLobby.name);
-                }
-            }
-    });
-    $("#previous_button").click(function () {
-        song_index--;
-        if (song_index < 0) {
-            song_index = music_urls.length - 1;
-        }
-        $("#audio")[0].src = music_urls[song_index];
-        $("#audio")[0].load();
-        $("#audio")[0].play();
-        $("#play_button").attr("src", "../assets/images/stop_button.png");
-        playing = 1;
-    });
-    $("#next_button").click(function () {
-        song_index++;
-        if (song_index >= music_urls.length) {
-            song_index = 0;
-        }
-        $("#audio")[0].src = music_urls[song_index];
-        $("#audio")[0].load();
-        $("#audio")[0].play();
-        $("#play_button").attr("src", "../assets/images/stop_button.png");
-        playing = 1;
-    });
+    // $("#play_button").click(function () {
+    //         if (playing == 0) {
+    //             console.log("------------PLAY BUTTON EVENT------------");
+    //             console.log("current ID (" + userInfo.id + "):::(" + currentLobby.host + ") currentLobbyHost");
+    //             if (currentLobby.host === userInfo.id) {
+    //                 socket.send("MusicControl~PlayMusic~" + currentLobby.name);
+    //             }
+    //         }
+    //         else {
+    //             if (currentLobby.host === userInfo.id) {
+    //                 console.log("------------STOP BUTTON EVENT------------");
+    //                 console.log("current ID (" + userInfo.id + "):::(" + currentLobby.host + ") currentLobbyHost");
+    //                 socket.send("MusicControl~StopMusic~" + currentLobby.name);
+    //             }
+    //         }
+    // });
+    // $("#previous_button").click(function () {
+    //     song_index--;
+    //     if (song_index < 0) {
+    //         song_index = music_urls.length - 1;
+    //     }
+    //     $("#audio")[0].src = music_urls[song_index];
+    //     $("#audio")[0].load();
+    //     $("#audio")[0].play();
+    //     $("#play_button").attr("src", "../assets/images/stop_button.png");
+    //     playing = 1;
+    // });
+    // $("#next_button").click(function () {
+    //     song_index++;
+    //     if (song_index >= music_urls.length) {
+    //         song_index = 0;
+    //     }
+    //     $("#audio")[0].src = music_urls[song_index];
+    //     $("#audio")[0].load();
+    //     $("#audio")[0].play();
+    //     $("#play_button").attr("src", "../assets/images/stop_button.png");
+    //     playing = 1;
+    // });
     // chatting manipulation
-    $(".text_input input").on('keyup', function (e) {
-        if (e.keyCode == 13) {
-            var str = $(".text_input input").val();
-            sendMsg(str);
-            scrollToBottom("#message" + current_chat);
-            $(".text_input input").val("");
-        }
-    });
+    // $(".text_input input").on('keyup', function (e) {
+    //     if (e.keyCode == 13) {
+    //         var str = $(".text_input input").val();
+    //         sendMsg(str);
+    //         scrollToBottom("#message" + current_chat);
+    //         $(".text_input input").val("");
+    //     }
+    // });
     $("#search_bar .search").focus(function () {
         showSeachContent();
     });
     $("#hide_content_btn").click(function () {
-        hideSearchContent();
+        hideSeachContent();
     });
     $("#hide_profile_btn").click(function () {
         hideProfile();
     });
-    $("#side_bar .image").click(function () {
-        showProfile();
-    });
+    // $("#side_bar .image").click(function () {
+    //     showProfile();
+    // });
     $("#lobby_setting .edit").click(function () {
         showEditModal();
     });
@@ -222,15 +193,10 @@ function bindAllEvent() {
             hideCreateModal();
         } else if (event.target == $("#otherUserModal .to_flex")[0]) {
             hideOtherUserModal();
-        } else if (event.target == $("#paymentModal .to_flex")[0]) {
-            hidePaymentModal();
         }
     }
     $(".createLobby").click(function () {
-        if (!isEmpty($(".lobby_name").val()) && !isEmpty($(".lobby_password").val())) {
-            createLobby();
-            hideCreateModal();
-        }
+        createLobby();
     });
     $(".saveProfile").click(function () {
         if (!isEmpty($(".username_edit").val()) && !isEmpty($(".password_edit").val()) && !isEmpty($(".profilePhoto_edit").val())) {
@@ -246,7 +212,7 @@ function bindAllEvent() {
         var username = event.target.innerHTML;
         showOtherUserModal(username);
     });
-    $("#search_list .name").click(function (event) {
+    $("#search_list .name").on("click", function (event) {
         var username = event.target.innerHTML;
         showOtherUserModal(username);
     });
@@ -256,9 +222,6 @@ function bindAllEvent() {
     });
     $(".log_out").click(function(){
         fantasticEnding();
-    });
-    $(".upgrade_btn").click(function(){
-        showPaymentModal();
     });
 }
 
@@ -311,7 +274,7 @@ function showSeachContent() {
     }, 500);
 }
 
-function hideSearchContent() {
+function hideSeachContent() {
     $("#search_content").animate({
         top: '-100%'
     }, 500);
@@ -384,7 +347,7 @@ function searching() {
             console.log(searchType);
             $("#search_list .names").click(function (event) {
                 var lobbyName = event.target.innerHTML;
-                hideSearchContent();
+                hideSeachContent();
                 addLobby(lobbyName);
                 switchLobby(lobbyName);
             });
@@ -575,16 +538,6 @@ function showCreateModal() {
     $("#createLobbyModal").animate({
         opacity: "1"
     }, 500);
-}
-function showPaymentModal(){
-    $("#paymentModal").css("opacity", 0);
-    $("#paymentModal").removeClass("hidden");
-    $("#paymentModal").animate({
-        opacity: "1"
-    }, 500);
-}
-function hidePaymentModal(){
-    $("#paymentModal").addClass("hidden");
 }
 
 function hideCreateModal() {

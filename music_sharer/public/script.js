@@ -1,3 +1,4 @@
+var ip = "192.168.137.7";
 var typed = new Typed("#typed", {
   strings: ["anywhere", "anytime","with anyone"],
   smartBackspace: false, // Default value
@@ -55,20 +56,7 @@ $(function(){
 			$("#container2 .error").removeClass("hidden");
 			return;
 		}
-		// $.ajax({
-		// 	method: 'GET',
-		// 	url: 'http://192.168.137.125:8080/backend_newUser?userName=' + username + '&userEmail='+userEmail+'&password=' + password
-		// }).done(data => {
-		// 	console.log(data);
-		// 	if(res === 'WRONG') {
-				
-		// 		$(".error").removeClass("hidden/index.html");
-		// 	}
-		// 	else {
-		// 		window.location.href = "lobby/";
-		// 	}
-		// });
-		$.get('http://localhost:8080/backend_newUser?userName=' + username + '&userEmail='+userEmail+'&password=' + password + "&imgLocation=" + imgLocaitn,function(data){
+		$.get('http://'+ip+':8080/backend_newUser?userName=' + username + '&userEmail='+userEmail+'&password=' + password + "&imgLocation=" + imgLocaitn,function(data){
 			console.log(data);
 			if(data === 'WRONG') {
 				$(".error").removeClass("hidden");
@@ -87,7 +75,7 @@ $(function(){
 			$("#container3 .error").removeClass("hidden");
 			return;
 		}
-		$.get('http://localhost:8080/backend_logIn?'+'userEmail='+userEmail+'&password=' + password,function(data){
+		$.get('http://'+ip+':8080/backend_logIn?'+'userEmail='+userEmail+'&password=' + password,function(data){
 			console.log(data);
 			if(data === 'WRONG') {
 				$(".error").removeClass("hidden");
@@ -97,5 +85,8 @@ $(function(){
 			}
 		});
 		//window.location.href = "lobby/index.html";
+	});
+	$(".guest").click(function(){
+		window.location.replace("guest/index.html");
 	});
 });
